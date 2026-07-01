@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="สื่อการสอนวิชาคอมพิวเตอร์ดนตรีและเทคโนโลยีดนตรี สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 6 (คาบเรียนที่ 1-2: 100 นาทีแรก) ฉบับเนื้อหาจัดเต็มความรู้เชิงลึก">
+  <title>เทคโนโลยีดนตรีและคอมพิวเตอร์ดนตรี ม.6 | คาบเรียนแรก 100 นาที</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="widgets-new.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header no-print">
+    <div class="header-logo">
+      <svg class="icon-music" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18V5l12-2v13"></path>
+        <circle cx="6" cy="18" r="3"></circle>
+        <circle cx="18" cy="16" r="3"></circle>
+      </svg>
+      <div class="logo-text">
+        <span class="course-code">ด33102</span>
+        <span class="course-name">เทคโนโลยีดนตรี ม.6</span>
+      </div>
+    </div>
+    
+    <div class="header-controls">
+      <!-- Mode Toggle -->
+      <div class="toggle-container">
+        <button id="btn-present-mode" class="toggle-btn active" title="สลับเป็นโหมดนำเสนอสไลด์">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <span>โหมดนำเสนอ (Slides)</span>
+        </button>
+        <button id="btn-review-mode" class="toggle-btn" title="สลับเป็นโหมดใบความรู้สำหรับอ่านหรือพิมพ์">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>โหมดทบทวน (Review Sheet)</span>
+        </button>
+      </div>
+
+      <!-- Quick Jump Dropdown -->
+      <div class="slide-selector-wrapper">
+        <select id="slide-jump" class="slide-select">
+          <option value="0">Slide 1: บทนำบทเรียน & แผนการสอน</option>
+          <option value="1">Slide 2: ฟิสิกส์ของคลื่นเสียง (Acoustic Physics)</option>
+          <option value="2">Slide 3: ทฤษฎีเสียงดิจิทัลและการแซมพลิง (Digital Audio)</option>
+          <option value="3">Slide 4: เทคโนโลยีไมโครโฟนสตูดิโอ (Microphones)</option>
+          <option value="4">Slide 5: ทิศทางการรับเสียงและโปรโตคอล MIDI (Polar & MIDI)</option>
+          <option value="5">Slide 6: โครงสร้างและการทำงานของ Audio Interface (Interface)</option>
+          <option value="6">Slide 7: ความหน่วงเสียงและการตั้งระดับเกน (Latency & Gain)</option>
+          <option value="7">Slide 8: ลำโพงมอนิเตอร์และหูฟังสตูดิโอ (Output Devices)</option>
+          <option value="8">Slide 9: อะคูสติกห้องสตูดิโอและการซับเสียง (Room Acoustics)</option>
+          <option value="9">Slide 10: ซอฟต์แวร์ประยุกต์ทำเพลงและเขียนโน้ต (DAW & Notation)</option>
+          <option value="10">Slide 11: ปลั๊กอินเอฟเฟกต์และรูปแบบปลั๊กอิน (Plugins & Formats)</option>
+          <option value="11">Slide 12: เส้นทางการเดินทางของเสียงในสตูดิโอ (Studio Signal Flow)</option>
+          <option value="12">Slide 13: ระบบจำลองสายสัญญาณเสียง (Interactive Simulator)</option>
+          <option value="13">Slide 14: การวิเคราะห์และแก้ไขปัญหาทางเทคนิค (Troubleshooting Matrix)</option>
+          <option value="14">Slide 15: เคล็ดลับการตั้งระดับเกนและสูตร Latency (Gain & Latency)</option>
+          <option value="15">Slide 16: โครงงานปฏิบัติการเทคโนโลยีดนตรี 1 & 2 (Studio Projects 1-2)</option>
+          <option value="16">Slide 17: โครงงานปฏิบัติการเทคโนโลยีดนตรี 3 & 4 (Studio Projects 3-4)</option>
+          <option value="17">Slide 18: แบบทดสอบวัดความเข้าใจเชิงประยุกต์ (Interactive Quiz)</option>
+        </select>
+      </div>
+      
+      <!-- Fullscreen Button -->
+      <button id="btn-fullscreen" class="icon-btn" title="แสดงผลเต็มหน้าจอ">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+      </button>
+    </div>
+  </header>
+ 
+  <!-- Presentation Mode Wrapper -->
+  <main id="presentation-container" class="presentation-layout">
+    
+    <!-- Left Sidebar Slide Index (Minimalist Indicator) -->
+    <aside class="slide-sidebar no-print">
+      <nav class="sidebar-list">
+        <button class="nav-dot active" data-slide="0" title="หน้าต้อนรับ"><span>01</span> บทนำ</button>
+        <button class="nav-dot" data-slide="1" title="ฟิสิกส์ของคลื่นเสียง"><span>02</span> ฟิสิกส์ของเสียง</button>
+        <button class="nav-dot" data-slide="2" title="ทฤษฎีเสียงดิจิทัล"><span>03</span> เสียงดิจิทัล</button>
+        <button class="nav-dot" data-slide="3" title="ไมโครโฟนสตูดิโอ"><span>04</span> ไมโครโฟน</button>
+        <button class="nav-dot" data-slide="4" title="ทิศทางรับเสียง & MIDI"><span>05</span> ทิศทาง & MIDI</button>
+        <button class="nav-dot" data-slide="5" title="Audio Interface"><span>06</span> Audio Interface</button>
+        <button class="nav-dot" data-slide="6" title="ความหน่วง & เกนสัญญาณ"><span>07</span> ความหน่วง & เกน</button>
+        <button class="nav-dot" data-slide="7" title="ลำโพง & หูฟังสตูดิโอ"><span>08</span> ลำโพง & หูฟัง</button>
+        <button class="nav-dot" data-slide="8" title="อะคูสติกห้องสตูดิโอ"><span>09</span> อะคูสติกห้อง</button>
+        <button class="nav-dot" data-slide="9" title="ซอฟต์แวร์ทำเพลง"><span>10</span> ซอฟต์แวร์</button>
+        <button class="nav-dot" data-slide="10" title="ปลั๊กอินเอฟเฟกต์"><span>11</span> ปลั๊กอิน</button>
+        <button class="nav-dot" data-slide="11" title="แผนผังเส้นทางเสียง"><span>12</span> เส้นทางสัญญาณ</button>
+        <button class="nav-dot" data-slide="12" title="จำลองการต่อสายสัญญาณ"><span>13</span> จำลองสายสัญญาณ</button>
+        <button class="nav-dot" data-slide="13" title="ตารางวิเคราะห์แก้ปัญหา"><span>14</span> แก้ปัญหา</button>
+        <button class="nav-dot" data-slide="14" title="สูตรคำนวณ & Gain Staging"><span>15</span> สูตร & Gain</button>
+        <button class="nav-dot" data-slide="15" title="โครงงานปฏิบัติการ 1 & 2"><span>16</span> โครงงาน 1-2</button>
+        <button class="nav-dot" data-slide="16" title="โครงงานปฏิบัติการ 3 & 4"><span>17</span> โครงงาน 3-4</button>
+        <button class="nav-dot" data-slide="17" title="แบบทดสอบประเมินผล"><span>18</span> แบบท        <!-- Slide 2: Physics of Sound -->
+        <section class="slide-item" id="slide-0">
+          <div class="slide-content">
+            <h2 class="slide-title">01. วิทยาศาสตร์คลื่นเสียงทางกายภาพ (Acoustic Physics)</h2>
+            <p class="slide-subtitle-desc">การทำความเข้าใจธรรมชาติทางฟิสิกส์ของเสียงเป็นรากฐานของการบันทึกและการผสมเสียงอย่างมืออาชีพ</p>
+            
+            <div class="two-column">
+              <div class="column" style="overflow-y: auto; max-height: calc(100% - 60px);">
+                <div class="info-block">
+                  <h3>1. ความถี่และความเร็วเสียง (Frequency & Velocity)</h3>
+                  <p>เสียงคือคลื่นกลตามยาว (Longitudinal Wave) ที่อาศัยการสั่นสะเทือนแบบอัดและขยายผ่านตัวกลาง:</p>
+                  <ul>
+                    <li><strong>ความถี่ (Frequency - f):</strong> จำนวนรอบคลื่นต่อวินาที (Hz) กำหนด <strong>"ระดับเสียง (Pitch)"</strong> มนุษย์ได้ยินย่าน 20 - 20,000 Hz แบ่งย่อยเป็น:
+                      <br>• <em>Bass (20-250 Hz):</em> พลังงานฐาน ความรู้สึกสั่นสะเทือน
+                      <br>• <em>Mids (250-2,000 Hz):</em> ย่านเสียงร้องหลัก ที่หูมนุษย์รับรู้ได้ไวที่สุด
+                      <br>• <em>Highs (2,000-20,000 Hz):</em> ความคมชัด มิติตัวโน้ต และความใส
+                    </li>
+                    <li><strong>ความเร็วเสียง (Velocity - v):</strong> แปรผันตามอุณหภูมิอากาศ (°C) ตามสูตร: <code class="kbd-key">v = 331 + 0.6T</code></li>
+                  </ul>
+                </div>
+                
+                <div class="info-block success-block">
+                  <h3>2. แอมพลิจูด คาบ เฟส และสีสันเสียง (Amplitude, Wavelength, Phase & Timbre)</h3>
+                  <ul>
+                    <li><strong>แอมพลิจูด (Amplitude):</strong> ความสูงของยอดคลื่น สัมพันธ์กับ <strong>"ความดัง-เบา (Volume)"</strong> มีหน่วยวัดระดับไฟฟ้าเป็นเดซิเบล (dB)</li>
+                    <li><strong>ความยาวคลื่น (Wavelength - λ):</strong> ระยะทางคลื่นใน 1 คาบเวลา คำนวณจากสูตร: <code class="kbd-key">λ = v / f</code></li>
+                    <li><strong>เฟสเสียง (Phase):</strong> ตำแหน่งองศาของคลื่น (0°-360°) หากคลื่นหักล้างกัน 180° จะเกิด <strong>Phase Cancellation</strong> เสียงจะเงียบหายบี้แบน</li>
+                    <li><strong>สีสันเสียง (Timbre):</strong> คุณลักษณะเสียงช่วยแยกประเภทเครื่องดนตรี เกิดจากสัดส่วนความถี่ประกอบย่อย (Harmonics & Overtones)</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="column visual-column">
+                <div class="visualizer-card">
+                  <h4 class="visualizer-header">โปรแกรมจำลองคลื่นเสียง (Waveform Visualizer)</h4>
+                  <p class="visualizer-desc">เลื่อนสไลเดอร์เพื่อปรับค่าความถี่ (Hz) และแอมพลิจูดเพื่อดูรูปร่างของคลื่นเสียงชนิดต่างๆ และคลิกเล่นเสียงจริง</p>
+                  
+                  <div class="canvas-container">
+                    <canvas id="waveform-canvas" width="450" height="150"></canvas>
+                  </div>
+                  
+                  <div class="control-group">
+                    <div class="control-row">
+                      <label for="slider-wave-freq">Frequency (ความถี่): <span id="val-wave-freq">440</span> Hz</label>
+                      <input type="range" id="slider-wave-freq" min="80" max="2000" value="440">
+                    </div>
+                    <div class="control-row">
+                      <label for="slider-wave-amp">Amplitude (แอมพลิจูด): <span id="val-wave-amp">50</span>%</label>
+                      <input type="range" id="slider-wave-amp" min="0" max="100" value="50">
+                    </div>
+                    <div class="control-row" style="display: flex; gap: 8px; justify-content: space-between; align-items: center; margin-top: 8px;">
+                      <label>ประเภทคลื่น:</label>
+                      <select id="select-wave-type" style="padding: 4px 8px; border-radius: 4px; background: var(--bg-card); color: var(--text-color); border: 1px solid var(--border-color); font-family: 'Prompt', sans-serif; font-size: 11px;">
+                        <option value="sine">Sine (ไซน์ - เสียงบริสุทธิ์)</option>
+                        <option value="square">Square (สแควร์ - เสียงคมสไตล์เกมส์เก่า)</option>
+                        <option value="sawtooth">Sawtooth (ฟันเลื่อย - สังเคราะห์แหลมคม)</option>
+                        <option value="triangle">Triangle (ไทรแองเกิล - นุ่มนวลคล้ายเครื่องเป่า)</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px;">
+                    <button class="sound-test-btn" id="btn-play-wave" style="padding: 6px; font-size: 10px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; gap: 4px; font-family: 'Prompt', sans-serif;">
+                      <span class="icon">🔊</span> <span>ฟังเสียงจริง</span>
+                    </button>
+                    <button class="sound-test-btn" id="btn-wave-bass" style="padding: 6px; font-size: 10px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border-color); font-family: 'Prompt', sans-serif;">🔊 Bass (100Hz)</button>
+                    <button class="sound-test-btn" id="btn-wave-mid" style="padding: 6px; font-size: 10px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border-color); font-family: 'Prompt', sans-serif;">🔊 Mid (1kHz)</button>
+                    <button class="sound-test-btn" id="btn-wave-high" style="padding: 6px; font-size: 10px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border-color); font-family: 'Prompt', sans-serif;">🔊 High (3kHz)</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>

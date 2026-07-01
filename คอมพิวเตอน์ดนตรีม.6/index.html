@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="สื่อการสอนวิชาคอมพิวเตอร์ดนตรีและเทคโนโลยีดนตรี สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 6 (คาบเรียนที่ 1-2: 100 นาทีแรก) ฉบับเนื้อหาจัดเต็มความรู้เชิงลึก">
+  <title>เทคโนโลยีดนตรีและคอมพิวเตอร์ดนตรี ม.6 | คาบเรียนแรก 100 นาที</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="widgets-new.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header no-print">
+    <div class="header-logo">
+      <svg class="icon-music" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18V5l12-2v13"></path>
+        <circle cx="6" cy="18" r="3"></circle>
+        <circle cx="18" cy="16" r="3"></circle>
+      </svg>
+      <div class="logo-text">
+        <span class="course-code">ด33102</span>
+        <span class="course-name">เทคโนโลยีดนตรี ม.6</span>
+      </div>
+    </div>
+    
+    <div class="header-controls">
+      <!-- Mode Toggle -->
+      <div class="toggle-container">
+        <button id="btn-present-mode" class="toggle-btn active" title="สลับเป็นโหมดนำเสนอสไลด์">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <span>โหมดนำเสนอ (Slides)</span>
+        </button>
+        <button id="btn-review-mode" class="toggle-btn" title="สลับเป็นโหมดใบความรู้สำหรับอ่านหรือพิมพ์">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>โหมดทบทวน (Review Sheet)</span>
+        </button>
+      </div>
+
+      <!-- Quick Jump Dropdown -->
+      <div class="slide-selector-wrapper">
+        <select id="slide-jump" class="slide-select">
+          <option value="0">Slide 1: บทนำบทเรียน & แผนการสอน</option>
+          <option value="1">Slide 2: ฟิสิกส์ของคลื่นเสียง (Acoustic Physics)</option>
+          <option value="2">Slide 3: ทฤษฎีเสียงดิจิทัลและการแซมพลิง (Digital Audio)</option>
+          <option value="3">Slide 4: เทคโนโลยีไมโครโฟนสตูดิโอ (Microphones)</option>
+          <option value="4">Slide 5: ทิศทางการรับเสียงและโปรโตคอล MIDI (Polar & MIDI)</option>
+          <option value="5">Slide 6: โครงสร้างและการทำงานของ Audio Interface (Interface)</option>
+          <option value="6">Slide 7: ความหน่วงเสียงและการตั้งระดับเกน (Latency & Gain)</option>
+          <option value="7">Slide 8: ลำโพงมอนิเตอร์และหูฟังสตูดิโอ (Output Devices)</option>
+          <option value="8">Slide 9: อะคูสติกห้องสตูดิโอและการซับเสียง (Room Acoustics)</option>
+          <option value="9">Slide 10: ซอฟต์แวร์ประยุกต์ทำเพลงและเขียนโน้ต (DAW & Notation)</option>
+          <option value="10">Slide 11: ปลั๊กอินเอฟเฟกต์และรูปแบบปลั๊กอิน (Plugins & Formats)</option>
+          <option value="11">Slide 12: เส้นทางการเดินทางของเสียงในสตูดิโอ (Studio Signal Flow)</option>
+          <option value="12">Slide 13: ระบบจำลองสายสัญญาณเสียง (Interactive Simulator)</option>
+          <option value="13">Slide 14: การวิเคราะห์และแก้ไขปัญหาทางเทคนิค (Troubleshooting Matrix)</option>
+          <option value="14">Slide 15: เคล็ดลับการตั้งระดับเกนและสูตร Latency (Gain & Latency)</option>
+          <option value="15">Slide 16: โครงงานปฏิบัติการเทคโนโลยีดนตรี 1 & 2 (Studio Projects 1-2)</option>
+          <option value="16">Slide 17: โครงงานปฏิบัติการเทคโนโลยีดนตรี 3 & 4 (Studio Projects 3-4)</option>
+          <option value="17">Slide 18: แบบทดสอบวัดความเข้าใจเชิงประยุกต์ (Interactive Quiz)</option>
+        </select>
+      </div>
+      
+      <!-- Fullscreen Button -->
+      <button id="btn-fullscreen" class="icon-btn" title="แสดงผลเต็มหน้าจอ">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+      </button>
+    </div>
+  </header>
+ 
+  <!-- Presentation Mode Wrapper -->
+  <main id="presentation-container" class="presentation-layout">
+    
+    <!-- Left Sidebar Slide Index (Minimalist Indicator) -->
+    <aside class="slide-sidebar no-print">
+      <nav class="sidebar-list">
+                <button class="nav-dot active" data-slide="0" title="หน้าต้อนรับ"><span>01</span> บทนำ</button>
+        <button class="nav-dot" data-slide="1" title="ฟิสิกส์ของคลื่นเสียง"><span>02</span> ฟิสิกส์ของเสียง</button>
+        <button class="nav-dot" data-slide="2" title="ทฤษฎีเสียงดิจิทัล"><span>03</span> เสียงดิจิทัล</button>
+        <button class="nav-dot" data-slide="3" title="ไมโครโฟนสตูดิโอ"><span>04</span> ไมโครโฟน</button>
+        <button class="nav-dot" data-slide="4" title="ทิศทางรับเสียง & MIDI"><span>05</span> ทิศทาง & MIDI</button>
+        <button class="nav-dot" data-slide="5" title="Audio Interface"><span>06</span> Audio Interface</button>
+        <button class="nav-dot" data-slide="6" title="ความหน่วง & เกนสัญญาณ"><span>07</span> ความหน่วง & เกน</button>
+        <button class="nav-dot" data-slide="7" title="ลำโพง & หูฟังสตูดิโอ"><span>08</span> ลำโพง & หูฟัง</button>
+        <button class="nav-dot" data-slide="8" title="อะคูสติกห้องสตูดิโอ"><span>09</span> อะคูสติกห้อง</button>
+        <button class="nav-dot" data-slide="9" title="ซอฟต์แวร์ทำเพลง"><span>10</span> ซอฟต์แวร์</button>
+        <button class="nav-dot" data-slide="10" title="ปลั๊กอินเอฟเฟกต์"><span>11</span> ปลั๊กอิน</button>
+        <button class="nav-dot" data-slide="11" title="แผนผังเส้นทางเสียง"><span>12</span> เส้นทางสัญญาณ</button>
+        <button class="nav-dot" data-slide="12" title="จำลองการต่อสายสัญญาณ"><span>13</span> จำลองสายสัญญาณ</button>
+        <button class="nav-dot" data-slide="13" title="ตารางวิเคราะห์แก้ปัญหา"><span>14</span> แก้ปัญหา</button>
+        <button class="nav-dot" data-slide="14" title="สูตรคำนวณ & Gain Staging"><span>15</span> สูตร & Gain</button>
+        <button class="nav-dot" data-slide="15" title="โครงงานปฏิบัติการ 1 & 2"><span>16</span> โครงงาน 1-2</button>
+        <button class="nav-dot" data-slide="16" title="โครงงานปฏิบัติการ 3 & 4"><span>17</span> โครงงาน 3-4</button>
+        <button class="nav-dot" data-slide="17" title="แบบทดสอบประเมินผล"><span>18</span> แบบทดสอบ</button>
+      </nav>
+    </aside>
+
+    <!-- Slide Deck Frame Container -->
+    <div class="slide-deck-frame">
+      <div class="slide-deck">
+
+        <!-- Slide 1: Welcome & Course Introduction -->
+        <section class="slide-item active" id="slide-0">
+          <div class="slide-content">
+            <h2 class="slide-title">ยินดีต้อนรับสู่ห้องเรียนเทคโนโลยีดนตรี ม.6</h2>
+            <p class="slide-subtitle-desc">รายวิชาคอมพิวเตอร์ดนตรีและเทคโนโลยีดนตรี (ด33102) — แผนการจัดการเรียนรู้ 100 นาทีแรก</p>
+            
+            <div class="two-column">
+              <div class="column">
+                <div class="info-block">
+                  <h3>🎯 วัตถุประสงค์การเรียนรู้</h3>
+                  <p>เพื่อให้นักเรียนเข้าใจกระบวนการทำงานของระบบเสียงสตูดิโอดิจิทัลยุคใหม่ สามารถวิเคราะห์สถาปัตยกรรม อุปกรณ์ และการเชื่อมต่อสัญญาณเสียงได้อย่างถูกต้อง พร้อมปฏิบัติงานจริงในสตูดิโอได้อย่างปลอดภัย</p>
+                </div>
+                <div class="info-block success-block">
+                  <h3>📝 เกณฑ์การวัดและประเมินผล</h3>
+                  <ul>
+                    <li><strong>การมีส่วนร่วมในห้องเรียน:</strong> 10% (การมีส่วนร่วมกับเครื่องจำลอง)</li>
+                    <li><strong>โครงงานปฏิบัติการดนตรี:</strong> 40% (ปฏิบัติการเชื่อมต่อสายและเซ็ตอัปสตูดิโอ)</li>
+                    <li><strong>แบบทดสอบประเมินความเข้าใจ:</strong> 50% (แบบทดสอบท้ายบทเรียน)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="column">
+                <div class="info-block info-dark">
+                  <h3>📅 แผนการจัดการเรียนรู้ (100 นาที)</h3>
+                  <div class="timeline-container">
+                    <div class="timeline-step">
+                      <div class="step-time">25 นาที</div>
+                      <h4 class="step-title">1. ฟิสิกส์คลื่นเสียง & เสียงดิจิทัล</h4>
+                      <p class="step-desc">ศึกษาธรรมชาติของคลื่นเสียง ย่านความถี่ การแซมพลิง และสถาปัตยกรรมเสียงดิจิทัล</p>
+                    </div>
+                    <div class="timeline-step">
+                      <div class="step-time">25 นาที</div>
+                      <h4 class="step-title">2. อุปกรณ์บันทึกเสียงสตูดิโอ</h4>
+                      <p class="step-desc">ทำความเข้าใจไมโครโฟน, MIDI, Audio Interface, หูฟัง/ลำโพงมอนิเตอร์ และการจัดการอะคูสติกห้อง</p>
+                    </div>
+                    <div class="timeline-step">
+                      <div class="step-time">30 นาที</div>
+                      <h4 class="step-title">3. ซอฟต์แวร์ประยุกต์ & ปลั๊กอิน VST/AU</h4>
+                      <p class="step-desc">เรียนรู้วิธีการทำงานของ DAW, ปลั๊กอินเอฟเฟกต์ประมวลผลเสียง และสถาปัตยกรรมซอฟต์แวร์ดนตรี</p>
+                    </div>
+                    <div class="timeline-step">
+                      <div class="step-time">20 นาที</div>
+                      <h4 class="step-title">4. การต่อสายจริง & แบบทดสอบ</h4>
+                      <p class="step-desc">ฝึกการต่อระบบส่งสัญญาณผ่าน Widget จำลอง การไล่ระบบไฟ +48V และทำแบบทดสอบวัดระดับคะแนนย่อย</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="slide-tip">
+              กดปุ่ม <span class="kbd-key">←</span> หรือ <span class="kbd-key">→</span> บนแป้นพิมพ์ หรือคลิกเมนูทางซ้ายเพื่อนำเสนอสไลด์แต่ละหัวข้อ
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 2: Physics of Sound -->
+        <section class="slide-item" id="slide-1">
+          <div class="slide-content">
+            <h2 class="slide-title">01. วิทยาศาสตร์คลื่นเสียงทางกายภาพ (Acoustic Physics)</h2>
+            <p class="slide-subtitle-desc">การทำความเข้าใจธรรมชาติทางฟิสิกส์ของเสียงเป็นรากฐานของการบันทึกและการผสมเสียงอย่างมืออาชีพ</p>
+            
+            <div class="slide-view-toggle">
+              <button class="view-toggle-btn active" data-view="theory">📖 เนื้อหาบทเรียน</button>
+              <button class="view-toggle-btn" data-view="widget">🎛️ เครื่องจำลองคลื่นเสียง</button>
+            </div>
+
+            <div class="theory-view">
+              <div class="two-column">
+                <div class="column">
+                  <div class="info-block">
+                    <h3>1. ความถี่และความเร็วเสียง (Frequency & Velocity)</h3>
+                    <p>เสียงคือคลื่นกลตามยาว (Longitudinal Wave) ที่อาศัยการสั่นสะเทือนแบบอัดและขยายผ่านตัวกลาง:</p>
+                    <ul>
+                      <li><strong>ความถี่ (Frequency - f):</strong> จำนวนรอบคลื่นต่อวินาที (Hz) กำหนด <strong>"ระดับเสียง (Pitch)"</strong> มนุษย์ได้ยินย่าน 20 - 20,000 Hz แบ่งย่อยเป็น:
+                        <br>• <em>Bass (20-250 Hz):</em> พลังงานฐาน ความรู้สึกสั่นสะเทือน
+                        <br>• <em>Mids (250-2,000 Hz):</em> ย่านเสียงร้องหลัก ที่หูมนุษย์รับรู้ได้ไวที่สุด
+                        <br>• <em>Highs (2,000-20,000 Hz):</em> ความคมชัด มิติตัวโน้ต และความใส
+                      </li>
+                      <li><strong>ความเร็วเสียง (Velocity - v):</strong> แปรผันตามอุณหภูมิอากาศ (°C) ตามสูตร: <code class="kbd-key">v = 331 + 0.6T</code></li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div class="column">
+                  <div class="info-block success-block">
+                    <h3>2. แอมพลิจูด คาบ เฟส และสีสันเสียง (Amplitude, Wavelength, Phase & Timbre)</h3>
+                    <ul>
+                      <li><strong>แอมพลิจูด (Amplitude):</strong> ความสูงของยอดคลื่น สัมพันธ์กับ <strong>"ความดัง-เบา (Volume)"</strong> มีหน่วยวัดระดับไฟฟ้าเป็นเดซิเบล (dB)</li>
+                      <li><strong>ความยาวคลื่น (Wavelength - λ):</strong> ระยะทางคลื่นใน 1 คาบเวลา คำนวณจากสูตร: <code class="kbd-key">λ = v / f</code></li>
+                      <li><strong>เฟสเสียง (Phase):</strong> ตำแหน่งองศาของคลื่น (0°-360°) หากคลื่นหักล้างกัน 180° จะเกิด <strong>Phase Cancellation</strong> เสียงจะเงียบหายบี้แบน</li>
+                      <li><strong>สีสันเสียง (Timbre):</strong> คุณลักษณะเสียงช่วยแยกประเภทเครื่องดนตรี เกิดจากสัดส่วนความถี่ประกอบย่อย (Harmonics & Overtones)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="widget-view hidden">
+              <div class="visualizer-card" style="max-width: 600px; margin: 10px auto;">
+                <h4 class="visualizer-header">โปรแกรมจำลองคลื่นเสียง (Waveform Visualizer)</h4>
+                <p class="visualizer-desc">เลื่อนสไลเดอร์เพื่อปรับค่าความถี่ (Hz) และแอมพลิจูดเพื่อดูรูปร่างของคลื่นเสียงชนิดต่างๆ และคลิกเล่นเสียงจริง</p>
+                
+                <div class="canvas-container">
+                  <canvas id="waveform-canvas" width="450" height="150"></canvas>
+                </div>
+                
+                <div class="control-group">
+                  <div class="control-row">
+                    <label for="slider-wave-freq">Frequency (ความถี่): <span id="val-wave-freq">440</span> Hz</label>
+                    <input type="range" id="slider-wave-freq" min="80" max="2000" value="440">
+                  </div>
+                  <div class="control-row">
+                    <label for="slider-wave-amp">Amplitude (แอมพลิจูด): <span id="val-wave-amp">50</span>%</label>
+                    <input type="range" id="slider-wave-amp" min="0" max="100" value="50">
+                  </div>
+                  <div class="control-row" style="display: flex; gap: 8px; justify-content: space-between; align-items: center; margin-top: 8px;">
+                    <label>ประเภทคลื่น:</label>
+                    <select id="select-wave-type" style="padding: 4px 8px; border-radius: 4px; background: var(--bg-card); color: var(--text-color); border: 1px solid var(--border-color); font-family: 'Prompt', sans-serif; font-size: 11px;">
+                      <option value="sine">Sine (ไซน์ - เสียงบริสุทธิ์)</option>
+                      <option value="square">Square (สแควร์ - เสียงคมสไตล์เกมส์เก่า)</option>
+                      <option value="sawtooth">Sawtooth (ฟันเลื่อย - สังเคราะห์แหลมคม)</option>
+                      <option value="triangle">Triangle (ไทรแองเกิล - นุ่มนวลคล้ายเครื่องเป่า)</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px;">
+                  <button class="sound-test-btn" id="btn-play-wave" style="padding: 6px; font-size: 10px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; gap: 4px; font-family: 'Prompt', sans-serif;">
+                    <span class="icon">🔊</span> <span>ฟังเสียงจริง</span>
+                  </button>
+                  <button class="sound-test-btn" id="btn-wave-bass" style="padding: 6px; font-size: 10px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border-color); font-family: 'Prompt', sans-serif;">🔊 Bass (100Hz)</button>
+                  <button class="sound-test-btn" id="btn-wave-mid" style="padding: 6px; font-size: 10px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border-color); font-family: 'Prompt', sans-serif;">🔊 Mid (1kHz)</button>
+                  <button class="sound-test-btn" id="btn-wave-high" style="padding: 6px; font-size: 10px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border-color); font-family: 'Prompt', sans-serif;">🔊 High (3kHz)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 3: Digital Audio Theory & Sampling -->
+        <section class="slide-item" id="slide-2">
+          <div class="slide-content">
+            <h2 class="slide-title">02. ทฤษฎีเสียงดิจิทัลและการแซมพลิง (Digital Audio Theory)</h2>
+            <p class="slide-subtitle-desc">การจำลองเสียงอนาล็อกในธรรมชาติให้กลายเป็นข้อมูลดิจิทัลเลขฐานสองสำหรับคอมพิวเตอร์</p>
+            
+            <div class="slide-view-toggle">
+              <button class="view-toggle-btn active" data-view="theory">📖 เนื้อหาบทเรียน</button>
+              <button class="view-toggle-btn" data-view="widget">🎛️ เครื่องจำลองการแซมพลิง</button>
+            </div>
+
+            <div class="theory-view">
+              <div class="two-column">
+                <div class="column">
+                  <div class="info-block">
+                    <h3>1. ระบบแปลงสัญญาณ ADC & DAC</h3>
+                    <ul>
+                      <li><strong>ADC (Analog-to-Digital Converter):</strong> แปลงแรงดันไฟฟ้าอนาล็อกจากไมโครโฟนให้เป็นรหัสตัวเลขดิจิทัล (เลขฐานสอง 0 และ 1) เพื่อประมวลผลในคอมพิวเตอร์</li>
+                      <li><strong>DAC (Digital-to-Analog Converter):</strong> แปลงข้อมูลรหัสดิจิทัลย้อนกลับไปเป็นแรงดันไฟฟ้าอนาล็อกเพื่อป้อนเข้าลำโพงหรือหูฟังขับพลังงานออกมาเป็นเสียงคลื่นจริง</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div class="column">
+                  <div class="info-block warning-block">
+                    <h3>2. ตัวแปรเสียงดิจิทัลที่สำคัญ</h3>
+                    <ul>
+                      <li><strong>Sample Rate (ความถี่สุ่มเสียง):</strong> จำนวนครั้งที่บันทึกค่าระดับเสียงต่อวินาที (Hz) ตามทฤษฎี <strong>Nyquist Theorem</strong> ต้องสุ่มอย่างน้อย 2 เท่าของความถี่เสียงสูงสุด (เช่น มาตรฐาน 44.1 kHz เพื่อสุ่มเสียงย่านได้ยินสูงสุด 20 kHz) ป้องกันอาการ <strong>Aliasing</strong> (เสียงความถี่หลอนแปลกปลอม)</li>
+                      <li><strong>Bit Depth (ความละเอียดบิต):</strong> ความแม่นยำในการบันทึกระดับความดังเสียง (1 บิต ≈ 6 dB) 
+                        <br>• <em>16-bit (96 dB):</em> มาตรฐานแผ่น CD
+                        <br>• <em>24-bit (144 dB):</em> มาตรฐานสตูดิโอบันทึกเสียง
+                        <br>• <em>32-bit Float:</em> มีไดนามิกกว้างมาก ป้องกันเสียงแตกพร่าดิจิทัล (Digital Clipping) ได้ 100%
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="widget-view hidden">
+              <div class="visualizer-card" style="max-width: 600px; margin: 10px auto;">
+                <h4 class="visualizer-header">โปรแกรมจำลองสัญญาณ Digital (Sampling Visualizer)</h4>
+                <p class="visualizer-desc">เลื่อนสไลเดอร์เพื่อดูความหยาบของคลื่นเสียงดิจิทัล (แท่งสีน้ำเงิน) ปรับให้สอดคล้องกับ Nyquist Theorem</p>
+                
+                <div class="canvas-container">
+                  <canvas id="sampling-canvas" width="450" height="180"></canvas>
+                </div>
+                
+                <div class="control-group">
+                  <div class="control-row">
+                    <label for="slider-samplerate">Sample Rate: <span id="val-samplerate">12</span> Hz</label>
+                    <input type="range" id="slider-samplerate" min="4" max="40" value="12">
+                  </div>
+                  <div class="control-row">
+                    <label for="slider-bitdepth">Bit Depth: <span id="val-bitdepth">4</span> bit</label>
+                    <input type="range" id="slider-bitdepth" min="2" max="8" value="4">
+                  </div>
+                </div>
+                <div class="visualizer-explanation">
+                  <p>💡 <strong>บทวิเคราะห์:</strong> แซมเปิลเรตต่ำทำให้แท่งห่าง เกิดสัญญาณความถี่แปลกปลอม (Aliasing) ขณะที่บิตเด็ปธ์ต่ำทำให้ขั้นบันไดหยาบ เกิด Quantization Hiss (เสียงซ่าแปลกปลอม) รบกวนคุณภาพดนตรี</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 4: Microphone Technologies -->
+        <section class="slide-item" id="slide-3">
+          <div class="slide-content">
+            <h2 class="slide-title">03. เทคโนโลยีไมโครโฟนในสตูดิโอบันทึกเสียง (Microphone Technologies)</h2>
+            <p class="slide-subtitle-desc">การเปรียบเทียบกลไกการเปลี่ยนคลื่นลมกายภาพเป็นกระแสไฟฟ้าตามการออกแบบทางวิศวกรรม</p>
+            
+            <div class="slide-view-toggle">
+              <button class="view-toggle-btn active" data-view="theory">📖 เนื้อหาบทเรียน</button>
+              <button class="view-toggle-btn" data-view="widget">🎛️ ฟังเสียงจำลองไมค์</button>
+            </div>
+
+            <div class="theory-view">
+              <div class="two-column">
+                <div class="column">
+                  <div class="info-block">
+                    <h3>การจำแนกประเภทตามกลไกโครงสร้าง (Transducer Types)</h3>
+                    <div class="mic-images-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px;">
+                      <div class="mic-image-card" style="background: var(--bg-card); border-radius: 6px; padding: 6px; text-align: center; border: 1px solid var(--border-color);">
+                        <img src="assets/mic_dynamic.png" alt="Dynamic Microphone" class="edu-img" style="max-height: 90px; width: auto; object-fit: contain; border-radius: 4px; margin-bottom: 4px;">
+                        <div class="img-caption" style="font-size: 8px; line-height: 1.2;">1. Dynamic Mic (SM58)<br>ทนทาน ลุยเวที ไม่ต้องใช้ไฟเลี้ยง</div>
+                      </div>
+                      <div class="mic-image-card" style="background: var(--bg-card); border-radius: 6px; padding: 6px; text-align: center; border: 1px solid var(--border-color);">
+                        <img src="assets/mic_condenser.png" alt="Condenser Microphone" class="edu-img" style="max-height: 90px; width: auto; object-fit: contain; border-radius: 4px; margin-bottom: 4px;">
+                        <div class="img-caption" style="font-size: 8px; line-height: 1.2;">2. Condenser Mic (U87)<br>ไวเสียงสูง รายละเอียดชัด ต้องเปิด +48V</div>
+                      </div>
+                      <div class="mic-image-card" style="background: var(--bg-card); border-radius: 6px; padding: 6px; text-align: center; border: 1px solid var(--border-color);">
+                        <img src="assets/mic_ribbon.png" alt="Ribbon Microphone" class="edu-img" style="max-height: 90px; width: auto; object-fit: contain; border-radius: 4px; margin-bottom: 4px;">
+                        <div class="img-caption" style="font-size: 8px; line-height: 1.2;">3. Ribbon Mic (Coles 4038)<br>เสียงอุ่น ละมุน ห้ามเปิดไฟ +48V เด็ดขาด!</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="column">
+                  <div class="info-block success-block">
+                    <h3>กลไกทางฟิสิกส์และการประยุกต์ใช้งาน</h3>
+                    <ul>
+                      <li><strong>Dynamic (ไมค์ไดนามิก):</strong> ทำงานตามหลักการเหนี่ยวนำแม่เหล็กไฟฟ้า (Faraday's Law) โดยมีขดลวดทองแดงเคลื่อนที่ตัดกับสนามแม่เหล็กถาวรเมื่อไดอะแฟรมสั่นไหว
+                        <br>🎙️ <em>การใช้งาน:</em> ทนทานสูงมาก ทนแรงกระแทกเสียงได้ดีเยี่ยม (High SPL) เหมาะกับงานร้องสดบนเวทีคอนเสิร์ต จ่อหน้าตู้แอมป์กีตาร์ และจ่อกลองสแนร์
+                      </li>
+                      <li><strong>Condenser (ไมค์คอนเดนเซอร์):</strong> ทำงานโดยอาศัยการเปลี่ยนแปลงค่าประจุไฟฟ้า (Capacitance) ระหว่างแผ่นไดอะแฟรมบางเฉียบกับแผ่นหลังโลหะนำไฟฟ้า
+                        <br>🎙️ <em>การใช้งาน:</em> ไวต่อรายละเอียดความถี่สูงได้ดีเยี่ยม ตอบสนองว่องไว <strong>จำเป็นต้องป้อนไฟเลี้ยง Phantom Power +48V เสมอ</strong> เหมาะกับการร้องนำในห้องเก็บเสียง
+                      </li>
+                      <li><strong>Ribbon (ไมค์ริบบอน):</strong> ใช้แผ่นฟอยล์อลูมิเนียมบางเฉียบห้อยระนาบกลางสนามแม่เหล็ก
+                        <br>🎙️ <em>การใช้งาน:</em> ให้เสียงที่อุ่นนุ่มละมุน ตอบสนองอย่างเป็นธรรมชาติสูงมาก <strong>บอบบางและห้ามเปิดไฟเลี้ยง +48V เด็ดขาด</strong> เพราะสายริบบอนอาจไหม้ขาดทันที
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Widget: Mic Sound Comparison -->
+            <div class="widget-view hidden">
+              <div class="visualizer-card widget-mic-compare" style="max-width: 600px; margin: 20px auto;">
+                <h4 class="visualizer-header">เปรียบเทียบเสียงไมโครโฟน 3 ประเภท (Mic Sound Comparison)</h4>
+                <p class="visualizer-desc">กดปุ่มเพื่อฟังเสียงจำลองจากไมโครโฟนแต่ละประเภท และเลื่อน Proximity เพื่อฟังเสียงเบสบวมเมื่อเข้าใกล้ไมค์</p>
+                <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
+                  <button class="sound-test-btn" id="btn-mic-dynamic">🎙️ Dynamic (อบอุ่นหนักแน่น)</button>
+                  <button class="sound-test-btn" id="btn-mic-condenser">🎙️ Condenser (สว่างใสคม)</button>
+                  <button class="sound-test-btn" id="btn-mic-ribbon">🎙️ Ribbon (วินเทจนุ่ม)</button>
+                </div>
+                <div class="control-row"><label for="slider-proximity">Proximity Effect (ระยะห่างไมค์): <span id="val-proximity">50</span> cm</label><input type="range" id="slider-proximity" min="5" max="100" value="50"></div>
+                <div class="canvas-container" style="margin-top:8px;"><canvas id="mic-spectrum-canvas" width="400" height="80"></canvas></div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 5: Polar Patterns & MIDI Protocol -->
+        <section class="slide-item" id="slide-4">
+          <div class="slide-content">
+            <h2 class="slide-title">04. ทิศทางการรับเสียงและโปรโตคอลระบบ MIDI (Polar Patterns & MIDI)</h2>
+            <p class="slide-subtitle-desc">การควบคุมรูปแบบการรับสัญญาณเสียงทางอะคูสติก และการส่งผ่านรหัสตัวเลขควบคุมเครื่องดนตรีดิจิทัล</p>
+            
+            <div class="slide-view-toggle">
+              <button class="view-toggle-btn active" data-view="theory">📖 เนื้อหาบทเรียน</button>
+              <button class="view-toggle-btn" data-view="widget">🎛️ เครื่องจำลอง Polar & MIDI</button>
+            </div>
+
+            <div class="theory-view">
+              <div class="two-column">
+                <div class="column">
+                  <div class="info-block">
+                    <h3>ทิศทางการรับสัญญาณเสียง (Polar Patterns)</h3>
+                    <p>เกิดจากการปรับเปลี่ยนเฟสและการระบายลมทางด้านหลังหัวแคปซูลของไมโครโฟน:</p>
+                    <div class="patterns-grid">
+                      <div class="pattern-item">
+                        <div class="pattern-icon cardioid"></div>
+                        <h4>Cardioid (รูปหัวใจ)</h4>
+                        <p>รับเสียงตรงหน้าดีที่สุด ตัดเสียงรบกวนด้านหลัง เหมาะอัดเสียงร้องทั่วไป</p>
+                      </div>
+                      <div class="pattern-item">
+                        <div class="pattern-icon omni"></div>
+                        <h4>Omnidirectional (รอบทิศทาง)</h4>
+                        <p>รับเสียงเท่ากัน 360 องศา ไร้ปัญหาเสียงบวมเบสเมื่อเข้าใกล้ (No Proximity Effect)</p>
+                      </div>
+                      <div class="pattern-item">
+                        <div class="pattern-icon figure8"></div>
+                        <h4>Figure-8 (สองทิศทาง)</h4>
+                        <p>รับเสียงเฉพาะด้านหน้าและหลัง ตัดเสียงด้านข้างเกลี้ยง เหมาะจ่อร้องเพลงคู่</p>
+                      </div>
+                    </div>
+                    <p style="font-size:10.5px; margin-top:8px; color:var(--color-error)">⚠️ <strong>Proximity Effect:</strong> เสียงย่านต่ำ (Bass) จะบวมโตผิดปกติเมื่อวางแหล่งกำเนิดเสียงชิดติดไมค์ชนิดมีทิศทาง (Cardioid, Figure-8)</p>
+                  </div>
+                </div>
+                
+                <div class="column">
+                  <div class="info-block warning-block">
+                    <h3>โปรโตคอลการสื่อสารข้อมูลดนตรีดิจิทัล (MIDI)</h3>
+                    <p>🎹 <strong>MIDI (Musical Instrument Digital Interface):</strong> ก่อตั้งในปี 1983 ไม่ใช่สัญญาณเสียง แต่เป็นตัวควบคุมรหัสส่งค่าตัวเลข (0-127) ไปสั่งงานซอฟต์แวร์เครื่องดนตรี:</p>
+                    <ul>
+                      <li><strong>Note On / Note Off:</strong> ข้อมูลระบุตำแหน่งการกดลิ่มและการปล่อยลิ่มตัวโน้ต</li>
+                      <li><strong>Note Number:</strong> ระบุค่าความถี่เสียงโน้ตดนตรี (เช่น โน้ต C4 มีรหัสเท่ากับ 60)</li>
+                      <li><strong>Velocity:</strong> น้ำหนักความเร็วในการเคาะคีย์บอร์ด (0-127) เชื่อมโยงความดังและสีเสียง</li>
+                      <li><strong>Control Change (CC - การควบคุมพารามิเตอร์):</strong>
+                        <br>• <em>CC 1:</em> Modulation Wheel (การสร้างแรงสั่นเสียงสั่นไหว)
+                        <br>• <em>CC 7:</em> Volume (ความดังรวมของแชนเนล)
+                        <br>• <em>CC 10:</em> Pan (การแพนซ้าย-ขวา)
+                        <br>• <em>CC 64:</em> Sustain Pedal (สัญญาณการเหยียบค้างเสียงเปียโน)
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="widget-view hidden">
+              <!-- Widget: Polar Pattern + MIDI Piano -->
+              <div class="two-column" style="margin-top:12px;">
+                <div class="column">
+                  <div class="visualizer-card">
+                    <h4 class="visualizer-header">โปรแกรมจำลองทิศทางรับเสียง (Polar Pattern Visualizer)</h4>
+                    <div class="canvas-container"><canvas id="polar-canvas" width="220" height="220"></canvas></div>
+                    <div style="display:flex;gap:10px;margin-top:6px;font-size:11px;justify-content:center;">
+                      <label><input type="radio" name="polar-type" value="cardioid" checked> Cardioid</label>
+                      <label><input type="radio" name="polar-type" value="omni"> Omni</label>
+                      <label><input type="radio" name="polar-type" value="figure8"> Figure-8</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="visualizer-card">
+                    <h4 class="visualizer-header">เปียโน MIDI จำลอง (Virtual MIDI Piano)</h4>
+                    <div id="midi-piano-container"></div>
+                    <div id="midi-log" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);margin-top:6px;padding:6px;background:var(--bg-app);border-radius:4px;min-height:40px;">🎹 กดคีย์เพื่อเล่นเสียงและดูข้อมูล MIDI</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 6: Audio Interface & Cables -->
+        <section class="slide-item" id="slide-5">
+          <div class="slide-content">
+            <h2 class="slide-title">05. โครงสร้างฮาร์ดแวร์ Audio Interface & สายสัญญาณ</h2>
+            <p class="slide-subtitle-desc">การขยายสัญญาณ แปลงระดับแรงดันไฟฟ้า และการเชื่อมต่อสายสัญญาณมาตรฐานสตูดิโอ</p>
+            
+            <div class="slide-view-toggle">
+              <button class="view-toggle-btn active" data-view="theory">📖 เนื้อหาบทเรียน</button>
+              <button class="view-toggle-btn" data-view="widget">🎛️ เครื่องจำลอง Audio Interface</button>
+            </div>
+
+            <div class="theory-view">
+              <div class="two-column">
+                <div class="column">
+                  <div class="info-block">
+                    <h3>1. ส่วนประกอบสำคัญใน Audio Interface</h3>
+                    <ul>
+                      <li><strong>Mic Preamplifier (พรีแอมป์ไมค์):</strong> ขยายกระแสไฟระดับไมโครโฟน (Mic Level) ซึ่งต่ำมาก (ระดับมิลลิโวลต์) ให้พุ่งขึ้นมาอยู่ในระดับสาย (Line Level) เพื่อขจัด Noise พื้นหลัง</li>
+                      <li><strong>Converter ADC/DAC:</strong> สะพานแปลงค่า สลับคลื่นไฟอนาล็อกและชุดเลขรหัดิจิทัล</li>
+                      <li><strong>Hi-Z / Instrument Input:</strong> วงจรอิมพีแดนซ์สูงเพื่อต่อแจ็คกีตาร์ไฟฟ้า/เบสตรง ป้องกันสัญญาณย่านแหลมสูญหายและเสียงทึบ (Impedance Mismatch)</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div class="column">
+                  <div class="info-block success-block">
+                    <h3>2. ระบบสายสัญญาณ Balanced vs Unbalanced</h3>
+                    <ul>
+                      <li><strong>Balanced (XLR, TRS):</strong>
+                        <br>ใช้สายตัวนำ 2 เส้น (Hot เฟสตรง และ Cold เฟสกลับ 180 องศา) ร่วมกับขดชีลด์ดิน (Ground) ปลายทางจะพลิกเฟส Cold กลับคืน ทำให้เสียงดนตรีสมบูรณ์และ <strong>หักล้างสัญญาณรบกวนจี่ฮัม (Noise) ที่สะสมระหว่างการเดินสายยาวให้อันตรธานหายไป</strong> (Common Mode Rejection)
+                      </li>
+                      <li><strong>Unbalanced (TS, RCA):</strong>
+                        <br>ใช้สายตัวนำ 1 เส้นและชีลด์ดิน หากเดินสายยาวเกิน 5 เมตร จะทำหน้าที่เหมือนเสาอากาศ ดูดซับคลื่นรบกวนคลื่นวิทยุและไฟฟ้าจี่ฮัมภายนอกเข้ามาผสมในเสียงดนตรี
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="widget-view hidden">
+              <!-- Widget: Audio Interface Interactive Diagram -->
+              <div class="visualizer-card" style="margin-top:10px;">
+                <h4 class="visualizer-header">แผนผังสัญญาณใน Audio Interface (Interactive Signal Path)</h4>
+                <div id="interface-diagram" class="widget-interface-diagram"></div>
+                <div style="display:flex;gap:8px;margin-top:8px;">
+                  <button class="sound-test-btn" id="btn-balanced-demo">🔊 Balanced (เสียงสะอาด)</button>
+                  <button class="sound-test-btn" id="btn-unbalanced-demo">🔊 Unbalanced (มีเสียงจี่ฮัมรบกวน)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 7: Latency & Gain Staging -->
+        <section class="slide-item" id="slide-6">
+          <div class="slide-content">
+            <h2 class="slide-title">06. ความหน่วงเสียง (Latency) และกฎ Gain Staging</h2>
+            <p class="slide-subtitle-desc">วิธีการตั้งค่าขนาด Buffer เพื่อสมดุลเสียง และการควบคุมความดังของสัญญาณในระดับที่ปลอดภัย</p>
+            
+            <div class="slide-view-toggle">
+              <button class="view-toggle-btn active" data-view="theory">📖 เนื้อหาบทเรียน</button>
+              <button class="view-toggle-btn" data-view="widget">🎛️ เครื่องคำนวณ & มิเตอร์</button>
+            </div>
+
+            <div class="theory-view">
+              <div class="two-column">
+                <div class="column">
+                  <div class="info-block warning-block">
+                    <h3>1. Buffer Size & Latency (ความหน่วงออดิโอ)</h3>
+                    <p><strong>Buffer Size:</strong> ขนาดถังพักประมวลผลข้อมูลเสียงของคอมพิวเตอร์ก่อนส่งออกลำโพง</p>
+                    <div class="formula-block" style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 6px; margin: 8px 0; border-left: 3px solid var(--color-warning);">
+                      <strong style="font-size:10px;">สูตรคำนวณความหน่วงตามทฤษฎี:</strong>
+                      <div style="font-family: monospace; font-size:12px; font-weight:bold; text-align:center; padding: 4px 0;">
+                        Latency (ms) = (Buffer Size [samples] / Sample Rate [Hz]) × 1,000
+                      </div>
+                    </div>
+                    <ul>
+                      <li><em>Buffer ต่ำ (64/128 samples):</em> หน่วงน้อยมาก (&lt;5 ms) เหมาะสำหรับช่วงร้องอัดเสียงดนตรีสด แต่ CPU ทำงานหนักมาก</li>
+                      <li><em>Buffer สูง (512/1024 samples):</em> หน่วงมาก (&gt;15 ms) CPU ทำงานเบาลง เหมาะสำหรับตอนมิกซ์เพลง ใส่ปลั๊กอินเยอะๆ</li>
+                      <li><strong>Direct Monitoring:</strong> ระบบดึงเสียงอนาล็อกจากอินพุตส่งกลับเข้าหูฟังตรงโดยไม่ผ่านคอม ขจัด Latency ให้เป็น 0 ms เสมอ</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div class="column">
+                  <div class="info-block success-block">
+                    <h3>2. ศิลปะการจัดระเบียบสัญญาณ (Gain Staging)</h3>
+                    <p>กระบวนการปรับแต่งระดับความดังในแต่ละอุปกรณ์ของห่วงโซ่สัญญาณให้อยู่ในจุดที่เหมาะสมที่สุด:</p>
+                    <ul>
+                      <li><strong>จุดเป้าหมาย:</strong> รักษาความดังสัญญาณเสียงเฉลี่ยให้อยู่ในช่วง -18 dBFS ถึง -12 dBFS บนหน้าปัดวัดดิจิทัล เพื่อเหลือช่องว่างความดังสูงสุด (Headroom) ป้องกันการชนเพดาน</li>
+                      <li><strong>Digital Clipping (เสียงแตกดิจิทัล):</strong> สัญญาณที่แรงเกินขอบ 0 dBFS คลื่นจะถูกขลิบหัวแบนราบ เกิดเสียงแตกพร่าแบบดิจิทัลที่แสบหูและไม่ไพเราะ (ซึ่งแก้ไม่ได้นอกจากบันทึกใหม่)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="widget-view hidden">
+              <!-- Widget: Latency Calculator + Gain Meter -->
+              <div class="two-column" style="margin-top:10px;">
+                <div class="column">
+                  <div class="visualizer-card">
+                    <h4 class="visualizer-header">เครื่องคำนวณ Latency (Latency Calculator)</h4>
+                    <div class="control-row"><label>Sample Rate: <select id="select-sample-rate" style="padding:3px 6px;border-radius:4px;background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-color);font-family:'Prompt',sans-serif;font-size:11px;"><option value="44100">44,100 Hz (CD)</option><option value="48000">48,000 Hz (Video)</option><option value="96000">96,000 Hz (Hi-Res)</option></select></label></div>
+                    <div class="control-row"><label for="slider-buffer-size">Buffer Size: <span id="val-buffer-size">256</span> samples</label><input type="range" id="slider-buffer-size" min="0" max="5" value="3" step="1"></div>
+                    <div id="latency-result" style="text-align:center;font-size:20px;font-weight:700;margin:8px 0;color:var(--color-success);">11.6 ms</div>
+                    <div id="latency-indicator" style="text-align:center;font-size:11px;padding:4px 8px;border-radius:4px;background:#d1fae5;color:var(--color-success);">✅ เล่นสดไม่รู้สึกหน่วง</div>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="visualizer-card">
+                    <h4 class="visualizer-header">มิเตอร์ Gain Staging (Level Meter)</h4>
+                    <div class="widget-gain-meters">
+                      <div class="widget-gain-stage"><label>Mic <span id="gain-val-mic">40</span>%</label><input type="range" id="slider-gain-mic" min="0" max="100" value="40"><div class="widget-meter" id="gain-meter-mic"><div class="widget-meter-fill" style="height:40%;"></div></div></div>
+                      <div class="widget-gain-arrow">→</div>
+                      <div class="widget-gain-stage"><label>Preamp <span id="gain-val-preamp">60</span>%</label><input type="range" id="slider-gain-preamp" min="0" max="100" value="60"><div class="widget-meter" id="gain-meter-preamp"><div class="widget-meter-fill" style="height:60%;"></div></div></div>
+                      <div class="widget-gain-arrow">→</div>
+                      <div class="widget-gain-stage"><label>DAW <span id="gain-val-daw">70</span>%</label><input type="range" id="slider-gain-daw" min="0" max="100" value="70"><div class="widget-meter" id="gain-meter-daw"><div class="widget-meter-fill" style="height:70%;"></div></div></div>
+                    </div>
+                    <div id="gain-clip-warning" style="display:none;text-align:center;color:var(--color-error);font-size:11px;font-weight:600;margin-top:4px;">⚠️ สัญญาณแตก! (Clipping) ลด Gain ลง</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 8: Monitors & Headphones -->
+        <section class="slide-item" id="slide-7">
+          <div class="slide-content">
+            <h2 class="slide-title">07. ลำโพงสตูดิโอมอนิเตอร์ และหูฟังอ้างอิงเสียง</h2>
+            <p class="slide-subtitle-desc">ความแตกต่างระหว่างลำโพงอ้างอิงเสียง และหูฟังรูปแบบต่างๆ ในงานวิศวกรรมผสมเสียง</p>
+            
+            <div class="slide-view-toggle">
+              <button class="view-toggle-btn active" data-view="theory">📖 เนื้อหาบทเรียน</button>
+              <button class="view-toggle-btn" data-view="widget">🎛️ เครื่องจำลองการตอบสนองความถี่</button>
+            </div>
+
+            <div class="theory-view">
+              <div class="two-column">
+                <div class="column">
+                  <div class="info-block">
+                    <h3>1. ลำโพงสตูดิโอมอนิเตอร์ (Studio Monitors)</h3>
+                    <ul>
+                      <li><strong>Flat Frequency Response:</strong> มีการตอบสนองความถี่ที่ราบเรียบ อ้างอิงเสียงได้ตรงตามความเป็นจริง ไม่แต่งแต้มเบสให้หนา หรือแหลมให้คมเหมือนลำโพงฟังทั่วไป (Colored Response) ช่วยให้แก้ไขข้อผิดพลาดย่านความถี่เสียงได้แม่นยำ</li>
+                      <li><strong>Active vs Passive:</strong> ลำโพง Active มีแอมป์ในตัว ทำงานเข้ากันได้ทันที ส่วน Passive ต้องมีพาวเวอร์แอมป์ภายนอกขับสัญญาณ</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div class="column">
+                  <div class="info-block success-block">
+                    <h3>2. รูปแบบโครงสร้างหูฟังอ้างอิง (Studio Headphones)</h3>
+                    <ul>
+                      <li><strong>Closed-Back (หูฟังแบบปิดฝาครอบ):</strong> ป้องกันไม่ให้เสียงดนตรีเล็ดลอดออก (Sound Bleeding) และกันเสียงภายนอกเข้า เหมาะสำหรับนักร้องขณะร้องบันทึกเสียงหน้าไมค์</li>
+                      <li><strong>Open-Back (หูฟังแบบเปิดฝาครอบ):</strong> มีช่องระบายอากาศเพื่อกระจายแรงอัด ลดการสะท้อนสะสมในถ้วยหูฟัง ให้มิติสเตอริโอที่กว้างขวางเสมือนฟังลำโพงจริง เหมาะสำหรับมิกซ์เพลง</li>
+                      <li><strong>Impedance (โอห์ม):</strong> หูฟังโอห์มสูง (250-600 Ω) มีความต้านทานแรงดันไฟฟ้าสูง ต้องการแอมป์หูฟังขับเฉพาะเพื่อรายละเอียดเสียงครบถ้วน</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="widget-view hidden">
+              <!-- Widget: Frequency Response Curves -->
+              <div class="visualizer-card" style="margin-top:10px;">
+                <h4 class="visualizer-header">เปรียบเทียบ Frequency Response (FR Curve Comparison)</h4>
+                <p class="visualizer-desc">เลือกชนิดลำโพงเพื่อดูเส้นกราฟการตอบสนองความถี่ (ลำโพง Monitor จะแบนราบ vs ลำโพงทั่วไปจะเน้นเบส+แหลม)</p>
+                <div class="canvas-container"><canvas id="fr-canvas" width="450" height="160"></canvas></div>
+                <div style="display:flex;gap:12px;margin-top:6px;font-size:11px;justify-content:center;">
+                  <label style="color:#2563eb;"><input type="radio" name="fr-type" value="flat" checked> 🔊 Studio Monitor (Flat)</label>
+                  <label style="color:#ef4444;"><input type="radio" name="fr-type" value="vshape"> 🔉 Consumer Speaker (V-Shape)</label>
+                  <label style="color:#8b5cf6;"><input type="radio" name="fr-type" value="headphone"> 🎧 Studio Headphone</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 9: Room Acoustics -->
+        <section class="slide-item" id="slide-8">
+          <div class="slide-content">
+            <h2 class="slide-title">08. อะคูสติกห้องบันทึกเสียง และการปรับแต่งสภาวะห้อง</h2>
+            <p class="slide-subtitle-desc">การควบคุมพฤติกรรมสะท้อนของคลื่นเสียงกายภาพในพื้นที่ปิดเพื่อความแม่นยำของระบบเสียง</p>
+            
+            <div class="slide-view-toggle">
+              <button class="view-toggle-btn active" data-view="theory">📖 เนื้อหาบทเรียน</button>
+              <button class="view-toggle-btn" data-view="widget">🎛️ เครื่องจำลองอะคูสติกห้อง</button>
+            </div>
+
+            <div class="theory-view">
+              <div class="two-column">
+                <div class="column">
+                  <div class="info-block">
+                    <h3>1. ปัญหาอะคูสติกในห้องปิด</h3>
+                    <ul>
+                      <li><strong>First Reflection (จุดสะท้อนแรก):</strong> เสียงจากลำโพงวิ่งชนกำแพงด้านข้างสะท้อนตรงเข้าหู ปนกับเสียงตรง ทำลายทิศทางเสียง</li>
+                      <li><strong>Standing Waves (คลื่นนิ่ง):</strong> ความถี่ต่ำสะท้อนไปมาชนกันระหว่างผนังสองฝั่งขนาน เกิดจุดหักล้าง (Null - เสียงเบสหาย) และจุดบวมขึ้น (Peak - เสียงเบสบวมล้นเกินจริง)</li>
+                    </ul>
+                  </div>
+                  <div class="info-block warning-block">
+                    <h3>2. รูปแบบการจัดตั้งตำแหน่งมอนิเตอร์</h3>
+                    <p>จัดวางตำแหน่งลำโพงและศีรษะผู้ฟังเป็นมุม 60 องศา สามเหลี่ยมด้านเท่า (Equilateral Triangle) เพื่อให้มิติเสียงซ้ายขวาแม่นยำที่สุด</p>
+                  </div>
+                </div>
+                
+                <div class="column">
+                  <div class="info-block success-block">
+                    <h3>3. การบำบัดอะคูสติกห้อง vs การกันเสียงสะท้อน</h3>
+                    <ul>
+                      <li><strong>Acoustic Treatment (การปรับอะคูสติก):</strong> การใช้ฟองน้ำซับเสียง/ใยแก้วหนาเพื่อดูดซับเสียง (Absorption) และแผ่นไม้หยักสะท้อนกระจายทิศทาง (Diffusion) เพื่อปรับสภาพให้ภายในห้องได้ยินเสียงสะอาด</li>
+                      <li><strong>Soundproofing (การกันเสียง):</strong> การออกแบบปิดห้อง ปิดช่องลม เสริมผนังมวลหนาและช่องว่างอากาศสองชั้น (Double Wall) เพื่อไม่ให้เสียงทะลุผ่านข้ามห้อง ไม่ใช่การแปะฟองน้ำซับเสียง</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="widget-view hidden">
+              <!-- Widget: Room Acoustics Visualizer -->
+              <div class="visualizer-card" style="margin-top:10px;">
+                <h4 class="visualizer-header">จำลองอะคูสติกห้อง (Room Acoustics Visualizer)</h4>
+                <p class="visualizer-desc">มองจากด้านบน: แสดงตำแหน่งลำโพง จุดนั่งฟัง และเส้นสะท้อนเสียงกระทบผนัง</p>
+                <div class="canvas-container"><canvas id="room-canvas" width="450" height="200"></canvas></div>
+                <div style="display:flex;gap:8px;margin-top:6px;justify-content:center;">
+                  <button class="sound-test-btn" id="btn-no-treatment" style="background:#fee2e2;color:var(--color-error);border-color:var(--color-error);font-weight:700;">❌ ไม่มี Treatment</button>
+                  <button class="sound-test-btn" id="btn-with-treatment" style="background:#d1fae5;color:var(--color-success);border-color:var(--color-success);">✅ มี Treatment</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 10: DAW & Notation Software -->
+        <section class="slide-item" id="slide-9">
+          <div class="slide-content">
+            <h2 class="slide-title">09. ซอฟต์แวร์ระบบทำเพลง (DAW) & ซอฟต์แวร์เขียนโน้ต</h2>
+            <p class="slide-subtitle-desc">การใช้ระบบคอมพิวเตอร์ดนตรีเพื่อบันทึกเสียง ตัดต่อ ผสมผสาน และพิมพ์ผลงานเขียนโน้ต</p>
+            
+            <div class="slide-view-toggle">
+              <button class="view-toggle-btn active" data-view="theory">📖 เนื้อหาบทเรียน</button>
+              <button class="view-toggle-btn" data-view="widget">🎛️ เครื่องสร้างบีทจำลอง</button>
+            </div>
+
+            <div class="theory-view">
+              <div class="two-column">
+                <div class="column">
+                  <div class="info-block">
+                    <h3>1. ซอฟต์แวร์ DAW ยอดนิยมในวงการทำเพลง</h3>
+                    <p><strong>DAW (Digital Audio Workstation):</strong> โปรแกรมรวมศูนย์ในการอัดและตัดต่อคลื่นเสียง:</p>
+                    <ul>
+                      <li><strong>Ableton Live:</strong> เด่นด้านงานเพลงอิเล็กทรอนิกส์ การแสดงสด (Session View Layout) มีความเสถียรและรวดเร็ว</li>
+                      <li><strong>FL Studio:</strong> มีระบบ Step Sequencer และตารางเขียนโน้ตเปียโนโรล (Piano Roll) ที่ใช้ง่าย เหมาะกับดนตรีแดนซ์ / ฮิปฮอป</li>
+                      <li><strong>Pro Tools:</strong> มาตรฐานทองคำสำหรับการบันทึกเสียงสด ตัดต่อเสียงหลายช่องทางในสตูดิโออัดเสียงระดับมืออาชีพ</li>
+                      <li><strong>Logic Pro:</strong> ซอฟต์แวร์ลิขสิทธิ์ Apple (macOS เท่านั้น) มีชุดเครื่องมือ สัญญาณเสียง และเอฟเฟกต์สมบูรณ์แบบครบวงจร</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div class="column">
+                  <div class="info-block success-block">
+                    <h3>2. ซอฟต์แวร์ประพันธ์ดนตรีและเขียนโน้ต</h3>
+                    <p>เน้นการป้อนโน้ตเพื่อจัดพิมพ์เป็นสกอร์เพลงแผ่นสำหรับวงดนตรี:</p>
+                    <ul>
+                      <li><strong>MuseScore:</strong> ซอฟต์แวร์โอเพ่นซอร์สฟรี 100% มีประสิทธิภาพสูง รองรับระบบควบคุมแบบอินเตอร์แอกทีฟ</li>
+                      <li><strong>Sibelius & Finale:</strong> โปรแกรมพิมพ์โน้ตดนตรีระดับพรีเมียมที่ใช้ควบคุมและผลิตพิมพ์สกอร์วงออร์เคสตราขนาดใหญ่</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="widget-view hidden">
+              <!-- Widget: Step Sequencer -->
+              <div class="visualizer-card" style="margin-top:10px;">
+                <h4 class="visualizer-header">โปรแกรมจำลองสร้างบีท (Mini Step Sequencer)</h4>
+                <p class="visualizer-desc">คลิกช่องเพื่อเปิด/ปิดเสียง แล้วกด Play เพื่อฟังจังหวะที่สร้างขึ้น</p>
+                <div id="step-sequencer-grid"></div>
+                <div style="display:flex;gap:6px;margin-top:6px;">
+                  <button class="sound-test-btn" id="btn-seq-play">▶️ Play</button>
+                  <button class="sound-test-btn" id="btn-seq-stop">⏹️ Stop</button>
+                  <button class="sound-test-btn" id="btn-seq-clear">🗑️ Clear</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 11: Audio Plugins & Formats -->
+        <section class="slide-item" id="slide-10">
+          <div class="slide-content">
+            <h2 class="slide-title">10. ปลั๊กอินเอฟเฟกต์เสียง และรูปแบบสถาปัตยกรรม</h2>
+            <p class="slide-subtitle-desc">การขยายความสามารถซอฟต์แวร์ทำเพลงด้วยโปรแกรมย่อยสำหรับประมวลผลสัญญาณออดิโอ</p>
+            
+            <div class="slide-view-toggle">
+              <button class="view-toggle-btn active" data-view="theory">📖 เนื้อหาบทเรียน</button>
+              <button class="view-toggle-btn" data-view="widget">🎛️ เครื่องจำลองเอฟเฟกต์</button>
+            </div>
+
+            <div class="theory-view">
+              <div class="two-column">
+                <div class="column">
+                  <div class="info-block">
+                    <h3>1. รูปแบบมาตรฐานปลั๊กอิน (Plugin Formats)</h3>
+                    <ul>
+                      <li><strong>VST (Virtual Studio Technology):</strong> พัฒนาโดย Steinberg เป็นมาตรฐานกลางที่ใช้งานได้ดีทั้งบน Windows และ macOS</li>
+                      <li><strong>AU (Audio Units):</strong> มาตรฐานเฉพาะของ Apple สำหรับระบบปฏิบัติการ macOS และ iOS</li>
+                      <li><strong>AAX (Avid Audio Extension):</strong> รูปแบบปลั๊กอินที่ออกแบบมาสำหรับรันบนโปรแกรม Pro Tools โดยเฉพาะ</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div class="column">
+                  <div class="info-block success-block">
+                    <h3>2. หมวดหมู่เอฟเฟกต์เสียงแกนหลัก</h3>
+                    <ul>
+                      <li><strong>Dynamics (ควบคุมระดับเสียง):</strong>
+                        <br>• <em>Compressor:</em> กดส่วนเสียงที่ดังสุดและเพิ่มความดังรวมเพื่อให้เสียงร้อง/ดนตรีมีเนื้อแน่นสม่ำเสมอ
+                        <br>• <em>Limiter:</em> กำหนดระดับความดังสูงสุดห้ามสัญญาณแตกเกินขอบ
+                      </li>
+                      <li><strong>Equalizer (EQ):</strong> จัดแจงปรับแต่งสมดุลความทุ้มแหลมของความถี่
+                      </li>
+                      <li><strong>Time-based (มิติเวลาสะท้อน):</strong>
+                        <br>• <em>Delay:</em> จำลองเสียงสะท้อนเป็นจังหวะไล่เสียงทีละทอด
+                        <br>• <em>Reverb:</em> จำลองพื้นที่ห้องก้องสะท้อนสร้างมิติตื้นลึก
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="widget-view hidden">
+              <!-- Widget: Plugin Effect Demos -->
+              <div class="visualizer-card" style="margin-top:10px;">
+                <h4 class="visualizer-header">ทดลองเอฟเฟกต์เสียง (Audio Effect Demo)</h4>
+                <div class="two-column">
+                  <div class="column">
+                    <div class="canvas-container"><canvas id="eq-canvas" width="200" height="100"></canvas></div>
+                    <div class="control-row" style="font-size:10px;"><label>Bass: <input type="range" id="slider-eq-bass" min="-12" max="12" value="0" style="width:100%;"></label></div>
+                    <div class="control-row" style="font-size:10px;"><label>Mid: <input type="range" id="slider-eq-mid" min="-12" max="12" value="0" style="width:100%;"></label></div>
+                    <div class="control-row" style="font-size:10px;"><label>Treble: <input type="range" id="slider-eq-high" min="-12" max="12" value="0" style="width:100%;"></label></div>
+                  </div>
+                  <div class="column">
+                    <div class="control-row" style="font-size:10px;"><label>Reverb: <input type="range" id="slider-reverb" min="0" max="100" value="0" style="width:100%;"></label></div>
+                    <div style="display:flex;gap:6px;margin-top:6px;">
+                      <button class="sound-test-btn" id="btn-play-dry">🔊 Dry (เสียงต้นฉบับ)</button>
+                      <button class="sound-test-btn" id="btn-play-wet">🔊 Wet (ใส่เอฟเฟกต์)</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 12: Interactive Studio Signal Flow -->
+        <section class="slide-item" id="slide-11">
+          <div class="slide-content" style="height: 100%; display: flex; flex-direction: column;">
+            <h2 class="slide-title">11. แผนผังเส้นทางและเดินทางของสัญญาณเสียง (Studio Signal Flow)</h2>
+            <p class="slide-subtitle-desc" style="margin-bottom: 8px;">คลิกการ์ดควบคุมด้านซ้ายเพื่อทดสอบฟังเสียงสังเคราะห์จริงและแสดงผลเส้นทางการต่อสายสัญญาณแบบเรียลไทม์</p>
+            
+            <div class="studio-flow-container" style="flex: 1; display: grid; grid-template-columns: 260px 1fr; gap: 15px; min-height: 0; max-height: calc(100% - 60px);">
+              <!-- Left panel: Text Cards / Controls -->
+              <div class="studio-flow-controls" style="display: flex; flex-direction: column; gap: 8px; overflow-y: auto;">
+                
+                <div class="flow-info-card" id="card-acoustic-flow" style="cursor: pointer; padding: 10px; border-radius: 8px; border: 2px solid var(--border-color); background: var(--bg-card); transition: all 0.2s;">
+                  <div class="flow-card-header acoustic" style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                    <span class="emoji" style="font-size: 15px;">🎙️</span>
+                    <h3 style="margin: 0; font-size: 11px; font-weight: bold; color: var(--text-color);">1. อัดเสียงอนาล็อกสด (Acoustic Flow)</h3>
+                  </div>
+                  <p style="margin: 0 0 6px 0; font-size: 9.5px; line-height: 1.35; color: var(--text-secondary);">
+                    เสียงร้อง ➡️ ไมค์ Condenser ➡️ สาย XLR Balanced ➡️ Interface Preamps (+48V) ➡️ ADC Converter ➡️ สาย USB ➡️ DAW
+                  </p>
+                  <button class="sound-test-btn" id="btn-play-acoustic" style="width: 100%; font-size: 9.5px; padding: 5px; border-radius: 4px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; transition: all 0.2s;">
+                    <span class="icon">🔊</span>
+                    <span>ทดสอบฟังเสียงอนาล็อกสด</span>
+                  </button>
+                </div>
+                
+                <div class="flow-info-card" id="card-midi-flow" style="cursor: pointer; padding: 10px; border-radius: 8px; border: 2px solid var(--border-color); background: var(--bg-card); transition: all 0.2s;">
+                  <div class="flow-card-header midi" style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                    <span class="emoji" style="font-size: 15px;">🎹</span>
+                    <h3 style="margin: 0; font-size: 11px; font-weight: bold; color: var(--text-color);">2. เล่นคีย์บอร์ด MIDI (MIDI Flow)</h3>
+                  </div>
+                  <p style="margin: 0 0 6px 0; font-size: 9.5px; line-height: 1.35; color: var(--text-secondary);">
+                    คีย์ MIDI ➡️ ข้อมูลรหัสควบคุม ➡️ สาย USB ➡️ คอม/DAW (VSTi เสียง) ➡️ สาย USB Return ➡️ DAC Interface ➡️ ลำโพง Monitor
+                  </p>
+                  <button class="sound-test-btn" id="btn-play-midi" style="width: 100%; font-size: 9.5px; padding: 5px; border-radius: 4px; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; transition: all 0.2s;">
+                    <span class="icon">🔊</span>
+                    <span>ทดสอบฟังเสียง MIDI Synth</span>
+                  </button>
+                </div>
+                
+              </div>
+              
+              <!-- Right panel: Interactive SVG -->
+              <div class="simulator-canvas-panel" style="background: var(--bg-card); border-radius: 8px; padding: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0;">
+                <div class="canvas-svg-wrapper" style="width: 100%; height: 100%; position: relative;">
+                  <svg id="svg-studio-flow" viewBox="0 0 700 360" width="100%" height="100%">
+                    <defs>
+                      <marker id="studio-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+                      </marker>
+                      <marker id="studio-arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb" />
+                      </marker>
+                    </defs>
+                    
+                    <!-- Connection Paths -->
+                    <!-- 1. Acoustic Paths -->
+                    <path id="path-studio-mic-to-interface" d="M 110 65 Q 170 95, 245 130" fill="none" stroke="#e2e8f0" stroke-width="4" marker-end="url(#studio-arrow)"></path>
+                    <path id="path-studio-interface-to-computer" d="M 360 145 L 435 145" fill="none" stroke="#e2e8f0" stroke-width="4" marker-end="url(#studio-arrow)"></path>
+                    
+                    <!-- 2. MIDI Paths -->
+                    <path id="path-studio-midi-to-computer" d="M 110 300 Q 300 310, 435 185" fill="none" stroke="#e2e8f0" stroke-width="4" stroke-dasharray="6,4" marker-end="url(#studio-arrow)"></path>
+                    <path id="path-studio-computer-to-interface" d="M 435 165 L 360 165" fill="none" stroke="#e2e8f0" stroke-width="4" marker-end="url(#studio-arrow)"></path>
+                    <path id="path-studio-interface-to-speakers" d="M 302 115 L 590 85" fill="none" stroke="#e2e8f0" stroke-width="3" marker-end="url(#studio-arrow)"></path>
+                    <path id="path-studio-interface-to-headphones" d="M 302 225 L 590 220" fill="none" stroke="#e2e8f0" stroke-width="3" marker-end="url(#studio-arrow)"></path>
+                    
+                    <!-- Animated Flow Dots -->
+                    <circle id="dot-studio-mic" r="5" fill="#2563eb" style="display:none;"></circle>
+                    <circle id="dot-studio-usb-send" r="5" fill="#8b5cf6" style="display:none;"></circle>
+                    <circle id="dot-studio-midi" r="5" fill="#f59e0b" style="display:none;"></circle>
+                    <circle id="dot-studio-usb-return" r="5" fill="#8b5cf6" style="display:none;"></circle>
+                    <circle id="dot-studio-speakers" r="5" fill="#db2777" style="display:none;"></circle>
+                    <circle id="dot-studio-headphones" r="5" fill="#d946ef" style="display:none;"></circle>
+                    
+                    <!-- Nodes -->
+                    <!-- Microphone -->
+                    <g id="node-studio-mic" class="svg-node">
+                      <rect x="20" y="30" width="90" height="60" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="65" y="58" text-anchor="middle" font-size="22">🎙️</text>
+                      <text x="65" y="78" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="9" font-weight="bold" fill="#475569">Vocal Mic</text>
+                    </g>
+                    
+                    <!-- MIDI Keyboard -->
+                    <g id="node-studio-midi" class="svg-node">
+                      <rect x="20" y="270" width="90" height="60" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="65" y="298" text-anchor="middle" font-size="22">🎹</text>
+                      <text x="65" y="318" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="9" font-weight="bold" fill="#475569">MIDI Keyboard</text>
+                    </g>
+                    
+                    <!-- Audio Interface -->
+                    <g id="node-studio-interface" class="svg-node">
+                      <rect x="245" y="115" width="115" height="110" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="302" y="155" text-anchor="middle" font-size="30">🎛️</text>
+                      <text x="302" y="185" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">Audio Interface</text>
+                      <text x="302" y="202" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="8" fill="#64748b">Preamp & ADC/DAC</text>
+                    </g>
+                    
+                    <!-- Computer -->
+                    <g id="node-studio-computer" class="svg-node">
+                      <rect x="435" y="115" width="115" height="110" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="492" y="160" text-anchor="middle" font-size="32">💻</text>
+                      <text x="492" y="190" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="10" font-weight="bold" fill="#475569">Computer / DAW</text>
+                      <text x="492" y="206" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="8" fill="#64748b">Software System</text>
+                    </g>
+                    
+                    <!-- Speakers -->
+                    <g id="node-studio-speakers" class="svg-node">
+                      <rect x="590" y="45" width="90" height="80" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="635" y="90" text-anchor="middle" font-size="26">🔊</text>
+                      <text x="635" y="112" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="9" font-weight="bold" fill="#475569">Studio Monitors</text>
+                    </g>
+                    
+                    <!-- Headphones -->
+                    <g id="node-studio-headphones" class="svg-node">
+                      <rect x="590" y="180" width="90" height="80" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="635" y="220" text-anchor="middle" font-size="26">🎧</text>
+                      <text x="635" y="244" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="9" font-weight="bold" fill="#475569">Headphones</text>
+                    </g>
+                  </svg>
+                </div>
+                <div class="legend-panel" style="margin-top: 6px; display: flex; gap: 10px; justify-content: center; font-size: 8.5px;">
+                  <div class="legend-item" style="display: flex; align-items: center; gap: 4px;"><span style="display: inline-block; width: 15px; height: 3px; background-color: #3b82f6;"></span><span>Analog Audio</span></div>
+                  <div class="legend-item" style="display: flex; align-items: center; gap: 4px;"><span style="display: inline-block; width: 15px; height: 3px; background-color: #8b5cf6;"></span><span>Digital Audio (USB)</span></div>
+                  <div class="legend-item" style="display: flex; align-items: center; gap: 4px;"><span style="display: inline-block; width: 15px; height: 3px; border-bottom: 2px dashed #f59e0b;"></span><span>MIDI Data</span></div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 13: Interactive Signal Flow Simulator -->
+        <section class="slide-item" id="slide-12">
+          <div class="slide-content">
+            <h2 class="slide-title">12. ระบบจำลองและเชื่อมสายสัญญาณเสียง (Interactive Signal Flow Simulator)</h2>
+            <p class="slide-subtitle-desc">การเชื่อมต่อทางระบบเป็นสิ่งสำคัญที่สุด ลองสลับโหมดจำลองด้านล่างเพื่อตรวจสอบทิศทางการเดินทางของพลังงานเสียงและข้อมูลดิจิทัล</p>
+            
+            <div class="flow-simulator-layout">
+              <!-- Sidebar Selector for simulation -->
+              <div class="simulator-controls no-print">
+                <button class="flow-scenario-btn active" id="scenario-vocal">
+                  <span>🎙️</span>
+                  <div class="btn-text-wrap">
+                    <strong>1. จำลองการอัดเสียงร้อง</strong>
+                    <p>Analog Mic ➔ Interface ➔ Computer</p>
+                  </div>
+                </button>
+                <button class="flow-scenario-btn" id="scenario-guitar">
+                  <span>🎸</span>
+                  <div class="btn-text-wrap">
+                    <strong>2. จำลองการอัดกีตาร์ไฟฟ้า</strong>
+                    <p>Hi-Z Instrument Input ➔ DAW</p>
+                  </div>
+                </button>
+                <button class="flow-scenario-btn" id="scenario-synth">
+                  <span>🎹</span>
+                  <div class="btn-text-wrap">
+                    <strong>3. จำลองอัดคีย์บอร์ดสเตอริโอ</strong>
+                    <p>Stereo Line Level Input ➔ DAW</p>
+                  </div>
+                </button>
+                <button class="flow-scenario-btn" id="scenario-midi">
+                  <span>⌨️</span>
+                  <div class="btn-text-wrap">
+                    <strong>4. จำลองคีย์บอร์ด MIDI</strong>
+                    <p>MIDI Data ➔ VST Sound ➔ Output</p>
+                  </div>
+                </button>
+                <button class="flow-scenario-btn" id="scenario-live-band">
+                  <span>?</span>
+                  <div class="btn-text-wrap">
+                    <strong>5. อัดวงดนตรีสดพร้อมกัน</strong>
+                    <p>Live Multitrack Recording</p>
+                  </div>
+                </button>
+                <div class="simulator-status-panel">
+                  <div class="status-indicator">
+                    <span class="pulse-dot"></span>
+                    <strong id="status-title">ขณะนี้: อัดเสียงร้อง</strong>
+                  </div>
+                  <p id="status-description">เสียงอนาลอกจากไมโครโฟนคอนเดนเซอร์วิ่งเข้าสายสัญญาณ XLR มุ่งหน้าสู่อินเตอร์เฟสเสียง</p>
+                </div>
+              </div>
+              
+              <!-- Interactive SVG Area -->
+              <div class="simulator-canvas-panel">
+                <div class="canvas-svg-wrapper">
+                  <!-- SVG Flow Diagram -->
+                  <svg id="svg-flow-diagram" viewBox="0 0 700 360" width="100%" height="100%">
+                    <!-- Nodes Background & Connections -->
+                    <defs>
+                      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+                      </marker>
+                      <marker id="arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb" />
+                      </marker>
+                    </defs>
+                    
+                    <!-- Connection Paths -->
+                    <path id="path-mic-to-interface" d="M 110 40 L 245 90" fill="none" stroke="#e2e8f0" stroke-width="4" marker-end="url(#arrow)"></path>
+                    <path id="path-guitar-to-interface" d="M 110 107 L 245 110" fill="none" stroke="#e2e8f0" stroke-width="4" marker-end="url(#arrow)"></path>
+                    <path id="path-guitar-to-dibox" d="M 110 107 L 145 110" fill="none" stroke="#e2e8f0" stroke-width="3" marker-end="url(#arrow)"></path>
+                    <path id="path-dibox-to-interface" d="M 205 110 L 245 115" fill="none" stroke="#e2e8f0" stroke-width="3" marker-end="url(#arrow)"></path>
+                    <path id="path-synth-to-interface-l" d="M 110 165 Q 175 155 245 130" fill="none" stroke="#e2e8f0" stroke-width="3" marker-end="url(#arrow)"></path>
+                    <path id="path-synth-to-interface-r" d="M 110 180 Q 175 180 245 145" fill="none" stroke="#e2e8f0" stroke-width="3" marker-end="url(#arrow)"></path>
+                    <path id="path-drums-to-interface" d="M 110 241 L 245 160" fill="none" stroke="#e2e8f0" stroke-width="4" marker-end="url(#arrow)"></path>
+                    <path id="path-midi-to-computer" d="M 110 308 Q 380 320 420 200" fill="none" stroke="#e2e8f0" stroke-width="4" stroke-dasharray="6,4" marker-end="url(#arrow)"></path>
+                    <path id="path-interface-to-computer" d="M 360 100 Q 390 100 420 135" fill="none" stroke="#e2e8f0" stroke-width="4" marker-end="url(#arrow)"></path>
+                    <path id="path-computer-to-interface" d="M 420 185 Q 390 195 360 145" fill="none" stroke="#e2e8f0" stroke-width="4" marker-end="url(#arrow)"></path>
+                    <path id="path-interface-to-monitors" d="M 360 85 L 590 85" fill="none" stroke="#e2e8f0" stroke-width="3" marker-end="url(#arrow)"></path>
+                    <path id="path-interface-to-headphones" d="M 360 155 L 590 220" fill="none" stroke="#e2e8f0" stroke-width="3" marker-end="url(#arrow)"></path>
+                    
+                    <!-- Animated Flow Dots -->
+                    <circle id="flow-dot-mic" r="5" fill="#2563eb" style="display:none;"></circle>
+                    <circle id="flow-dot-guitar" r="5" fill="#10b981" style="display:none;"></circle>
+                    <circle id="flow-dot-guitar-to-dibox" r="4" fill="#10b981" style="display:none;"></circle>
+                    <circle id="flow-dot-dibox-to-interface" r="4" fill="#059669" style="display:none;"></circle>
+                    <circle id="flow-dot-synth-l" r="4" fill="#6366f1" style="display:none;"></circle>
+                    <circle id="flow-dot-synth-r" r="4" fill="#4f46e5" style="display:none;"></circle>
+                    <circle id="flow-dot-drums" r="5" fill="#ec4899" style="display:none;"></circle>
+                    <circle id="flow-dot-midi" r="5" fill="#f59e0b" style="display:none;"></circle>
+                    <circle id="flow-dot-usb-send" r="5" fill="#8b5cf6" style="display:none;"></circle>
+                    <circle id="flow-dot-usb-return" r="5" fill="#a855f7" style="display:none;"></circle>
+                    <circle id="flow-dot-speakers" r="5" fill="#db2777" style="display:none;"></circle>
+                    <circle id="flow-dot-headphones" r="5" fill="#d946ef" style="display:none;"></circle>
+                    
+                    <!-- Nodes -->
+                    <g id="node-dibox" class="svg-node">
+                      <rect x="145" y="90" width="60" height="40" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="175" y="112" text-anchor="middle" font-size="16">🔌</text>
+                      <text x="175" y="124" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="7" font-weight="bold" fill="#64748b">DI Box</text>
+                    </g>
+                    <g id="node-mic" class="svg-node" style="cursor:pointer;">
+                      <rect x="20" y="10" width="90" height="60" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="65" y="38" text-anchor="middle" font-size="22">🎙️</text>
+                      <text x="65" y="58" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="9" font-weight="bold" fill="#475569">Vocal Mic</text>
+                      <rect x="25" y="14" width="38" height="13" rx="3" fill="#ef4444" fill-opacity="0.1" id="mic-phantom-led"></rect>
+                      <text x="44" y="23" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="bold" id="mic-phantom-text">+48V OFF</text>
+                    </g>
+                    <g id="node-guitar" class="svg-node">
+                      <rect x="20" y="77" width="90" height="60" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="65" y="105" text-anchor="middle" font-size="22">🎸</text>
+                      <text x="65" y="125" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="9" font-weight="bold" fill="#475569">Electric Guitar</text>
+                    </g>
+                    <g id="node-synth" class="svg-node">
+                      <rect x="20" y="144" width="90" height="60" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="65" y="172" text-anchor="middle" font-size="22">🎹</text>
+                      <text x="65" y="192" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="9" font-weight="bold" fill="#475569">Stereo Synth</text>
+                    </g>
+                    <g id="node-drums" class="svg-node">
+                      <rect x="20" y="211" width="90" height="60" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="65" y="239" text-anchor="middle" font-size="22">?</text>
+                      <text x="65" y="259" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="9" font-weight="bold" fill="#475569">Acoustic Drums</text>
+                    </g>
+                    <g id="node-midi" class="svg-node">
+                      <rect x="20" y="278" width="90" height="60" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="65" y="306" text-anchor="middle" font-size="22">⌨️</text>
+                      <text x="65" y="326" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="9" font-weight="bold" fill="#475569">MIDI Keyboard</text>
+                    </g>
+                    <g id="node-interface" class="svg-node">
+                      <rect x="245" y="65" width="115" height="110" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="302" y="105" text-anchor="middle" font-size="30">🎛️</text>
+                      <text x="302" y="135" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a">Audio Interface</text>
+                      <text x="302" y="152" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="9" fill="#64748b" id="txt-adc-dac">ADC / DAC</text>
+                      <rect x="250" y="70" width="35" height="12" rx="3" fill="#3b82f6" fill-opacity="0.1" id="interface-hiz-led" style="display:none;"></rect>
+                      <text x="267" y="79" text-anchor="middle" font-size="7" fill="#2563eb" font-weight="bold" id="interface-hiz-text" style="display:none;">Hi-Z ON</text>
+                    </g>
+                    <g id="node-computer" class="svg-node">
+                      <rect x="420" y="115" width="115" height="110" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="477" y="160" text-anchor="middle" font-size="32">💻</text>
+                      <text x="477" y="190" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="10" font-weight="bold" fill="#475569">Computer / DAW</text>
+                      <text x="477" y="206" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="8" fill="#64748b" id="txt-daw-status">DAW Active</text>
+                    </g>
+                    <g id="node-speakers" class="svg-node">
+                      <rect x="590" y="45" width="90" height="80" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="635" y="90" text-anchor="middle" font-size="26">🔊</text>
+                      <text x="635" y="112" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="9" font-weight="bold" fill="#475569">Monitors (Flat)</text>
+                    </g>
+                    <g id="node-headphones" class="svg-node">
+                      <rect x="590" y="180" width="90" height="80" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"></rect>
+                      <text x="635" y="220" text-anchor="middle" font-size="26" id="headphones-emoji">🎧</text>
+                      <text x="635" y="244" text-anchor="middle" font-family="'Prompt', sans-serif" font-size="9" font-weight="bold" fill="#475569" id="headphones-label">Headphones</text>
+                      <text x="635" y="254" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="7" fill="#64748b" id="headphones-extra" style="display:none;">Cue Mixes x3</text>
+                    </g>
+                  </svg>
+                </div>
+                <!-- Connection Legend Detail -->
+                <div class="legend-panel">
+                  <div class="legend-item"><span class="legend-line analog-line"></span><span>Analog Audio (ไฟฟ้าอนาล็อก)</span></div>
+                  <div class="legend-item"><span class="legend-line digital-line"></span><span>Digital Data (ข้อมูล USB/ดิจิทัล)</span></div>
+                  <div class="legend-item"><span class="legend-line midi-line"></span><span>MIDI Data (คำสั่งรหัสตัวโน้ต)</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 14: Troubleshooting Guide -->
+        <section class="slide-item" id="slide-13">
+          <div class="slide-content">
+            <h2 class="slide-title">13. การวิเคราะห์และแก้ไขปัญหาทางเทคนิค (Troubleshooting Matrix)</h2>
+            <p class="slide-subtitle-desc">ตารางวิเคราะห์และขจัดสิ่งแปลกปลอมในระบบเสียงห้องบันทึกเสียงระดับมืออาชีพ</p>
+            
+            <div class="slide-view-toggle">
+              <button class="view-toggle-btn active" data-view="theory">📖 เนื้อหาบทเรียน</button>
+              <button class="view-toggle-btn" data-view="widget">🎛️ เครื่องจำลองการแก้ปัญหา</button>
+            </div>
+
+            <div class="theory-view">
+              <div class="matrix-table-wrapper">
+                <table class="matrix-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 20%;">อาการผิดปกติ (Symptom)</th>
+                      <th style="width: 28%;">สาเหตุหลักทางเทคนิค (Root Cause)</th>
+                      <th style="width: 15%;">ตัววัดผลทางฟิสิกส์</th>
+                      <th style="width: 37%;">แนวทางและขั้นตอนการแก้ไข (Solution Steps)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="symptom-name">🔊 เสียงแตกพร่าดิจิทัล (Digital Clipping)</td>
+                      <td>ระดับสัญญาณเอาต์พุตแรงเกินขีดจำกัดสูงสุด 0 dBFS บนตัวแปลง ADC ทำให้ปลายยอดคลื่นเสียงโดนตัดแบนราบ</td>
+                      <td class="metric-val">Peak &gt; 0 dBFS</td>
+                      <td>ปรับลดระดับ Gain ที่พรีแอมป์ หรือเปิดใช้งานฟังก์ชัน Pad (-10dB) เพื่อให้ยอดสัญญาณเฉลี่ยอยู่ที่ประมาณ -18 dBFS ถึง -12 dBFS</td>
+                    </tr>
+                    <tr>
+                      <td class="symptom-name">🔌 เสียงจี่ฮัมกระแสไฟ (Ground Loop Hum)</td>
+                      <td>การเชื่อมต่อกราวด์ไฟฟ้าหลายช่องทางวนเป็นลูป เกิดแรงสั่นกระแสรบกวน 50 Hz จากปลั๊กไฟบ้านวิ่งปนเข้าในสายชีลด์สัญญาณเสียง</td>
+                      <td class="metric-val">50 Hz / 60 Hz Hum</td>
+                      <td>ใช้อุปกรณ์ DI Box แล้วกดปุ่ม <strong>Ground Lift</strong> เพื่อตัดการเชื่อมต่อสายดินร่วม หรือเสียบปลั๊กไฟทุกเครื่องเข้ากับรางไฟพาวเวอร์ร่วมตัวเดียวกัน</td>
+                    </tr>
+                    <tr>
+                      <td class="symptom-name">🔊 เสียงหวีดหอนแหลม (Acoustic Feedback)</td>
+                      <td>เสียงจากลำโพงมอนิเตอร์ย้อนวนกลับเข้าไมโครโฟน แล้วขยายเสียงวนซ้ำไม่รู้จบจนกลายเป็นคลื่นหวีดหอนวนรอบลูปสัญญาณ</td>
+                      <td class="metric-val">Gain Loop &gt; 1</td>
+                      <td>เปลี่ยนทิศทางลำโพงหรือไมค์ร้องให้อยู่ในจุดมุมบอดการรับเสียง หรือใช้หูฟังปิดฝาครอบครอบศีรษะขณะอัดแทนลำโพงมอนิเตอร์เปิดกว้าง</td>
+                    </tr>
+                    <tr>
+                      <td class="symptom-name">🎙️ ไมค์ Condenser สัญญาณเงียบสนิท</td>
+                      <td>ไม่ได้จ่ายกระแสไฟเลี้ยงคงที่ไปทำงานเลี้ยงแผ่นเพลทประจุไฟฟ้าเพื่อตรวจจับความดันอากาศในแคปซูลของไมโครโฟน</td>
+                      <td class="metric-val">0 V (ต้องการ +48V)</td>
+                      <td>กดเปิดปุ่มสวิตช์ไฟเลี้ยง <strong>+48V Phantom Power</strong> บนตัว Audio Interface หรือเลือกสายสัญญาณ XLR แท้ที่ต่อขั้วสายครบ 3 ขั้ว</td>
+                    </tr>
+                    <tr>
+                      <td class="symptom-name">🎧 ร้องเพลงแล้วได้ยินเสียงดีเลย์หน่วงหู</td>
+                      <td>ตั้งค่าขนาด Buffer Size ใน DAW ใหญ่เกินไป ทำให้กระบวนการประมวลผลคำนวณและแปลงสัญญาณ ADC ➔ DAC เกิดการล่าช้าสะสม</td>
+                      <td class="metric-val">Latency &gt; 10 ms</td>
+                      <td>ลดขนาด Buffer Size ในซอฟต์แวร์ให้เหลือ 64 หรือ 128 samples หรือเลือกเปิดฟังก์ชัน <strong>Direct Monitoring</strong> เพื่อฟังสดทันที</td>
+                    </tr>
+                    <tr>
+                      <td class="symptom-name">🎸 กีตาร์เสียงทึบ ขาดมิติความใส</td>
+                      <td>ความต้านทานไม่เข้ากันของระดับสัญญาณแบบเครื่องดนตรี Hi-Z ต่อเข้าช่องอินพุตระดับสาย Line Level ที่มีอิมพีแดนซ์ต่ำเกินไป</td>
+                      <td class="metric-val">Impedance Mismatch</td>
+                      <td>กดสวิตช์ปุ่มคำสั่ง <strong>Hi-Z / Inst</strong> ที่หน้าตัวเครื่อง Audio Interface เพื่อปรับจูนค่าความต้านทานช่องสัญญาณให้เหมาะสม</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="widget-view hidden">
+              <!-- Widget: Troubleshoot Simulator -->
+              <div class="visualizer-card" style="margin-top:10px;">
+                <h4 class="visualizer-header">โปรแกรมจำลองแก้ปัญหา (Troubleshoot Simulator)</h4>
+                <div class="control-row"><label>เลือกปัญหา: <select id="troubleshoot-select" style="padding:4px 8px;border-radius:4px;background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-color);font-family:'Prompt',sans-serif;font-size:11px;"><option value="no-sound">🔇 ไม่มีเสียงออกเลย (No Sound)</option><option value="hum-noise">⚡ เสียงจี่ฮัมรบกวน (Hum/Buzz)</option><option value="clipping">🟥 เสียงแตกพร่า (Clipping)</option><option value="latency">⏳ เสียงหน่วงดีเลย์ (High Latency)</option></select></label></div>
+                <div id="troubleshoot-steps" style="margin-top:8px;font-size:11px;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 15: Gain Staging & Latency Practice -->
+        <section class="slide-item" id="slide-14">
+          <div class="slide-content">
+            <h2 class="slide-title">14. เคล็ดลับการควบคุมเกนและสูตรคำนวณ (Gain Staging & Latency Practice)</h2>
+            <p class="slide-subtitle-desc">การจัดระเบียบสัญญาณในสตูดิโอให้สะอาด ไร้เสียงรบกวน และมีความหน่วงเสียงในระดับต่ำสุด</p>
+            
+            <div class="slide-view-toggle">
+              <button class="view-toggle-btn active" data-view="theory">📖 เนื้อหาบทเรียน</button>
+              <button class="view-toggle-btn" data-view="widget">🎛️ เครื่องคำนวณขนาดไฟล์เสียง</button>
+            </div>
+
+            <div class="theory-view">
+              <div class="two-column">
+                <div class="column">
+                  <div class="info-block">
+                    <h3>💡 ขั้นตอนปฏิบัติในการทำ Gain Staging</h3>
+                    <ol>
+                      <li><strong>ตั้งค่าเริ่มต้น:</strong> ดึงเฟดเดอร์ (Fader) ทุกช่องในซอฟต์แวร์ DAW ให้อยู่ที่ระนาบ 0 dB (Unity Gain)</li>
+                      <li><strong>ตั้งระดับอินพุต:</strong> ร้องหรือเล่นเครื่องดนตรีจริง ปรับระดับ Gain บน Audio Interface ให้สัญญาณ Peak สูงสุดเฉลี่ยอยู่ที่ประมาณ -18 ถึง -12 dBFS</li>
+                      <li><strong>ตรวจสอบย่านความดัง:</strong> ห้ามให้สัญญาณแตะสีส้ม/แดง หรือเข้าใกล้เพดาน 0 dBFS เด็ดขาด</li>
+                      <li><strong>การใช้ปลั๊กอิน:</strong> ตรวจสอบว่าสัญญาณเข้าปลั๊กอินและออกจากปลั๊กอินมีความดังเท่ากัน (Unity gain bypass test) เพื่อไม่ให้เกิดเสียงแตกข้างในตัวเอฟเฟกต์</li>
+                    </ol>
+                  </div>
+                </div>
+                
+                <div class="column">
+                  <div class="info-block success-block">
+                    <h3>📝 โจทย์คณิตศาสตร์ดนตรี: คำนวณความหน่วง</h3>
+                    <p><strong>ตัวอย่างโจทย์ 1:</strong> หากอัดเสียงร้องที่ Sample Rate 96,000 Hz ตั้งค่า Buffer Size 256 samples จะเกิดความหน่วงทางทฤษฎีกี่ ms?</p>
+                    <p class="formula-block" style="font-family: monospace; font-size:11.5px; background: rgba(0,0,0,0.15); padding: 5px; border-radius: 4px;">
+                      วิธีทำ: Latency = (256 / 96,000) × 1,000 = 2.66 ms
+                    </p>
+                    <p><strong>ตัวอย่างโจทย์ 2:</strong> หากมิกซ์เพลงตั้งค่า Buffer Size 1024 samples ที่ 48,000 Hz จะเกิดความหน่วงกี่ ms?</p>
+                    <p class="formula-block" style="font-family: monospace; font-size:11.5px; background: rgba(0,0,0,0.15); padding: 5px; border-radius: 4px;">
+                      วิธีทำ: Latency = (1024 / 48,000) × 1,000 = 21.33 ms
+                    </p>
+                    <p>💡 <em>ข้อสังเกต:</em> การปรับ Sample Rate สูงขึ้นช่วยลดความหน่วงได้ แต่จะแลกกับการกินทรัพยากร CPU และพื้นที่เก็บข้อมูลฮาร์ดดิสก์เพิ่มขึ้นเท่าตัว</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="widget-view hidden">
+              <!-- Widget: File Size Calculator -->
+              <div class="visualizer-card" style="margin-top:10px;">
+                <h4 class="visualizer-header">เครื่องคำนวณขนาดไฟล์เสียง (File Size Calculator)</h4>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;">
+                  <div class="control-row"><label>Sample Rate: <select id="calc-samplerate" style="width:100%;padding:3px;border-radius:4px;border:1px solid var(--border-color);font-size:10px;"><option value="44100">44,100 Hz</option><option value="48000">48,000 Hz</option><option value="96000">96,000 Hz</option></select></label></div>
+                  <div class="control-row"><label>Bit Depth: <select id="calc-bitdepth" style="width:100%;padding:3px;border-radius:4px;border:1px solid var(--border-color);font-size:10px;"><option value="16">16-bit</option><option value="24" selected>24-bit</option><option value="32">32-bit</option></select></label></div>
+                  <div class="control-row"><label>ความยาว (วินาที): <input type="number" id="calc-duration" value="180" min="1" max="3600" style="width:100%;padding:3px;border-radius:4px;border:1px solid var(--border-color);font-size:10px;"></label></div>
+                  <div class="control-row"><label>Channels: <select id="calc-channels" style="width:100%;padding:3px;border-radius:4px;border:1px solid var(--border-color);font-size:10px;"><option value="1">Mono (1)</option><option value="2" selected>Stereo (2)</option></select></label></div>
+                </div>
+                <div id="calc-result" style="text-align:center;font-size:16px;font-weight:700;margin-top:8px;color:var(--color-primary);">ขนาดไฟล์: 31.0 MB</div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 16: Studio Projects 1-2 -->
+        <section class="slide-item" id="slide-15">
+          <div class="slide-content">
+            <h2 class="slide-title">15. โครงงานปฏิบัติการเทคโนโลยีดนตรี 1 & 2</h2>
+            <p class="slide-subtitle-desc">การประยุกต์ทฤษฎีห้องบันทึกเสียงดนตรีสู่การจัดสรรงบประมาณและการออกแบบระบบในชีวิตจริง</p>
+            
+            <div class="two-column">
+              <div class="column">
+                <div class="info-block">
+                  <h3>🛠️ โครงงานที่ 1: การจัดสรรงบสตูดิโอขนาดเล็ก 10,000 บาท</h3>
+                  <p><strong>ภารกิจ:</strong> จัดเตรียมแผนงบประมาณในการสร้าง Home Studio เพื่อทำเพลงร้องและพอดแคสต์:</p>
+                  <ul>
+                    <li>ค้นหารุ่น ราคา และแบรนด์จริงของอุปกรณ์ในตลาดปัจจุบัน (Audio Interface, ไมโครโฟน, หูฟังมอนิเตอร์)</li>
+                    <li>เขียนรายงานแจงแจงรายละเอียดการกระจายงบประมาณไม่ให้เกิน 10,000 บาท</li>
+                    <li>อธิบายเหตุผลในการจับคู่อุปกรณ์แต่ละชิ้นให้เกิดความเข้ากันทางสัญญาณและคุ้มค่าที่สุด</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="column">
+                <div class="info-block success-block">
+                  <h3>🛠️ โครงงานที่ 2: ออกแบบผังเส้นทางเสียงวง 3 ชิ้น (Trio Setup)</h3>
+                  <p><strong>ภารกิจ:</strong> เขียนแผนผังระบุการเดินทางของเสียง (Signal Flow) สำหรับการบันทึกเสียงวงดนตรี Acoustic Trio (ร้องนำ, กีตาร์โปร่ง, คีย์บอร์ดไฟฟ้า):</p>
+                  <ul>
+                    <li>ระบุชื่อประเภทและพอร์ตสายสัญญาณที่ต้องเลือกใช้ทั้งหมด (XLR, TS, TRS, USB)</li>
+                    <li>กำหนดพิกัดตำแหน่งการวางไมโครโฟนและประเภทไมค์ที่ใช้จ่อเครื่องดนตรีแต่ละชิ้น</li>
+                    <li>ระบุข้อเสนอแนะในการตั้งค่า Buffer Size ในโปรแกรมขณะทำการบันทึกเสียงร้องทับ</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 17: Studio Projects 3-4 -->
+        <section class="slide-item" id="slide-16">
+          <div class="slide-content" style="height: 100%; display: flex; flex-direction: column;">
+            <h2 class="slide-title" style="margin-bottom: 2px;">16. โครงงานปฏิบัติการเทคโนโลยีดนตรี 3 & 4 & เกณฑ์การให้คะแนน</h2>
+            <p class="slide-subtitle-desc" style="margin-bottom: 6px;">ภารกิจผลิตบีทแต่งเพลง ปรับปรุงเสียงสะท้อนห้องเรียน และตารางการประเมินผลโครงงาน</p>
+            
+            <div class="two-column" style="flex: 1; min-height: 0; max-height: calc(100% - 40px);">
+              <div class="column" style="overflow-y: auto;">
+                <div class="info-block" style="padding: 8px; margin-bottom: 6px;">
+                  <h3>🛠️ โครงงานที่ 3: ปฏิบัติการประดิษฐ์บีทดนตรีบน BandLab</h3>
+                  <p style="font-size:9.5px; line-height: 1.3;">สร้างบีทกลองด้วยเครื่องมือ Step Sequencer ความยาวอย่างน้อย 8 ห้อง ทำการสุ่มปรับค่าน้ำหนักแรงดีดคีย์ (Velocity) ให้ดูเป็นธรรมชาติ อัดบันทึกเสียงร้องผ่านโปรแกรม ใส่เอฟเฟกต์ประดับมิติ Reverb/Delay ให้เหมาะสม</p>
+                </div>
+                <div class="info-block success-block" style="padding: 8px; margin-bottom: 6px;">
+                  <h3>🛠️ โครงงานที่ 4: การวิเคราะห์และออกแบบอะคูสติกห้องสตูดิโอ</h3>
+                  <p style="font-size:9.5px; line-height: 1.3;">ประเมินพิกัดห้องนอนของตนเอง หาตำแหน่งจุดสะท้อนแรก (First Reflection Points) และระบุขอบเขตการติดตั้งแผงฟองน้ำซับเสียงตามงบที่จำกัดเพื่อปรับปรุงความถูกต้องของการได้ยินเสียงลำโพง</p>
+                </div>
+              </div>
+              
+              <div class="column" style="overflow-y: auto;">
+                <div class="info-block warning-block" style="padding: 8px;">
+                  <h3 style="margin-top: 0; font-size:11px;">📊 เกณฑ์การประเมินการปฏิบัติงาน (Rubrics - 100 คะแนนเต็ม)</h3>
+                  <table class="matrix-table" style="font-size: 9px; width: 100%;">
+                    <thead>
+                      <tr>
+                        <th style="width: 25%; padding: 3px;">หัวข้อประเมิน</th>
+                        <th style="width: 38%; padding: 3px;">ดีมาก (4-5 คะแนน / 90-100%)</th>
+                        <th style="width: 37%; padding: 3px;">ปานกลาง (3 คะแนน / 70-89%)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="padding: 3px;"><strong>ความถูกต้องทฤษฎีเสียง (40%)</strong></td>
+                        <td style="padding: 3px;">อธิบายกลไกฟิสิกส์เสียง ระบบ Balanced, ADC/DAC, Sample Rate ได้ถูกต้อง ไร้ข้อผิดพลาด</td>
+                        <td style="padding: 3px;">อธิบายสัญญาณดิจิทัลได้ถูกต้องเป็นส่วนใหญ่ มีข้อผิดพลาดเล็กน้อยในเชิงไฟฟ้าหรือคำนวณ</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 3px;"><strong>ทักษะแก้ปัญหาจริง (30%)</strong></td>
+                        <td style="padding: 3px;">เสนอแนวทางขจัดสัญญาณรบกวนจี่ ปรับบัฟเฟอร์คุมดีเลย์ หรือจัดงบสตูดิโอได้สมบูรณ์แบบ</td>
+                        <td style="padding: 3px;">แสดงแนวคิดในการแก้ไข Latency หรืออะคูสติกได้ค่อนข้างดี แต่ยังมีข้อสงสัยบางจุด</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 3px;"><strong>ความคิดสร้างสรรค์ (30%)</strong></td>
+                        <td style="padding: 3px;">สร้างบีทกลองที่มีมิติน้ำหนักดนตรีเสมือนจริง มีแผนภาพ Signal Flow ที่สวยงามอ่านง่ายเป็นระบบ</td>
+                        <td style="padding: 3px;">บีทดนตรีมีความน่าฟังดี แผนผังเดินเสียงครบถ้วน แต่ยังขาดการปรับแต่งน้ำหนัก Velocity</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+
+        <!-- Slide 18: Interactive Quiz -->
+        <section class="slide-item" id="slide-17">
+          <div class="slide-content">
+            <h2 class="slide-title">17. แบบทดสอบวัดความเข้าใจเชิงประยุกต์ (Interactive Quiz)</h2>
+            <p class="slide-subtitle-desc">วัดความเข้าใจเกี่ยวกับวิทยาศาสตร์เสียง ฮาร์ดแวร์สตูดิโอ และการเดินทางของสัญญาณเสียง (10 ข้อ)</p>
+            
+            <!-- Quiz UI Container -->
+            <div class="quiz-container-box">
+              <div id="quiz-intro" class="quiz-state">
+                <div class="quiz-icon-large">📝</div>
+                <h3>แบบทดสอบวัดความเข้าใจเชิงประยุกต์ (10 ข้อ)</h3>
+                <p>แบบทดสอบแบบโต้ตอบตอบคำถามเชิงประยุกต์เพื่อทบทวนวิทยาศาสตร์เสียง ดิจิทัลออดิโอ อุปกรณ์สตูดิโอ และการจัดสไลด์ระบบสัญญาณ</p>
+                <button id="btn-start-quiz" class="action-btn positive-btn">
+                  <span>🚀</span> เริ่มต้นทำแบบทดสอบ
+                </button>
+              </div>
+              
+              <div id="quiz-question-box" class="quiz-state hidden">
+                <div class="quiz-header-bar">
+                  <span id="quiz-question-number" class="quiz-badge">ข้อที่ 1 จาก 10</span>
+                  <div class="quiz-progress-track">
+                    <div id="quiz-progress-bar" class="quiz-progress-fill" style="width: 10%;"></div>
+                  </div>
+                </div>
+                
+                <h3 id="quiz-question-text" class="quiz-question-title">ข้อความคำถามระบบสุ่มข้อสอบจะปรากฏขึ้นตรงนี้...</h3>
+                
+                <div id="quiz-options" class="quiz-options-list">
+                  <!-- Option Buttons will be injected here -->
+                </div>
+                <div class="quiz-nav" style="margin-top: 15px; text-align: right;">
+                  <button id="btn-next-question" class="action-btn hidden" style="padding: 8px 16px; border-radius: 6px; background: var(--color-primary); color: white; border: none; cursor: pointer; font-family: 'Prompt', sans-serif;">
+                    <span>ถัดไป ➔</span>
+                  </button>
+                </div>
+              </div>
+              
+              <div id="quiz-results" class="quiz-state hidden">
+                <div class="quiz-icon-large">🏆</div>
+                <h3>ผลลัพธ์การประเมินคะแนนสอบ</h3>
+                <div class="score-display">
+                  <span id="quiz-result-score" class="score-num">0 / 10</span>
+                  <span class="score-label">คะแนนที่ทำได้</span>
+                </div>
+                <p id="quiz-result-text" class="quiz-feedback-text">ขออภัย คุณยังไม่ผ่านเกณฑ์การประเมินย่อย แนะนำให้ครูผู้สอนช่วยทบทวนสไลด์อีกครั้ง</p>
+                <p id="result-summary" class="quiz-summary-text" style="font-size: 11px; color: var(--text-muted); margin-top: 8px;"></p>
+                <div class="quiz-actions-row">
+                  <button id="btn-restart-quiz" class="action-btn">
+                    <span>🔄</span> ทำแบบทดสอบใหม่อีกครั้ง
+                  </button>
+                  <button id="btn-toggle-explain" class="action-btn info-btn">
+                    <span>💡</span> ดูเฉลยและบทวิเคราะห์อย่างละเอียด
+                  </button>
+                </div>
+                
+                <div id="quiz-explanations" class="explanations-block hidden">
+                  <!-- Populated dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    
+      </div>
+    </div>
+
+    <!-- Presentation Mode Footer controls -->
+    <footer class="slide-footer no-print">
+      <div class="footer-left">
+        <span class="slide-index-label">สไลด์ที่ <span id="current-slide-num">1</span> จาก 18</span>
+      </div>
+      <div class="footer-center">
+        <button id="btn-prev" class="footer-control-btn" title="ย้อนกลับสไลด์ก่อนหน้า (Arrow Left)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button id="btn-next" class="footer-control-btn" title="สไลด์ถัดไป (Arrow Right / Spacebar)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+      <div class="footer-right">
+        <span class="instructor-info">ระดับชั้น ม.6 • สื่อการสอนกลุ่มสาระศิลปะ</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Student Review Mode (All slides in scrollable document format) -->
+  <div id="review-container" class="review-layout hidden">
+    <div class="review-page">
+      <div class="review-header no-print">
+        <h1>เอกสารประกอบการทบทวนความรู้และเจาะลึกเนื้อหา</h1>
+        <p>หัวข้อ: เทคโนโลยีดนตรีและคอมพิวเตอร์ดนตรีเบื้องต้น (ความยาวคาบเรียน 100 นาที)</p>
+        <div class="review-actions">
+          <button onclick="window.print()" class="action-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <span>พิมพ์เอกสารนี้ (Print to PDF)</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="review-body">
+
+        <article class="review-section">
+          <h2>บทนำ: นิยามและขอบเขตของคอมพิวเตอร์ดนตรีและเทคโนโลยีดนตรี</h2>
+          <p><strong>คอมพิวเตอร์ดนตรี (Computer Music)</strong> และ <strong>เทคโนโลยีดนตรี (Music Technology)</strong> คือการประยุกต์ใช้ความรู้ด้านฟิสิกส์ วิศวกรรมไฟฟ้า คอมพิวเตอร์ และวิทยาการคำนวณ ร่วมกับทฤษฎีดนตรีเพื่อสร้างสรรค์ บันทึกเสียง ประมวลผล และเรียบเรียงผลงานเพลง โดยครอบคลุมกระบวนการตั้งแต่ต้นน้ำถึงปลายน้ำ ดังนี้:</p>
+          <ul>
+            <li><strong>การแต่งเพลงและการเรียบเรียง (Composition & Arrangement):</strong> การใช้โปรแกรมคอมพิวเตอร์เพื่อบันทึกโน้ต เขียนคอร์ด และจำลองเครื่องดนตรีประเภทต่างๆ</li>
+            <li><strong>การบันทึกเสียง (Audio Recording):</strong> การรับคลื่นเสียงอนาล็อกจากโลกธรรมชาติมาแปลงเป็นรหัสดิจิทัลผ่านอุปกรณ์แปลงสัญญาณ</li>
+            <li><strong>การผสมสัญญาณเสียงและการคุมคุณภาพเสียง (Mixing & Mastering):</strong> การใช้ซอฟต์แวร์จัดสมดุลทางความถี่ มิติ สเตอริโอ ความดัง และความสะอาดของเสียงร้องเครื่องดนตรีทั้งหมด</li>
+          </ul>
+          <p>การเรียนรู้ศาสตร์ด้านนี้จะช่วยให้นักเรียนสามารถก้าวข้ามจาก "ผู้บริโภคสื่อเสียง" ไปสู่ "ผู้ผลิตสร้างสรรค์เนื้อหาเสียง" (Prosumer) ที่สามารถสร้างผลงานที่มีคุณภาพทัดเทียมอุตสาหกรรมด้วยตนเองได้ในสตูดิโอขนาดพกพา</p>
+        </article>
+
+        <article class="review-section">
+          <h2>1. ฟิสิกส์ของเสียงและทฤษฎีออดิโอดิจิทัล (Physics of Sound & Digital Audio)</h2>
+          <p>เสียงเป็นคลื่นกลเชิงกายภาพที่ต้องการตัวกลาง (อากาศ) ในการเดินทาง เกิดจากการสั่นสะเทือนของแหล่งกำเนิดเสียง คลื่นเสียงอนาล็อกมีความต่อเนื่องไร้จุดสิ้นสุด มีคุณสมบัติทางฟิสิกส์ที่สำคัญ 5 ประการ:</p>
+          <ol>
+            <li><strong>Frequency (ความถี่):</strong> จำนวนรอบคลื่นที่สั่นสะเทือนต่อวินาที มีหน่วยเป็นเฮิรตซ์ (Hz) สัมพันธ์กับ <strong>ระดับเสียงทุ้ม-แหลม (Pitch)</strong> ย่านการรับเสียงของหูมนุษย์คือ 20 Hz ถึง 20,000 Hz (20 kHz)</li>
+            <li><strong>Amplitude (ความดัง):</strong> ความสูงของยอดคลื่นเสียงจากระดับสมดุล สัมพันธ์กับ <strong>ความรู้สึกดัง-เบา (Volume)</strong> มีหน่วยวัดในเชิงแรงดันสัมพัทธ์เป็นเดซิเบล (dB)</li>
+            <li><strong>Wavelength (ความยาวคลื่น - &lambda;):</strong> ระยะทางของคลื่นเสียงที่เดินทางได้ใน 1 คาบเวลา มีสูตรคำนวณคือ <code>&lambda; = v / f</code> (v คือความเร็วเสียงในอากาศ = 343 เมตร/วินาที ที่ 20&deg;C)</li>
+            <li><strong>Phase (เฟส):</strong> ตำแหน่งองศาเชิงมุมของคลื่น (0 - 360 องศา) หากมีแหล่งเสียง 2 แหล่งส่งคลื่นเสียงเดียวกันมาถึงหูเราโดยมีเฟสกลับด้านกัน 180 องศา คลื่นจะหักล้างกันเองทำให้ไม่ได้ยินเสียงร้องหรือเสียงจะทึบจม (**Phase Cancellation**)</li>
+            <li><strong>Timbre (สีสันเสียง/เอกลักษณ์เสียง):</strong> คาแรกเตอร์เสียงที่ทำให้เราแยกความแตกต่างระหว่างเครื่องดนตรี เช่น ขลุ่ยกับไวโอลินที่เป่า/เล่นโน้ตตัวเดียวกันได้ เกิดจากส่วนผสมของความถี่ประกอบย่อยเรียกว่า <strong>Harmonics</strong> และ <strong>Overtones</strong> ที่ไม่เท่ากัน</li>
+          </ol>
+          
+          <h3>หลักการแปลงสัญญาณเสียงอะคูสติกเป็นสัญญาณดิจิทัล (ADC / DAC):</h3>
+          <p>คอมพิวเตอร์เก็บข้อมูลในลักษณะเลขฐานสอง (0 และ 1) จึงต้องทำระบบสุ่มเก็บคลื่นไฟฟ้าอนาล็อกจากไมค์แปลงเป็นตัวเลข (Analog-to-Digital Conversion: ADC) และแปลงกลับเป็นกระแสไฟขับลำโพง (Digital-to-Analog Conversion: DAC) โดยมีตัวแปรวัดคุณภาพ 2 ตัวหลัก:</p>
+          <ul>
+            <li><strong>Sample Rate (อัตราสุ่มตัวอย่าง):</strong> ความถี่ในการเก็บข้อมูลของระดับเสียงต่อหนึ่งวินาที ตามทฤษฎี <strong>Nyquist-Shannon Theorem</strong> อัตราสุ่มต้องมีความเร็วอย่างน้อย <strong>2 เท่าของความถี่สูงสุดที่ต้องการบันทึก</strong> เพื่อป้องกันปัญหาความเพี้ยนสัญญาณหลอน (Aliasing) ด้วยเหตุนี้ อัตราสุ่มมาตรฐาน CD จึงตั้งไว้ที่ 44.1 kHz (เพราะหูมนุษย์ได้ยินสูงสุดที่ 20,000 Hz &times; 2 = 40,000 Hz แล้วเผื่อขอบสัญญาณรบกวน) และ 48 kHz ในระบบงานวีดีโอ/ภาพยนตร์</li>
+            <li><strong>Bit Depth (ความละเอียดบิต):</strong> ระดับพิกัดข้อมูลในแนวตั้งเพื่อจัดเก็บความดัง ยิ่งมีบิตมาก ช่วงไดนามิกความแตกต่างความดังที่บันทึกได้ (Dynamic Range) จะยิ่งสูงขึ้น โดยมีสูตรคำนวณทางทฤษฎีคือ <strong>1 บิต &approx; 6 dB</strong>:
+              <br>&bull; <strong>16-bit:</strong> ให้ไดนามิก 96 dB (มาตรฐาน CD ดนตรีทั่วไป)
+              <br>&bull; <strong>24-bit:</strong> ให้ไดนามิก 144 dB (มาตรฐานการบันทึกเสียงและมิกซ์ดนตรีในสตูดิโอ เพื่อป้องกันสัญญาณตกขอบ)
+              <br>&bull; <strong>32-bit Float:</strong> ประมวลผลแบบจุดทศนิยมลอยตัว ให้ไดนามิกทางทฤษฎีสูงสุดถึง 1500 dB ขจัดปัญหาเสียงคลิปปิ้ง (Digital Clipping) แตกพร่าเสียหายอย่างสิ้นเชิง แม้คลื่นจะดังเกิน 0 dBFS ก็สามารถกู้คืนได้สะอาดเมื่อดึง Gain ลงใน DAW
+            </li>
+          </ul>
+        </article>
+
+        <article class="review-section">
+          <h2>2. อุปกรณ์ฝั่งนำเข้าสัญญาณ (Input Stage Hardware)</h2>
+          <p>ไมโครโฟนทำหน้าที่เปลี่ยนคลื่นเสียงสั่นสะเทือนในอากาศให้กลายเป็นคลื่นกระแสไฟฟ้าอนาล็อก (Transducer) แบ่งออกเป็น 3 ประเภทหลักตามลักษณะทางวิศวกรรมการทำงาน:</p>
+          
+          <div class="mic-images-grid">
+            <div class="mic-image-card">
+              <img src="assets/mic_dynamic.png" class="edu-img" alt="Dynamic Microphone">
+              <div class="img-caption">Dynamic Microphone<br>(ทนทาน รองรับเสียงดังมาก เช่น Shure SM58)</div>
+            </div>
+            <div class="mic-image-card">
+              <img src="assets/mic_condenser.png" class="edu-img" alt="Condenser Microphone">
+              <div class="img-caption">Condenser Microphone<br>(ไวต่อเสียง ความละเอียดสูง ต้องการไฟ +48V)</div>
+            </div>
+            <div class="mic-image-card">
+              <img src="assets/mic_ribbon.png" class="edu-img" alt="Ribbon Microphone">
+              <div class="img-caption">Ribbon Microphone<br>(โทนอุ่นคลาสสิก ห้ามจ่ายไฟ +48V เด็ดขาด)</div>
+            </div>
+          </div>
+
+          <ol style="margin-top: 15px;">
+            <li><strong>Dynamic Microphone (ไมค์ไดนามิก):</strong> ทำงานโดยใช้แผ่นไดอะแฟรมยึดขดลวดทองแดงสั่นไหวตัดสนามแม่เหล็กถาวรเพื่อเกิดกระแสไฟ
+              <br>&bull; <em>คุณสมบัติ:</em> ทนแรงกระแทกได้ดีมาก ตอบสนองความชื้นได้สูง ทนต่อระดับความกดดันเสียง (SPL) ได้สูงมากโดยไม่พร่าเพี้ยน ไม่ต้องการไฟเลี้ยง
+              <br>&bull; <em>งานที่เหมาะสม:</em> งานแสดงคอนเสิร์ตสดบนเวที การจ่อตู้แอมป์กีตาร์ หรือกลองชุด
+            </li>
+            <li><strong>Condenser Microphone (ไมค์คอนเดนเซอร์):</strong> ทำงานโดยใช้การเปลี่ยนแปลงประจุไฟฟ้าระหว่างแผ่นฟอยล์ไดอะแฟรมบางเฉียบกับแผ่นโลหะตัวนำไฟฟ้าคงที่
+              <br>&bull; <em>คุณสมบัติ:</em> ไวต่อเสียงสูงมาก ตอบสนองความถี่สูงได้ละเอียด ถ่ายทอดความใสสะอาดและคาแรกเตอร์เสียงร้องได้ยอดเยี่ยม <strong>จำเป็นต้องจ่ายไฟเลี้ยง Phantom Power +48V เสมอ</strong> เพื่อป้อนเลี้ยงประจุ
+              <br>&bull; <em>งานที่เหมาะสม:</em> บันทึกเสียงร้องนำ งานพากย์เสียง และเครื่องดนตรีอะคูสติกเบาๆ ในห้องเงียบ
+            </li>
+            <li><strong>Ribbon Microphone (ไมค์ริบบอน):</strong> ทำงานโดยใช้เส้นริบบอนอลูมิเนียมบางเฉียบห้อยระหว่างขั้วแม่เหล็ก
+              <br>&bull; <em>คุณสมบัติ:</em> ตอบสนองมิติรวดเร็ว ให้เสียงที่อุ่นนุ่มนวลเป็นธรรมชาติสูงสุด <strong>บอบบางเป็นพิเศษ ลมกระแทกแรงๆ อาจทำให้ริบบอนขาด และห้ามเปิด Phantom Power +48V ส่งหาไมค์ริบบอนเด็ดขาด เพราะไฟจะทำให้เส้นริบบอนร้อนและไหม้ขาดทันที</strong>
+              <br>&bull; <em>งานที่เหมาะสม:</em> บันทึกเสียงเครื่องเป่าทองเหลือง เครื่องสาย หรือตู้แอมป์กีตาร์แจ๊ส
+            </li>
+          </ol>
+          
+          <h3>ทิศทางการรับสัญญาณของไมโครโฟน (Polar Patterns):</h3>
+          <ul>
+            <li><strong>Cardioid (รูปหัวใจ):</strong> รับเสียงได้ดีที่สุดจากทิศทางด้านหน้า ปฏิเสธเสียงจากด้านหลังไมค์ เหมาะสมที่สุดสำหรับเสียงร้องทั่วไป</li>
+            <li><strong>Omnidirectional (รอบทิศทาง):</strong> รับเสียงเท่ากันหมด 360 องศา ไม่มี Proximity Effect (เสียงเบสจะบวมโตขึ้นเมื่อเข้าใกล้ไมค์) เหมาะสำหรับอัดวงร้องประสานเสียงหรือเก็บบรรยากาศห้อง</li>
+            <li><strong>Figure-8 (แปดสี่เหลี่ยม/สองทิศทาง):</strong> รับเสียงเฉพาะด้านหน้าและด้านหลังเท่าๆ กัน และตัดสัญญาณด้านข้างขวา-ซ้าย เหมาะกับการสัมภาษณ์แบบหันหน้าหากัน</li>
+          </ul>
+
+          <h3>MIDI Controllers & Keyboards:</h3>
+          <p>เครื่องควบคุมคีย์บอร์ด MIDI **ไม่มีกำเนิดเสียงในตัวเด็ดขาด** ทำหน้าที่เพียงจับสัมผัสการควบคุมของนิ้วมือแล้วสร้างเป็นข้อมูลรหัสตัวเลข เรียกว่า <strong>MIDI Data</strong> เช่น ตัวโน้ตคีย์ใดถูกกด (Note On), ปล่อยเมื่อใด (Note Off), น้ำหนักความดังในการกด (Velocity 0-127) และการบิดปรับพารามิเตอร์อื่นๆ (Control Change - CC) ส่งคำสั่งนี้ไปยังโปรแกรม DAW เพื่อสั่งเสียงปลั๊กอินเครื่องดนตรีเสมือนอีกทอดหนึ่ง</p>
+        </article>
+
+        <article class="review-section">
+          <h2>3. ตัวประมวลผลสัญญาณหลัก (Audio Interface & Signal Chains)</h2>
+          <p>ออดิโออินเตอร์เฟสทำหน้าที่เป็นฮับแปลงสัญญาณและเป็นสะพานเชื่อมต่อเสียงอนาล็อกและคอมพิวเตอร์:</p>
+          <ul>
+            <li><strong>Microphone Preamplifier (พรีแอมป์ไมค์):</strong> เนื่องจากระดับสัญญาณกระแสไฟฟ้าจากไมค์ (Mic Level) มีระดับแรงดันไฟฟ้าต่ำมาก (ระดับมิลลิโวลต์) จึงต้องผ่านพรีแอมป์เพื่อขยายให้แรงดันสูงขึ้นได้มาตรฐานระบบ (Line Level) เพื่อขจัดสัญญาณรบกวน</li>
+            <li><strong>Latency (ความหน่วงเสียง):</strong> ระยะเวลาดีเลย์สะสมตั้งแต่รับเสียงเข้า แปลง ADC วิ่งประมวลผลใน DAW และแปลง DAC กลับออกลำโพง คำนวณจากสูตร:
+              <br><code>Latency (ms) = (Buffer Size / Sample Rate) * 1000</code>
+              <br>&bull; <em>ถ้ากำหนด Buffer Size ต่ำ (เช่น 64 หรือ 128 samples):</em> จะประมวลผลไวมากจนไม่มีความดีเลย์ เหมาะแก่การบันทึกเสียงร้องสด แต่ CPU จะทำงานหนักขึ้น หากช้าอาจมีเสียงแตกเปรี๊ยะ (Clicks/Pops)
+              <br>&bull; <em>ถ้ากำหนด Buffer Size สูง (เช่น 512 หรือ 1024 samples):</em> เครื่องมีเวลาสะสมพักออดิโอประมวลผล เหมาะกับการเปิดมิกซ์เพลงใส่ปลั๊กอินหนักๆ แต่เสียงร้องสดจะหน่วงช้า
+            </li>
+            <li><strong>Balanced vs Unbalanced Line (ความแตกต่างสายสัญญาณเสียง):</strong>
+              <br>&bull; <strong>Unbalanced (สายไม่สมดุล - สาย TS กีตาร์, RCA):</strong> มีสายตัวนำไฟฟ้า 1 เส้นและกราวด์ 1 เส้น เมื่อมีคลื่นแม่เหล็กกวนภายนอกปนเข้ามา จะปนเปื้อนเข้าเสียงทันที หากเดินสายเกิน 5 เมตร เสียงฮัมจี่จะปรากฏชัด
+              <br>&bull; <strong>Balanced (สายสมดุล - สาย XLR ไมค์, TRS สามขั้ว):</strong> มีสายตัวนำสัญญาณ 2 เส้นประกอบขั้วบวก (Hot เฟสปกติ) และขั้วลบ (Cold เฟสกลับด้าน 180 องศา) ร่วมกับสายกราวด์ภายนอก เมื่อเดินทางถึงปลายทาง ระบบรับจะสลับเฟสสาย Cold กลับมาเป็นเฟสปกติแล้วนำไปรวมพลังงานกับ Hot ส่งผลให้เสียงร้องหลักรวมกันและขยายดังขึ้นเป็นเท่าตัว ขณะที่เสียงรบกวนภายนอกที่ปนเข้ามาเท่าๆ กันระหว่างทางจะถูกหักล้างออกไปจนเป็นศูนย์ ปรากฏการณ์นี้เรียกว่า <strong>Common Mode Rejection Ratio (CMRR)</strong> ทำให้เดินสายได้ไกลเป็นสิบเมตรโดยปราศจากเสียงจี่</li>
+          </ul>
+        </article>
+
+        <article class="review-section">
+          <h2>4. อุปกรณ์ส่งสัญญาณออดิโอและสภาพอะคูสติกการฟัง (Output Stage & Acoustics)</h2>
+          <p>การมอนิเตอร์เสียงที่ดีจำเป็นต้องได้รับข้อมูลย่านเสียงที่เที่ยงตรง ปราศจากการปรุงแต่ง:</p>
+          <ul>
+            <li><strong>Studio Monitors:</strong> ลำโพงที่ตอบสนองความถี่แบนราบ (Flat Frequency Response) เพื่อป้องกันวิศวกรเสียงจากการตกแต่งสีสันเบส/แหลม มักเป็นลำโพงแบบ <strong>Active Bi-amped</strong> ที่มีตัวขับแอมป์แยกเสียงทุ้ม (Woofer) และเสียงแหลม (Tweeter) อย่างอิสระภายในตู้</li>
+            <li><strong>Closed-back Headphones:</strong> หูฟังหลังปิดทึบ ป้องกันเสียงดนตรีเล็ดลอดเล็ดลอดออกนอกครอบหู เหมาะสำหรับการบันทึกเสียงร้องสด (Tracking) เพื่อไม่ให้เสียงไกด์เพลงหรือ Click Track ไหลเข้าไปเข้าหัวไมค์</li>
+            <li><strong>Open-back Headphones:</strong> หูฟังตะแกรงหลังเปิดโล่ง ระบายแรงดันอากาศ ลดการบิดเบือนของย่านเบส มิติมุมมองเสียงสเตอริโอกว้างขวางเป็นธรรมชาติ เหมาะสำหรับการมิกซ์เสียงและคุมคุณภาพดนตรีในห้องเก็บเสียงที่เงียบ</li>
+            <li><strong>Acoustic Treatment:</strong> การจัดระเบียบทิศทางเสียงในห้องฟังเพลง:
+              <br>&bull; <em>Absorption (การดูดซับ):</em> ใช้แผ่นใยแก้ว ฟองน้ำซับเสียง หรือ Bass Traps ตามมุมห้องเพื่อกลืนซับพลังงานเสียงทุ้มต่ำและลดมิติกังวานสะท้อนก้อง
+              <br>&bull; <em>Diffusion (การกระจายเสียง):</em> ใช้แผงกระจายเสียงผิวขรุขระเพื่อกระจายคลื่นความถี่สูงและกลางไม่ให้สะท้อนกลับมาจุดฟังโดยตรง ป้องกัน Flutter Echo (เสียงสะท้อนแบบกังวานสั่นก้อง)
+            </li>
+          </ul>
+        </article>
+
+        <article class="review-section">
+          <h2>5. แผนผังเส้นทางและเดินทางของสัญญาณเสียง (Studio Signal Flow)</h2>
+          <p> signal flow คือการเดินทางของเสียงในกระบวนการทำงานแบบเชื่อมโยงกันอย่างเป็นลำดับขั้นตอน:</p>
+          <h3 style="margin-top: 10px; font-size: 12px; color: var(--color-primary);">กรณีอัดเสียงอนาล็อกสด (Acoustic Recording Flow)</h3>
+          <div class="code-flow-display" style="font-size: 11px;">
+            เสียงอนาล็อกจากเครื่องดนตรี/ร้อง ➡️ แปลงเป็นไฟอนาล็อกระดับไมค์ (Mic Level) ผ่านไมค์ Condenser ➡️ สาย Balanced XLR ➡️ พรีแอมป์ของ Audio Interface (ขยายระดับไฟเป็น Line Level + จ่ายไฟ Phantom +48V) ➡️ เข้าตัวแปลง ADC (เปลี่ยนเป็นสัญญาณรหัสเลขฐานสองดิจิทัล) ➡️ สาย USB/Thunderbolt ➡️ โปรแกรมประยุกต์ DAW (เขียนและบันทึกคลื่นข้อมูลลงในแทร็ก)
+          </div>
+          <h3 style="margin-top: 10px; font-size: 12px; color: var(--color-primary);">กรณีบันทึกสัญญาณควบคุมเสียงดนตรี (MIDI Production Flow)</h3>
+          <div class="code-flow-display" style="font-size: 11px;">
+            นักดนตรีเคาะนิ้วบนลิ่มคีย์ MIDI Controller ➡️ ส่งข้อมูลตัวโน้ตดิจิทัล (MIDI Data: Note On/Off, Velocity) ➡️ สาย USB ➡️ คอมพิวเตอร์/DAW ➡️ คำสั่งสั่งป้อนปลั๊กอิน Virtual Instrument สังเคราะห์เสียงขึ้นมาในแอปพลิเคชัน ➡️ สัญญาณดิจิทัลออดิโอกลับมาสู่ DAC บน Audio Interface ➡️ สัญญาณไฟอนาล็อก (Line Level) ➡️ สาย Balanced TRS ➡️ ตู้ลำโพงมอนิเตอร์ขยายพลังงานเสียงออกสู่อากาศเข้าสู่หูเรา
+          </div>
+        </article>
+
+        <article class="review-section">
+          <h2>6. ระบบซอฟต์แวร์มาตรฐานและปลั๊กอิน (Music Software & Plugins)</h2>
+          <p>เครื่องมือซอฟต์แวร์หลักของห้องทำเพลงแบ่งออกเป็น 2 ส่วน:</p>
+          
+          <div class="software-images-grid">
+            <div class="software-image-card">
+              <img src="assets/daw_software.png" class="edu-img" alt="DAW Software Mockup">
+              <div class="img-caption">Digital Audio Workstation (DAW)<br>(จัดการอัดเสียง มิกซ์เสียง และเขียนบีทครบวงจร)</div>
+            </div>
+            <div class="software-image-card">
+              <img src="assets/notation_software.png" class="edu-img" alt="Notation Software Mockup">
+              <div class="img-caption">Music Notation Software<br>(สำหรับป้อนตัวโน้ตและพิมพ์แผ่นโน้ตเพลงมาตรฐาน)</div>
+            </div>
+          </div>
+
+          <ul style="margin-top: 15px;">
+            <li><strong>Digital Audio Workstation (DAW):</strong> แอปพลิเคชันแกนหลัก
+              <br>&bull; <em>Ableton Live:</em> เหมาะกับแนวเพลง EDM อิเล็กทรอนิกส์ การวนลูป และแสดงสด
+              <br>&bull; <em>Logic Pro:</em> เด่นด้านคลังเครื่องดนตรีจำลองและการเขียนเรียบเรียงดนตรีป๊อป ออร์เคสตรา (เฉพาะระบบ macOS)
+              <br>&bull; <em>FL Studio:</em> มีจุดเด่นด้าน Piano Roll และ Step Sequencer ทำบีทฮิปฮอป อิเล็กทรอนิกส์ได้เร็วและลื่นไหล
+              <br>&bull; <em>Pro Tools:</em> มาตรฐานสูงสุดของสตูดิโอบันทึกเสียงทั่วโลก เด่นเรื่องการอัดเครื่องพร้อมกัน การตัดต่อระดับพิถีพิถัน และมิกซ์เสียงรอบทิศทาง
+              <br>&bull; <em>BandLab:</em> โปรแกรมทำเพลงฟรีแบบคลาวด์เบส ทำงานบนเบราว์เซอร์และสมาร์ตโฟนได้สะดวกรวดเร็ว เหมาะกับการปูพื้นฐานการเรียนดนตรี
+            </li>
+            <li><strong>Music Notation Software (โปรแกรมพิมพ์โน้ต):</strong>
+              <br>&bull; <em>MuseScore:</em> ซอฟต์แวร์ฟรีแบบ Open-source ประสิทธิภาพสูงสำหรับการจัดวางโน้ต พิมพ์สกอร์
+              <br>&bull; <em>Sibelius / Dorico:</em> ซอฟต์แวร์ระดับมืออาชีพสำหรับคุมวงออร์เคสตราและนักจัดเรียงดนตรี
+            </li>
+            <li><strong>Format ปลั๊กอินเสริมเสียงมาตรฐาน (Plugin Standards):</strong>
+              <br>&bull; <strong>VST:</strong> รูปแบบเปิดของ Steinberg ใช้งานได้ทั้งบน Windows และ macOS
+              <br>&bull; <strong>AU (Audio Units):</strong> มาตรฐานเฉพาะของ Apple CoreAudio ทำงานเสถียรบน Mac
+              <br>&bull; <strong>AAX:</strong> มาตรฐานความเร็วการประมวลผลขั้นสูง ล็อกสำหรับโปรแกรม Pro Tools เท่านั้น
+            </li>
+            <li><strong>ประเภทของ Audio Plugins เสริม:</strong>
+              <br>&bull; <em>Virtual Instruments (ดนตรีจำลอง):</em> แบบ Sampler (ดึงไฟล์เสียงอัดจริงของเครื่องเสียงโบราณหรือเครื่องสายมาเป่าเล่นตามโน้ต) และ Synth (คำนวณสร้างเสียงสังเคราะห์ขึ้นมาใหม่)
+              <br>&bull; <em>Dynamics (คุมน้ำหนักความดัง):</em> <strong>Compressor</strong> (บีบลดเสียงร้องท่อนกระชากให้มีความดังราบเรียบเฉลี่ยคงที่) และ <strong>Noise Gate</strong> (ตัดเสียงซี่ดลมหายใจจังหวะเงียบ)
+              <br>&bull; <em>Frequency (คุมสีสันความถี่):</em> <strong>Equalizer / EQ</strong> (สำหรับคัดเกรดย่านความถี่เสียง ตัดย่านบวมทึบ หรือเพิ่มย่านใสแหลม)
+              <br>&bull; <em>Time-based (มิติเวลา):</em> <strong>Reverb</strong> (จำลองมิติก้องหางเสียงสะท้อนพิกัดห้องเสมือน) และ <strong>Delay</strong> (สร้างเสียงพูดซ้ำๆ เหมือนยืนอยู่ในหุบเขา)
+            </li>
+          </ul>
+        </article>
+
+        <article class="review-section">
+          <h2>7. การวิเคราะห์และแก้ไขปัญหาทางเทคนิคในห้องอัด (Troubleshooting Matrix)</h2>
+          <p>ในการปฏิบัติการทำเพลงจริง นักเรียนจะได้เจอปัญหาสิ่งแปลกปลอมสัญญาณเป็นปกติ จงจำระบบการวินิจฉัยและแก้ปัญหาเหล่านี้ไปปรับใช้หน้างาน:</p>
+          
+          <div class="matrix-table-wrapper">
+            <table class="matrix-table">
+              <thead>
+                <tr>
+                  <th style="width: 20%;">อาการที่พบบ่อย</th>
+                  <th style="width: 25%;">สาเหตุหลักทางวิทยาศาสตร์เสียง</th>
+                  <th style="width: 30%;">แนวทางแก้ไขเฉพาะหน้า</th>
+                  <th style="width: 25%;">การป้องกันระยะยาว</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>เสียงแตกพร่าแหบพร่า</strong> (Clipping)</td>
+                  <td>ระดับสัญญาณพุ่งทะลุขอบเขตสูงสุด <strong>0 dBFS</strong> ในระบบดิจิทัล ยอดคลื่นโดนตัดแบนเรียบ</td>
+                  <td>ปรับลด Gain Input บนซาวด์การ์ดให้อยู่แถบปลอดภัยสีเขียว/เหลือง</td>
+                  <td class="sol">ควบคุม Gain Staging ให้มี <strong>Headroom</strong> ปลอดภัยเฉลี่ยที่ -18 ถึง -12 dBFS หรือบันทึกด้วยระบบ 32-bit Float</td>
+                </tr>
+                <tr>
+                  <td><strong>เสียงร้องหน่วง ดีเลย์ในหูฟัง</strong> (Latency)</td>
+                  <td>การตั้งขนาดถังพักข้อมูลประมวลผลเสียง (Buffer Size) ในซอฟต์แวร์ประมวลผลมีขนาดใหญ่เกินไป</td>
+                  <td>ปรับลดค่า <strong>Buffer Size</strong> ใน DAW ลงมาเหลือ 64 หรือ 128 samples หรือใช้ปุ่ม <strong>Direct Monitoring</strong></td>
+                  <td class="sol">จัดระเบียบการใช้ปลั๊กอินและเอฟเฟกต์ไม่ให้มากเกินไปขณะบันทึกสด และหมั่นอัปเดตไดรเวอร์ของอุปกรณ์การ์ดเสียง</td>
+                </tr>
+                <tr>
+                  <td><strong>เสียงจี่ฮัมกระแสไฟฟ้า 50 Hz</strong> (Ground Loop)</td>
+                  <td>เกิดความต่างศักย์ของขั้วดินระบบไฟฟ้าของอุปกรณ์แต่ละตัวที่เชื่อมหากัน ทำให้มีกระแสไหลวนในกราวด์สายสัญญาณ</td>
+                  <td>ย้ายปลั๊กอุปกรณ์ทำเพลงทั้งหมดมาเสียบเข้ารางไฟร่วมจุดเดียวกัน</td>
+                  <td class="sol">เลือกใช้สายนำสัญญาณแบบสมดุล <strong>Balanced (XLR/TRS)</strong> หรือกดเปิดสวิตช์ Ground Lift บน DI Box</td>
+                </tr>
+                <tr>
+                  <td><strong>เสียงหวีดร้องดังแสบหู</strong> (Feedback)</td>
+                  <td>คลื่นเสียงจากลำโพงสะท้อนสะสมย้อนกลับเข้าไปที่หัวไมค์รับเสียง วนลูปขยายเสียงออกไปไม่รู้จบ</td>
+                  <td>รีบปิดลำโพงมอนิเตอร์หรือลดเกนไมโครโฟนลงชั่วคราวด่วน</td>
+                  <td class="sol">ให้ผู้ร้องเพลงเปลี่ยนมาสวมใส่ <strong>Closed-back Headphones</strong> เสมอขณะบันทึกเสียงร้องสดในบูธเสียง</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="review-section">
+          <h2>8. โครงงานภาคปฏิบัติและแนวทางเกณฑ์การประเมิน (Class Projects & Rubrics)</h2>
+          <p>เพื่อนำความรู้ทฤษฎีมาประยุกต์สู่การทำงานจริง นักเรียนมัธยมศึกษาปีที่ 6 จะต้องเลือกปฏิบัติโครงงานสร้างสรรค์ 1 ชิ้นจากหัวข้อเหล่านี้:</p>
+          <ul>
+            <li><strong>โครงงานที่ 1: การจัดสรรงบสตูดิโอขนาดเล็ก 10,000 บาท:</strong> ค้นคว้าโมเดล สเปก ราคาจริงของอุปกรณ์ (Audio Interface, Mic, Headphone) ในตลาดปัจจุบัน เขียนรายงานแจงรายละเอียดงบประมาณ พร้อมคำนวณและอธิบายเหตุผลของการจับคู่อุปกรณ์แต่ละชิ้นให้มีความสมดุลทางอิเล็กทรอนิกส์และงบประมาณ</li>
+            <li><strong>โครงงานที่ 2: ผังการเดินทางเสียงของวงดนตรีสามชิ้น (Signal Flow Design):</strong> เขียนผังและอธิบายขั้นตอนการอัดบันทึกเสียงสดของวง Acoustic Trio (เสียงร้องนำ, กีตาร์โปร่ง, คีย์บอร์ดไฟฟ้า) โดยระบุสายสัญญาณที่เชื่อมต่อ (XLR, TS, TRS, USB) ตำแหน่งการจัดวางและชนิดไมโครโฟน และการปรับแต่งค่า Buffer Size ในโปรแกรมขณะทำงานอัด</li>
+            <li><strong>โครงงานที่ 3: ปฏิบัติการประดิษฐ์บีทดนตรีบน BandLab:</strong> สมัครทำเพลงบนเบราว์เซอร์ BandLab สร้างโครงสร้างจังหวะกลอง Step Sequencer ความยาวอย่างน้อย 8 ห้อง ทำการปรับระดับ Velocity ของเสียงเครื่องเคาะเพื่อเลียนแบบความอ่อนโยนของการดีดเคาะของมนุษย์ และทำการอัดทับเสียงร้องนำใส่เอฟเฟกต์ประดับ Reverb/Delay</li>
+            <li><strong>โครงงานที่ 4: การวิเคราะห์และออกแบบอะคูสติกห้องสตูดิโอ:</strong> ประเมินห้องเรียนดนตรีหรือห้องนอนส่วนตัวเพื่อจัดตำแหน่งลำโพงมอนิเตอร์ตามหลักสามเหลี่ยมด้านเท่า หาพิกัดจุดสะท้อนแรก (First Reflection Points) และนำเสนอแนวทางการติดตั้งแผ่นกระจายเสียงแผงดูดเสียงด้วยวัสดุหาง่ายในงบจำกัด</li>
+          </ul>
+
+          <h3 style="margin-top: 10px; font-size: 12px; color: var(--color-primary);">📊 เกณฑ์การประเมินการปฏิบัติงาน (Grading Rubrics - 100 คะแนนเต็ม)</h3>
+          <table class="matrix-table" style="font-size: 10.5px; width: 100%;">
+            <thead>
+              <tr>
+                <th style="width: 25%;">หัวข้อประเมิน</th>
+                <th style="width: 25%;">ระดับดีมาก (4-5 คะแนน / 90-100%)</th>
+                <th style="width: 25%;">ระดับปานกลาง (3 คะแนน / 70-89%)</th>
+                <th style="width: 25%;">ระดับควรปรับปรุง (1-2 คะแนน / &lt;70%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>ความถูกต้องทางวิชาการ<br>(วิทยาศาสตร์เสียง - 40%)</strong></td>
+                <td>อธิบายกลไกฟิสิกส์เสียง การทำงานของวงจร Balanced, ADC/DAC, Sample Rate ย่านความถี่ คอร์และบิตเสียงได้ถูกต้อง ไร้ข้อผิดพลาด</td>
+                <td>อธิบายทฤษฎีดนตรีและสัญญาณเสียงดิจิทัลได้ถูกต้องเป็นส่วนใหญ่ มีข้อผิดพลาดเล็กน้อยในเชิงเทคนิคไฟฟ้าหรือสูตรการคำนวณ</td>
+                <td>เนื้อหาทฤษฎีฟิสิกส์ดนตรีผิดพลาดมาก ไม่ระบุถึงชนิดสัญญาณ ไม่เข้าใจความหน่วง หรือขาดองค์ประกอบอุปกรณ์การเชื่อมต่อที่สำคัญ</td>
+              </tr>
+              <tr>
+                <td><strong>ทักษะการแก้ปัญหาจริง<br>(ปฏิบัติการคุมเกน/แก้ไขจี่ - 30%)</strong></td>
+                <td>เสนอแนวทางขจัดสัญญาณรบกวนจี่ฮัม ตั้งค่าบัฟเฟอร์คุมเสียงร้องดีเลย์ ปรับระดับความกว้าง Gain Staging หรือออกแบบ Treatment อะคูสติกได้ลื่นไหลสมบูรณ์แบบ</td>
+                <td>แสดงแนวคิดในการแก้ไข Latency หรือจัดงบสตูดิโอ อะคูสติกได้ค่อนข้างดี แต่การวางวัสดุหรือประเภทการคุมเกนยังมีข้อสงสัยบางจุด</td>
+                <td>ไม่สามารถวิเคราะห์จุดเกิดปัญหา ไม่เข้าใจการจัดสรรสายดิน ปล่อยสัญญาณแตกคลิป หรือเลือกอุปกรณ์ไม่เข้ากันทำให้วงจรเสียงไม่สมบูรณ์</td>
+              </tr>
+              <tr>
+                <td><strong>ความคิดสร้างสรรค์และนำเสนอ<br>(โครงงานดนตรี - 30%)</strong></td>
+                <td>สร้างบีทกลองที่มีมิติน้ำหนักดนตรีเสมือนจริง มีแผนภาพ Signal Flow ที่สวยงามอ่านง่าย หรือจัดทำรายงานงบประมาณตลาดได้เป็นระบบน่าประทับใจ</td>
+                <td>ผลงานบีทดนตรีมีความน่าฟังดี แผนผังการเดินเสียงครบถ้วน แต่ยังขาดการปรับแต่งค่า Velocity หรือรูปแบบการนำเสนอมีลักษณะทั่วไป</td>
+                <td>บีทดนตรีไม่มีความสมดุล แผนภาพเดินเสียงอ่านไม่เข้าใจ หรือรายงานงบประมาณไม่มีข้อมูลราคารุ่นตลาดและขาดระเบียบการจัดส่ง</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JS file -->
+  <script src="app.js"></script>
+  <script src="widgets-new.js"></script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ศูนย์รวมสื่อการสอนดนตรี | ครูเอกณัฐ ลุผลแท้</title>
+<meta name="description" content="พอร์ทัลรวมสื่อการเรียนรู้ดนตรีสากลและคอมพิวเตอร์ดนตรี ระดับชั้นมัธยมศึกษาปีที่ 4-6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ========== DESIGN SYSTEM ========== */
+:root {
+  --bg-primary: #0a0f0d;
+  --bg-secondary: #121815;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glass-hover: rgba(63, 121, 116, 0.4);
+  --teal: #3f7974;
+  --teal-glow: rgba(63, 121, 116, 0.3);
+  --purple: #8f75b0;
+  --purple-glow: rgba(143, 117, 176, 0.2);
+  --gold: #c5a870;
+  --gold-glow: rgba(197, 168, 112, 0.2);
+  --text-primary: #f6f8f6;
+  --text-secondary: #a7b5af;
+  --text-muted: #6e7d77;
+  --font-heading: 'Kanit', sans-serif;
+  --font-body: 'Kanit', sans-serif;
+  --font-en: 'Inter', sans-serif;
+  --radius: 16px;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ========== RESET & BASE ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(63, 121, 116, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(143, 117, 176, 0.12) 0%, transparent 40%);
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ========== CONTAINER ========== */
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 60px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ========== HEADER ========== */
+header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background: rgba(63, 121, 116, 0.1);
+  border: 1px solid rgba(63, 121, 116, 0.3);
+  border-radius: 30px;
+  font-size: 0.9em;
+  color: #5bb3ab;
+  font-weight: 500;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+h1 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 2.8em;
+  line-height: 1.25;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #f6f8f6 30%, #5bb3ab 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 1.15em;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* ========== PORTAL GRID ========== */
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+/* ========== CARDS ========== */
+.subject-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.subject-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  transition: var(--transition);
+}
+
+.subject-card.m4::before { background: var(--purple); }
+.subject-card.m5::before { background: var(--teal); }
+.subject-card.m6::before { background: var(--gold); }
+
+.subject-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.subject-card.m4:hover { border-color: rgba(143, 117, 176, 0.4); box-shadow: 0 20px 40px var(--purple-glow); }
+.subject-card.m5:hover { border-color: rgba(63, 121, 116, 0.5); box-shadow: 0 20px 40px var(--teal-glow); }
+.subject-card.m6:hover { border-color: rgba(197, 168, 112, 0.4); box-shadow: 0 20px 40px var(--gold-glow); }
+
+.card-header {
+  margin-bottom: 24px;
+}
+
+.icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-glass);
+}
+
+.m4 .icon-box { color: var(--purple); background: rgba(143, 117, 176, 0.08); }
+.m5 .icon-box { color: var(--teal); background: rgba(63, 121, 116, 0.08); }
+.m6 .icon-box { color: var(--gold); background: rgba(197, 168, 112, 0.08); }
+
+.grade-label {
+  font-family: var(--font-en);
+  font-size: 0.8em;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.m4 .grade-label { color: var(--purple); }
+.m5 .grade-label { color: #5bb3ab; }
+.m6 .grade-label { color: var(--gold); }
+
+.subject-title {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+
+/* ========== LINK LIST ========== */
+.resource-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resource-item a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-glass);
+  border-radius: 10px;
+  font-size: 0.95em;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.resource-item a:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+}
+
+.m4 .resource-item a:hover { border-color: rgba(143, 117, 176, 0.3); }
+.m5 .resource-item a:hover { border-color: rgba(63, 121, 116, 0.4); }
+.m6 .resource-item a:hover { border-color: rgba(197, 168, 112, 0.3); }
+
+.item-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.item-arrow {
+  font-size: 1.1em;
+  transition: var(--transition);
+}
+
+.resource-item a:hover .item-arrow {
+  transform: translateX(4px);
+}
+
+.m4 .resource-item a:hover .item-arrow { color: var(--purple); }
+.m5 .resource-item a:hover .item-arrow { color: #5bb3ab; }
+.m6 .resource-item a:hover .item-arrow { color: var(--gold); }
+
+/* ========== FOOTER ========== */
+footer {
+  text-align: center;
+  padding: 30px 24px;
+  border-top: 1px solid var(--border-glass);
+  color: var(--text-muted);
+  font-size: 0.9em;
+}
+
+footer strong {
+  color: var(--text-secondary);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 968px) {
+  .portal-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .container {
+    padding: 40px 20px;
+  }
+  h1 {
+    font-size: 2.2em;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  
+  <header>
+    <div class="badge">LEARNING PORTAL</div>
+    <h1>ศูนย์รวมสื่อการเรียนรู้ <span class="gradient-text">วิชาดนตรี</span></h1>
+    <p class="subtitle">สื่อการเรียนการสอนและเครื่องมือ Interactive สำหรับกลุ่มสาระการเรียนรู้ศิลปะ (สาระดนตรี) พัฒนาขึ้นเพื่อยกระดับทักษะและการเรียนรู้ยุคใหม่</p>
+  </header>
+
+  <main class="portal-grid">
+    
+    <!-- GRADE 4 CARD -->
+    <div class="subject-card m4">
+      <div class="card-header">
+        <div class="icon-box">💻</div>
+        <div class="grade-label">Grade 10 · ม.4</div>
+        <h2 class="subject-title">คอมพิวเตอร์ดนตรี</h2>
+      </div>
+      <ul class="resource-list">
+        <li class="resource-item">
+          <a href="คอมพิวเตอร์ดนตรีม.4/slides-week1.html">
+            <span class="item-title">🎹 สไลด์สัปดาห์ที่ 1: แนะนำวิชา</span>
+            <span class="item-arrow">→</span>
+          </a>
+        </li>
+        <li class="resource-item">
+          <a href="คอมพิวเตอร์ดนตรีม.4/slides-week2.html">
+            <span class="item-title">🎚️ สไลด์สัปดาห์ที่ 2: พื้นฐานเสียง</span>
+            <span class="item-arrow">→</span>
+          </a>
+        </li>
+        <li class="resource-item">
+          <a href="คอมพิวเตอร์ดนตรีม.4/slides-week3.html">
+            <span class="item-title">🎛️ สไลด์สัปดาห์ที่ 3: อุปกรณ์และซอฟต์แวร์</span>
+            <span class="item-arrow">→</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- GRADE 5 CARD -->
+    <div class="subject-card m5">
+      <div class="card-header">
+        <div class="icon-box">🎧</div>
+        <div class="grade-label">Grade 11 · ม.5</div>
+        <h2 class="subject-title">วิชาดนตรีสากล</h2>
+      </div>
+      <ul class="resource-list">
+        <li class="resource-item">
+          <a href="วิชาดนตรีสากล/music-criticism-slides/index.html">
+            <span class="item-title">📝 การวิจารณ์และการตัดสินดนตรี</span>
+            <span class="item-arrow">→</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- GRADE 6 CARD -->
+    <div class="subject-card m6">
+      <div class="card-header">
+        <div class="icon-box">🎼</div>
+        <div class="grade-label">Grade 12 · ม.6</div>
+        <h2 class="subject-title">คอมพิวเตอร์ดนตรี</h2>
+      </div>
+      <ul class="resource-list">
+        <li class="resource-item">
+          <a href="คอมพิวเตอน์ดนตรีม.6/index.html">
+            <span class="item-title">⚡ Interactive App &amp; สื่อการสอน</span>
+            <span class="item-arrow">→</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </main>
+
+</div>
+
+<footer>
+  <p>ครูผู้สอน: <strong>นายเอกณัฐ ลุผลแท้</strong> · โรงเรียนสุรศักดิ์มนตรี</p>
+  <p style="font-size: 0.85em; margin-top: 6px; opacity: 0.7;">&copy; 2026 Teaching Materials Portal. Hosted on GitHub Pages.</p>
+</footer>
+
+</body>
+</html>

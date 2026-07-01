@@ -1,0 +1,2300 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>การวิจารณ์ดนตรีและการตัดสินดนตรี | สื่อการเรียนรู้แบบ Interactive</title>
+<meta name="description" content="สื่อการเรียนรู้แบบ Interactive Slide สำหรับวิชาดนตรีสากล เรื่องการวิจารณ์ดนตรีและการตัดสินดนตรี ระดับมัธยมศึกษาปีที่ 5">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ========== DESIGN SYSTEM ========== */
+:root {
+  --bg-primary: #f6f8f5;
+  --bg-secondary: #e9f0ec;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f9fbf8;
+  --bg-glass: #ffffff;
+  --border-glass: #d7e0da;
+  --purple: #665979;
+  --purple-glow: rgba(102,89,121,0.18);
+  --teal: #3f7974;
+  --teal-glow: rgba(63,121,116,0.16);
+  --gold: #8f7139;
+  --gold-dark: #7c642f;
+  --rose: #9a5f68;
+  --green: #4e8067;
+  --red: #a75f52;
+  --text-primary: #26302d;
+  --text-secondary: #4d5c56;
+  --text-muted: #728078;
+  --shadow-soft: 0 14px 34px rgba(41,55,49,0.09);
+  --font-heading: 'Kanit', sans-serif;
+  --font-body: 'Sarabun', sans-serif;
+  --font-en: 'Inter', sans-serif;
+  --radius: 8px;
+  --radius-sm: 6px;
+  --transition: 0.2s ease;
+}
+
+/* ========== RESET ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; background: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+button { cursor: pointer; border: none; background: none; color: inherit; font-family: inherit; }
+input, textarea { font-family: inherit; }
+
+/* ========== SLIDE ENGINE ========== */
+.presentation { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+.slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 72px 88px 64px; opacity: 0; transform: translateX(32px); pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; overflow-y: auto; }
+.slide.active { opacity: 1; transform: translateX(0); pointer-events: auto; z-index: 2; }
+.slide.prev { opacity: 0; transform: translateX(-32px); }
+.slide-inner { max-width: 1120px; width: 100%; }
+
+/* Background blobs */
+.bg-blob { display: none; }
+.bg-blob-1 { width: 500px; height: 500px; background: var(--purple); top: -100px; right: -100px; }
+.bg-blob-2 { width: 400px; height: 400px; background: var(--teal); bottom: -80px; left: -80px; }
+.bg-blob-3 { width: 300px; height: 300px; background: var(--gold); top: 50%; left: 50%; transform: translate(-50%,-50%); opacity: 0.08; }
+
+/* ========== NAVIGATION ========== */
+.progress-bar { position: fixed; top: 0; left: 0; width: 100%; height: 5px; background: #e0e7e2; z-index: 100; }
+.progress-fill { height: 100%; background: var(--teal); border-radius: 0 4px 4px 0; transition: width 0.3s ease; }
+.slide-counter { position: fixed; bottom: 18px; right: 28px; font-family: var(--font-en); font-size: 14px; color: var(--text-muted); z-index: 100; letter-spacing: 0; background: rgba(255,255,255,0.86); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 6px 10px; }
+.nav-btn { position: fixed; top: 50%; transform: translateY(-50%); width: 46px; height: 64px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.92); border: 1px solid var(--border-glass); border-radius: var(--radius); z-index: 100; transition: var(--transition); font-size: 22px; box-shadow: 0 8px 22px rgba(41,55,49,0.08); }
+.nav-btn:hover, .nav-btn:focus-visible { background: var(--bg-card-hover); border-color: var(--teal); box-shadow: var(--shadow-soft); outline: none; }
+.nav-btn:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+.nav-prev { left: 20px; }
+.nav-next { right: 20px; }
+.part-indicator { position: fixed; top: 18px; left: 28px; font-family: var(--font-heading); font-size: 13px; letter-spacing: 0; color: var(--text-secondary); z-index: 100; background: rgba(255,255,255,0.9); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 6px 12px; max-width: calc(100vw - 360px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.keyboard-hint { position: fixed; bottom: 18px; left: 28px; font-size: 12px; color: var(--text-muted); z-index: 100; display: flex; gap: 8px; align-items: center; background: rgba(255,255,255,0.86); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 6px 10px; }
+.kbd { display: inline-block; padding: 1px 7px; background: #eef3ee; border-radius: 4px; font-family: var(--font-en); font-size: 11px; border: 1px solid #d7e0da; color: var(--text-secondary); }
+.teacher-tools { position: fixed; top: 14px; right: 28px; display: flex; gap: 8px; z-index: 120; }
+.tool-btn, .secondary-btn, .primary-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; padding: 8px 14px; border: 1px solid var(--border-glass); border-radius: var(--radius-sm); background: #fff; color: var(--text-primary); font-family: var(--font-heading); font-size: 0.95rem; transition: var(--transition); box-shadow: 0 6px 18px rgba(41,55,49,0.06); }
+.tool-btn:hover, .secondary-btn:hover, .primary-btn:hover, .tool-btn:focus-visible, .secondary-btn:focus-visible, .primary-btn:focus-visible { border-color: var(--teal); background: var(--bg-card-hover); outline: none; }
+.primary-btn { background: var(--teal); color: #fff; border-color: var(--teal); }
+.primary-btn:hover, .primary-btn:focus-visible { background: #356b67; color: #fff; }
+.action-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin-top: 18px; }
+.slide-menu { position: fixed; inset: 0; z-index: 200; background: rgba(38,48,45,0.32); display: none; align-items: center; justify-content: center; padding: 24px; }
+.slide-menu.open { display: flex; }
+.slide-menu-panel { width: min(900px, 100%); max-height: min(720px, 86vh); overflow: auto; background: #fff; border: 1px solid var(--border-glass); border-radius: var(--radius); box-shadow: 0 30px 90px rgba(38,48,45,0.22); padding: 24px; }
+.slide-menu-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
+.slide-menu-head h2 { font-size: 1.4em; margin: 0; }
+.slide-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.slide-jump { text-align: left; padding: 12px 14px; border: 1px solid var(--border-glass); border-radius: var(--radius-sm); background: #f9fbf8; color: var(--text-primary); transition: var(--transition); line-height: 1.45; }
+.slide-jump:hover, .slide-jump:focus-visible, .slide-jump.active { border-color: var(--teal); background: #edf5f2; outline: none; }
+.slide-jump small { display: block; color: var(--text-muted); font-family: var(--font-en); margin-bottom: 2px; }
+.toast { position: fixed; left: 50%; bottom: 68px; transform: translateX(-50%) translateY(20px); z-index: 240; background: #26302d; color: #fff; border-radius: var(--radius-sm); padding: 10px 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; box-shadow: var(--shadow-soft); }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.footer-credit {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: var(--text-muted);
+  z-index: 100;
+  opacity: 0.65;
+  pointer-events: none;
+  font-family: var(--font-body);
+}
+
+
+/* ========== TYPOGRAPHY ========== */
+.slide h1 { font-family: var(--font-heading); font-weight: 650; font-size: 2.7em; line-height: 1.28; margin-bottom: 16px; letter-spacing: 0; }
+.slide h2 { font-family: var(--font-heading); font-weight: 600; font-size: 1.9em; line-height: 1.35; margin-bottom: 12px; letter-spacing: 0; }
+.slide h3 { font-family: var(--font-heading); font-weight: 500; font-size: 1.25em; line-height: 1.4; margin-bottom: 10px; letter-spacing: 0; }
+.slide p { font-size: 1.08em; line-height: 1.78; color: var(--text-secondary); margin-bottom: 12px; }
+.slide ul, .slide ol { padding-left: 24px; margin-bottom: 12px; }
+.slide li { font-size: 1.04em; line-height: 1.75; color: var(--text-secondary); margin-bottom: 6px; }
+.gradient-text { color: var(--teal); }
+.gold-text { color: var(--gold); }
+.en { font-family: var(--font-en); }
+.badge { display: inline-block; padding: 6px 14px; background: #edf5f2; border: 1px solid #cbded8; border-radius: var(--radius-sm); font-size: 0.88em; color: var(--text-secondary); font-family: var(--font-heading); letter-spacing: 0; margin-bottom: 16px; }
+.badge-purple { border-color: var(--purple); color: var(--purple); }
+.badge-teal { border-color: var(--teal); color: var(--teal); }
+.badge-gold { border-color: var(--gold-dark); color: var(--gold); }
+.section-num { font-family: var(--font-en); font-size: 0.72em; font-weight: 700; color: var(--teal); display: block; margin-bottom: 6px; letter-spacing: 0.04em; }
+
+/* ========== CARDS ========== */
+.glass-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius); padding: 24px; transition: var(--transition); box-shadow: 0 10px 28px rgba(41,55,49,0.05); }
+.glass-card:hover { background: var(--bg-card-hover); border-color: #c5d4cd; }
+.card-grid { display: grid; gap: 20px; }
+.card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ========== TITLE SLIDE ========== */
+.title-slide { text-align: center; background: var(--bg-primary); }
+.title-slide h1 { font-size: 3.2em; margin-bottom: 8px; }
+.title-slide .subtitle { font-size: 1.6em; color: var(--gold); font-family: var(--font-heading); font-weight: 300; margin-bottom: 30px; }
+.title-notes { display: inline-flex; gap: 32px; margin-top: 20px; }
+.title-notes span { display: flex; align-items: center; gap: 8px; font-size: 0.95em; color: var(--text-muted); }
+.music-icon { font-size: 4em; margin-bottom: 20px; display: block; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes pulse-glow { 0%,100% { box-shadow: 0 0 20px var(--purple-glow); } 50% { box-shadow: 0 0 34px var(--purple-glow), 0 0 48px rgba(63,121,116,0.12); } }
+@keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+.fade-in-up { animation: fadeInUp 0.6s ease both; }
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.3s; }
+.delay-3 { animation-delay: 0.45s; }
+.delay-4 { animation-delay: 0.6s; }
+.delay-5 { animation-delay: 0.75s; }
+
+/* ========== INTERACTIVE: VIDEO VERSION SELECTOR ========== */
+.version-selector { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+.version-btn { min-width: 170px; padding: 10px 14px; background: var(--bg-card); border: 2px solid var(--border-glass); border-radius: var(--radius); font-family: var(--font-heading); text-align: left; transition: var(--transition); box-shadow: 0 10px 28px rgba(41,55,49,0.06); }
+.version-btn strong { display: block; font-size: 1.0em; color: var(--text-primary); }
+.version-btn small { color: var(--text-muted); font-size: 0.85em; }
+.version-btn:hover, .version-btn:focus-visible, .version-btn.active { border-color: var(--teal); background: #edf5f2; outline: none; }
+.video-shell { width: min(460px, 100%); margin: 0 auto; }
+.video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border-glass); box-shadow: var(--shadow-soft); background: #e8f1ed; }
+.video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; color: var(--text-secondary); font-size: 0.9em; }
+.video-meta a { color: var(--teal); font-family: var(--font-heading); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ========== INTERACTIVE: FLIP CARD ========== */
+.flip-card { perspective: 1000px; cursor: pointer; height: 200px; }
+.flip-card:focus-visible { outline: 3px solid rgba(63,121,116,0.35); outline-offset: 4px; border-radius: var(--radius); }
+.flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+.flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+.flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; }
+.flip-card-front { background: var(--bg-card); border: 1px solid var(--border-glass); }
+.flip-card-back { background: #edf5f2; border: 1px solid var(--teal); transform: rotateY(180deg); }
+.flip-hint { font-size: 0.8em; color: var(--text-muted); margin-top: 8px; }
+
+/* ========== INTERACTIVE: CHECKLIST ========== */
+.checklist { list-style: none; padding: 0; }
+.checklist li { display: flex; align-items: center; gap: 14px; padding: 13px 18px; margin-bottom: 10px; background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition); font-size: 1.02em; }
+.checklist li:hover { background: var(--bg-card-hover); }
+.checklist li.checked { border-color: var(--green); background: #eef7f1; }
+.check-box { width: 24px; height: 24px; border: 2px solid #9cad9f; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: var(--transition); }
+.checklist li.checked .check-box { border-color: var(--green); background: var(--green); color: #fff; }
+
+/* ========== INTERACTIVE: SPIN WHEEL ========== */
+.wheel-container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.wheel-wrapper { position: relative; width: 320px; height: 320px; }
+.wheel-canvas { width: 320px; height: 320px; }
+.wheel-pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 28px solid var(--gold); z-index: 5; filter: drop-shadow(0 2px 5px rgba(41,55,49,0.22)); }
+.spin-btn { padding: 12px 28px; background: var(--teal); color: #fff; border-radius: var(--radius-sm); font-family: var(--font-heading); font-size: 1.08em; font-weight: 500; transition: var(--transition); box-shadow: 0 10px 24px rgba(63,121,116,0.18); }
+.spin-btn:hover, .spin-btn:focus-visible { background: #356b67; outline: none; }
+.wheel-result { padding: 14px 24px; background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); text-align: center; min-height: 60px; display: flex; align-items: center; justify-content: center; font-size: 1.05em; box-shadow: 0 8px 22px rgba(41,55,49,0.06); }
+
+/* ========== INTERACTIVE: DRAG & DROP ========== */
+.dnd-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.dnd-terms { display: flex; flex-direction: column; gap: 10px; }
+.dnd-item { padding: 13px 18px; background: #f5f8f5; border: 1px solid var(--border-glass); border-radius: var(--radius-sm); cursor: grab; transition: var(--transition); font-weight: 500; user-select: none; }
+.dnd-item:active { cursor: grabbing; opacity: 0.7; }
+.dnd-item:hover, .dnd-item:focus-visible, .dnd-item.selected { border-color: var(--teal); background: #edf5f2; outline: none; }
+.dnd-item.correct { border-color: var(--green); background: #eef7f1; pointer-events: none; opacity: 0.58; }
+.dnd-item.wrong { border-color: var(--red); animation: shake 0.4s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-8px);} 75%{transform:translateX(8px);} }
+.dnd-targets { display: flex; flex-direction: column; gap: 10px; }
+.dnd-target { padding: 13px 18px; background: var(--bg-card); border: 2px dashed #b9c8bf; border-radius: var(--radius-sm); min-height: 54px; transition: var(--transition); }
+.dnd-target.over, .dnd-target:focus-visible { border-color: var(--teal); background: #edf5f2; outline: none; }
+.dnd-target.matched { border-style: solid; border-color: var(--green); background: #eef7f1; }
+.dnd-answer-chip { display: inline-flex; align-items: center; margin-top: 8px; padding: 5px 9px; border-radius: var(--radius-sm); background: #dcece5; color: var(--green); font-family: var(--font-heading); font-size: 0.9em; }
+.dnd-score { text-align: center; margin-top: 16px; font-family: var(--font-heading); font-size: 1.2em; }
+
+/* ========== INTERACTIVE: STEPS ========== */
+.steps-container { display: flex; gap: 4px; margin-bottom: 28px; }
+.step-dot { flex: 1; padding: 11px; text-align: center; background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); cursor: pointer; transition: var(--transition); font-family: var(--font-heading); font-size: 0.88em; }
+.step-dot:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+.step-dot:last-child { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.step-dot:hover { background: var(--bg-card-hover); }
+.step-dot.active { background: var(--teal); border-color: var(--teal); color: #fff; }
+.step-content { display: none; }
+.step-content.active { display: block; animation: fadeInUp 0.4s ease; }
+
+/* ========== INTERACTIVE: FORM ========== */
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-family: var(--font-heading); font-weight: 500; margin-bottom: 8px; color: var(--text-primary); }
+.form-input, .form-textarea { width: 100%; padding: 13px 16px; background: #fff; border: 1px solid #cbd7d0; border-radius: var(--radius-sm); color: var(--text-primary); font-size: 1em; transition: var(--transition); }
+.form-input:focus, .form-textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-glow); }
+.form-textarea { min-height: 80px; resize: vertical; }
+
+/* ========== CLASS PRACTICE ========== */
+.practice-slide .slide-inner { max-width: 1180px; }
+.practice-slide { padding-top: 76px; padding-bottom: 48px; }
+.practice-slide h2 { font-size: 1.62em; margin-bottom: 6px; }
+.practice-slide p { line-height: 1.55; }
+.practice-intro { margin-bottom: 8px; font-size: 0.98em; }
+.practice-layout { display: grid; grid-template-columns: minmax(270px, 0.82fr) minmax(520px, 1.18fr); gap: 18px; align-items: stretch; }
+.practice-song-card, .class-summary-card { padding: 16px 20px; }
+.practice-song-card .badge { margin-bottom: 10px; }
+.practice-song-card h3 { font-size: 1.1em; margin-bottom: 6px; }
+.practice-song-card p { font-size: 0.94em; margin-bottom: 8px; }
+.compact-list { padding-left: 18px; margin: 6px 0 10px; }
+.compact-list li { font-size: 0.9em; line-height: 1.38; margin-bottom: 2px; }
+.teacher-flow { margin-top: 10px; padding: 9px 10px; background: #f5f8f5; border: 1px solid var(--border-glass); border-radius: var(--radius-sm); color: var(--text-secondary); font-size: 0.86em; line-height: 1.4; }
+.class-summary-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.class-summary-head h3 { margin-bottom: 4px; }
+.class-summary-head p { margin: 0; font-size: 0.9em; line-height: 1.42; }
+.class-note-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; }
+.class-note-grid .form-group { margin: 0; }
+.class-note-grid .form-group.full { grid-column: 1 / -1; }
+.class-note-grid label { font-size: 0.9em; margin-bottom: 4px; }
+.summary-textarea { width: 100%; min-height: 42px; max-height: 42px; padding: 7px 9px; background: #fff; border: 1px solid #cbd7d0; border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.92em; line-height: 1.3; resize: none; transition: var(--transition); }
+.summary-textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-glow); }
+.class-summary-output { margin-top: 8px; padding: 9px 12px; border: 1px solid #cbded8; border-radius: var(--radius-sm); background: #edf5f2; }
+.class-summary-output h4 { margin-bottom: 3px; font-family: var(--font-heading); color: var(--teal); font-size: 0.94em; }
+.class-summary-output p { margin: 0; font-size: 0.88em; line-height: 1.4; }
+.class-summary-card .action-row { margin-top: 8px; justify-content: flex-end; }
+.practice-slide .primary-btn, .practice-slide .secondary-btn { min-height: 34px; padding: 6px 12px; }
+
+/* ========== INTERACTIVE: TOGGLE COMPARE ========== */
+.toggle-container { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 28px; }
+.toggle-label { font-family: var(--font-heading); font-size: 1.1em; transition: var(--transition); }
+.toggle-label.active { color: var(--teal); }
+.toggle-switch { width: 64px; height: 32px; background: #fff; border: 2px solid var(--border-glass); border-radius: 20px; position: relative; cursor: pointer; transition: var(--transition); }
+.toggle-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; background: var(--purple); border-radius: 50%; transition: var(--transition); }
+.toggle-switch:focus-visible { outline: 3px solid var(--teal-glow); outline-offset: 3px; }
+.toggle-switch.on { border-color: var(--teal); }
+.toggle-switch.on::after { left: calc(100% - 25px); background: var(--teal); }
+.compare-panel { display: none; animation: fadeInUp 0.4s ease; }
+.compare-panel.active { display: block; }
+
+/* ========== INTERACTIVE: RADAR CHART ========== */
+.radar-section { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.radar-canvas-wrap { display: flex; justify-content: center; }
+.radar-canvas-wrap canvas { max-width: 360px; }
+.radar-sliders { display: flex; flex-direction: column; gap: 18px; }
+.slider-group { display: flex; flex-direction: column; gap: 6px; }
+.slider-group label { font-family: var(--font-heading); font-size: 0.95em; display: flex; justify-content: space-between; }
+.slider-group input[type="range"] { width: 100%; -webkit-appearance: none; height: 6px; background: #dce5df; border-radius: 3px; outline: none; }
+.slider-group input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: var(--teal); border-radius: 50%; cursor: pointer; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(41,55,49,0.18); }
+.slider-group input[type="range"]:focus-visible { outline: 3px solid var(--teal-glow); outline-offset: 6px; }
+.radar-total { text-align: center; padding: 16px; background: var(--bg-card); border: 1px solid var(--gold-dark); border-radius: var(--radius-sm); margin-top: 16px; }
+.radar-total .total-num { font-family: var(--font-en); font-size: 2.5em; font-weight: 700; color: var(--gold); }
+
+/* ========== CRITERIA CARD ========== */
+.criteria-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius); padding: 30px; position: relative; overflow: hidden; box-shadow: 0 10px 28px rgba(41,55,49,0.05); }
+.criteria-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.criteria-card.ensemble::before { background: #7a7798; }
+.criteria-card.vocal::before { background: var(--teal); }
+.criteria-card.performance::before { background: var(--rose); }
+.criteria-card.creative::before { background: var(--gold); }
+.criteria-num { font-family: var(--font-en); font-size: 3em; font-weight: 800; opacity: 0.1; position: absolute; top: 10px; right: 20px; }
+.criteria-score { display: inline-block; padding: 4px 14px; border-radius: 20px; font-family: var(--font-en); font-weight: 700; font-size: 0.9em; }
+
+/* ========== REFERENCE CARD ========== */
+.ref-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius); padding: 28px; box-shadow: 0 10px 28px rgba(41,55,49,0.05); }
+.ref-list { font-size: 0.95em; line-height: 2; }
+.ref-list li { color: var(--text-secondary); }
+.ref-list a { color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
+.ref-list a:hover { text-decoration: underline; }
+
+/* ========== ROLE PLAY ========== */
+.mission-card { background: var(--bg-card); border: 2px solid var(--gold-dark); border-radius: var(--radius); padding: 34px; text-align: center; box-shadow: var(--shadow-soft); }
+.mission-icon { font-size: 3.5em; margin-bottom: 16px; }
+.mission-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; text-align: center; }
+.mission-step { padding: 18px; background: #f8faf8; border-radius: var(--radius-sm); border: 1px solid var(--border-glass); }
+.mission-step .step-num { display: inline-block; width: 36px; height: 36px; line-height: 36px; background: var(--purple); border-radius: 50%; font-family: var(--font-en); font-weight: 700; margin-bottom: 10px; }
+
+/* ========== QUICK REF TABLE ========== */
+.score-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: var(--radius); }
+.score-table th { background: #e8f1ed; padding: 14px 18px; text-align: left; font-family: var(--font-heading); font-weight: 500; border-bottom: 1px solid var(--border-glass); }
+.score-table td { padding: 14px 18px; border-bottom: 1px solid var(--border-glass); background: var(--bg-card); }
+.score-table tr:last-child td { border-bottom: none; }
+.score-table .score-col { text-align: center; font-family: var(--font-en); font-weight: 700; color: var(--gold); width: 100px; }
+
+/* ========== REFLECTION ========== */
+.reflection-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius); padding: 32px; max-width: 760px; margin: 0 auto; box-shadow: 0 10px 28px rgba(41,55,49,0.05); }
+.reflection-textarea { width: 100%; min-height: 120px; padding: 16px; background: #fff; border: 1px solid #cbd7d0; border-radius: var(--radius-sm); color: var(--text-primary); font-size: 1.02em; line-height: 1.75; resize: vertical; }
+.reflection-textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-glow); }
+.reflection-textarea::placeholder { color: var(--text-muted); }
+
+/* ========== TIMELINE ========== */
+.timeline { position: relative; padding-left: 30px; }
+.timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: #c6d6ce; }
+.timeline-item { position: relative; margin-bottom: 24px; padding-left: 24px; }
+.timeline-item::before { content: ''; position: absolute; left: -24px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--purple); border: 2px solid var(--bg-primary); }
+.timeline-item:nth-child(even)::before { background: var(--teal); }
+.timeline-era { font-family: var(--font-en); font-weight: 700; font-size: 0.85em; color: var(--gold); margin-bottom: 4px; }
+
+/* ========== TABS ========== */
+.tab-btns { display: flex; gap: 4px; margin-bottom: 24px; }
+.tab-btn { padding: 10px 20px; background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-sm) var(--radius-sm) 0 0; font-family: var(--font-heading); font-size: 0.95em; transition: var(--transition); }
+.tab-btn:hover { background: var(--bg-card-hover); }
+.tab-btn.active { background: #edf5f2; border-color: var(--teal); border-bottom-color: transparent; color: var(--teal); }
+.tab-panel { display: none; animation: fadeInUp 0.3s ease; }
+.tab-panel.active { display: block; }
+
+/* ========== END SLIDE ========== */
+.end-slide { text-align: center; }
+.end-slide h1 { font-size: 3em; }
+.end-credits { color: var(--text-muted); font-size: 0.95em; margin-top: 30px; line-height: 2; }
+
+/* ========== SCROLLBAR ========== */
+.slide::-webkit-scrollbar { width: 6px; }
+.slide::-webkit-scrollbar-track { background: transparent; }
+.slide::-webkit-scrollbar-thumb { background: #c6d1ca; border-radius: 3px; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .slide { padding: 76px 44px 66px; }
+  .slide h1 { font-size: 2.2em; }
+  .slide h2 { font-size: 1.6em; }
+  .card-grid-3, .card-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .practice-layout { grid-template-columns: 1fr; }
+  .radar-section { grid-template-columns: 1fr; }
+  .dnd-container { grid-template-columns: 1fr; }
+  .mission-steps { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .slide { padding: 108px 18px 78px; justify-content: flex-start; }
+  .slide h1 { font-size: 1.8em; }
+  .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+  .nav-btn { width: 36px; height: 36px; font-size: 18px; top: 58px; bottom: auto; transform: none; }
+  .nav-prev { left: 12px; }
+  .nav-next { right: 12px; }
+  .teacher-tools { right: 12px; left: 12px; justify-content: flex-end; gap: 6px; }
+  .tool-btn { min-height: 34px; padding: 6px 9px; font-size: 0.82rem; }
+  .part-indicator { left: 12px; top: 16px; max-width: calc(100vw - 180px); }
+  .keyboard-hint { display: none; }
+  .slide-counter { display: none; }
+  .footer-credit { display: none; }
+  .slide-list { grid-template-columns: 1fr; }
+  .tab-btns, .steps-container { overflow-x: auto; padding-bottom: 4px; }
+  .tab-btn, .step-dot { min-width: max-content; }
+  .version-btn { width: 100%; min-width: 0; text-align: center; }
+  .video-meta { flex-direction: column; align-items: center; }
+  .class-note-grid { grid-template-columns: 1fr; }
+  .class-summary-head { display: block; }
+  .class-summary-card .action-row { justify-content: center; }
+  .title-notes { flex-direction: column; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="presentation">
+  <!-- Background Blobs -->
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
+  <div class="bg-blob bg-blob-3"></div>
+
+  <!-- Navigation -->
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="slide-counter" id="slideCounter"></div>
+  <div class="part-indicator" id="partIndicator"></div>
+  <div class="teacher-tools" aria-label="เครื่องมือสำหรับครู">
+    <button class="tool-btn" onclick="toggleSlideMenu()" title="เปิดสารบัญสไลด์">☰ สารบัญ</button>
+    <button class="tool-btn" onclick="toggleFullscreen()" title="เปิดหรือปิดเต็มจอ">⛶ เต็มจอ</button>
+    <button class="tool-btn" onclick="resetAllActivities()" title="ล้างคำตอบและเริ่มกิจกรรมใหม่">↺ รีเซ็ต</button>
+  </div>
+  <button class="nav-btn nav-prev" id="prevBtn" onclick="prevSlide()" aria-label="สไลด์ก่อนหน้า">‹</button>
+  <button class="nav-btn nav-next" id="nextBtn" onclick="nextSlide()" aria-label="สไลด์ถัดไป">›</button>
+  <div class="keyboard-hint"><span class="kbd">←</span><span class="kbd">→</span> เลื่อนสไลด์</div>
+  <div class="footer-credit">ผู้สอน: ครูเอกณัฐ ลุผลแท้</div>
+  <div class="slide-menu" id="slideMenu" role="dialog" aria-modal="true" aria-labelledby="slideMenuTitle">
+    <div class="slide-menu-panel">
+      <div class="slide-menu-head">
+        <h2 id="slideMenuTitle">สารบัญสไลด์</h2>
+        <button class="secondary-btn" onclick="toggleSlideMenu(false)">ปิด</button>
+      </div>
+      <div class="slide-list" id="slideList"></div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- ============================== -->
+  <!-- PART 1: INTRO (Slides 1-3) -->
+  <!-- ============================== -->
+
+  <!-- SLIDE 1: Title -->
+  <section class="slide title-slide" data-part="เปิดบทเรียน">
+    <div class="slide-inner">
+      <span class="music-icon">🎵</span>
+      <div class="badge fade-in-up">วิชาดนตรีสากล — ระดับชั้นมัธยมศึกษาปีที่ 5</div>
+      <h1 class="fade-in-up delay-1">การวิจารณ์ดนตรี<br><span class="gradient-text">และการตัดสินดนตรี</span></h1>
+      <p class="subtitle fade-in-up delay-2">Music Criticism &amp; Music Judging</p>
+      <div class="title-notes fade-in-up delay-3">
+        <span>📅 2 คาบเรียน</span>
+        <span>🎯 Interactive Learning</span>
+        <span>🏆 กิจกรรม Role Play</span>
+      </div>
+      <div class="teacher-credit fade-in-up delay-3" style="margin-top:24px; font-size:1.05em; color:var(--text-secondary); font-family:var(--font-heading);">
+        ครูผู้สอน: <strong>นายเอกณัฐ ลุผลแท้</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: Hook + Video Versions -->
+  <section class="slide" data-part="เปิดบทเรียน">
+    <div class="slide-inner" style="text-align:center;">
+      <span class="section-num">WARM UP</span>
+      <h2>🎧 ฟังเพลง 2 เวอร์ชัน<br>แล้วเลือกว่าชอบเวอร์ชันไหนมากกว่า?</h2>
+      <p>กดเลือก <strong style="color:var(--teal);">Version A</strong> หรือ <strong style="color:var(--teal);">Version B</strong> เพื่อเปิดเพลงในหน้านี้ แล้วให้นักเรียนสังเกตว่าเวอร์ชันไหนสื่ออารมณ์ได้ชัดกว่า</p>
+      <div class="version-selector" id="versionSelector">
+        <button class="version-btn" onclick="selectVersion('A')" aria-pressed="false">
+          <strong>🎤 Version A</strong>
+          <small>ฟังก่อน แล้วจดสิ่งที่เด่น 1 อย่าง</small>
+        </button>
+        <button class="version-btn" onclick="selectVersion('B')" aria-pressed="false">
+          <strong>🎸 Version B</strong>
+          <small>ฟังเทียบกับ Version A</small>
+        </button>
+      </div>
+      
+      <!-- Placeholder card before selecting version -->
+      <div class="glass-card" id="videoPlaceholder" style="max-width: 460px; margin: 12px auto; padding: 18px; border-style: dashed; border-color: var(--teal); background: rgba(63, 121, 116, 0.03);">
+        <p style="font-size: 1.0em; color: var(--teal); margin: 0; font-family: var(--font-heading);">💡 กรุณากดเลือก Version ด้านบนเพื่อแสดงคลิปวีดีโอสำหรับฟังและเปรียบเทียบ</p>
+      </div>
+
+      <div class="video-shell" id="videoShell" style="display: none;">
+        <div class="video-frame">
+          <iframe id="versionPlayer" title="YouTube video player" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="video-meta">
+          <strong id="versionTitle">กำลังแสดง: </strong>
+          <a id="versionLink" href="" target="_blank" rel="noopener">เปิดบน YouTube</a>
+        </div>
+      </div>
+      <p style="margin-top:16px; font-size:0.92em; color:var(--text-muted);">💡 คำถามสำคัญ: เราใช้ <strong style="color:var(--purple);">"อะไร"</strong> เป็นเกณฑ์ในการตัดสิน?<br>ไม่ใช่แค่ "ชอบ" หรือ "ไม่ชอบ" — แต่ต้องอธิบายได้ว่า <em>ทำไม</em></p>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Learning Objectives -->
+  <section class="slide" data-part="เปิดบทเรียน">
+    <div class="slide-inner">
+      <span class="section-num">OBJECTIVES</span>
+      <h2>🎯 จุดประสงค์การเรียนรู้</h2>
+      <p>เมื่อเรียนจบบทเรียนนี้ นักเรียนจะสามารถ...</p>
+      <div class="card-grid card-grid-2" style="margin-top:20px;">
+        <div class="glass-card fade-in-up">
+          <h3>📖 คาบที่ 1: ทฤษฎีและหลักการ</h3>
+          <ul>
+            <li>อธิบายความหมายและหลักการของการวิจารณ์ดนตรีได้</li>
+            <li>จำแนกประเภทของการวิจารณ์ดนตรีได้</li>
+            <li>วิเคราะห์องค์ประกอบทางดนตรีที่ใช้ในการวิจารณ์</li>
+            <li>อธิบายกระบวนการวิจารณ์ดนตรี 5 ขั้นตอนได้</li>
+          </ul>
+        </div>
+        <div class="glass-card fade-in-up delay-1">
+          <h3>🏆 คาบที่ 2: ปฏิบัติและตัดสิน</h3>
+          <ul>
+            <li>อธิบายเกณฑ์การตัดสินวงดนตรี 4 ด้านได้</li>
+            <li>เปรียบเทียบความแตกต่างระหว่างการวิจารณ์กับการตัดสินได้</li>
+            <li>ประเมินการแสดงวงดนตรีจากวีดีโอจริงได้อย่างมีหลักเกณฑ์</li>
+            <li>ให้ข้อเสนอแนะที่สร้างสรรค์แก่ผู้แสดงได้</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- PART 2: พื้นฐานการวิจารณ์ (Slides 4-8) -->
+  <!-- ============================== -->
+
+  <!-- SLIDE 4: ความหมาย + Flip Cards -->
+  <section class="slide" data-part="พื้นฐานการวิจารณ์ดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">PART 01</span>
+      <h2>การวิจารณ์ดนตรีคืออะไร? <span class="en" style="font-size:0.6em; color:var(--text-muted);">Music Criticism</span></h2>
+      <div class="card-grid card-grid-2" style="margin-bottom:20px;">
+        <div>
+          <p>คำว่า <strong style="color:var(--purple);">'วิจารณ์'</strong> มาจากภาษาอังกฤษว่า <em>critic</em> ซึ่งมีรากศัพท์จากภาษากรีกว่า <strong class="en" style="color:var(--teal);">κριτικός (kritikós)</strong> แปลว่า <strong style="color:var(--gold);">"ผู้มีความสามารถในการตัดสิน"</strong> (able to judge) มาจากคำกริยา κρίνειν (krínein) แปลว่า "แยกแยะ, ตัดสิน"</p>
+          <p><strong>การวิจารณ์ดนตรี</strong> คือ <strong style="color:var(--teal);">กิจกรรมทางปัญญา</strong> ที่มุ่งเน้น<strong>การประเมินคุณค่า</strong>และ<strong>ตีความผลงานดนตรี</strong> โดยอาศัย<strong>ความรู้ ประสบการณ์ และเหตุผล</strong> — แกนสำคัญคือ <strong>ทำอย่างตรงประเด็น มีเหตุผล และใช้องค์ความรู้</strong> ไม่ใช่เพียงแค่ "ชอบ" หรือ "ไม่ชอบ"</p>
+        </div>
+        <div class="glass-card" style="border-color:var(--gold-dark); background:rgba(143,113,57,0.05);">
+          <h3 style="color:var(--gold);">📌 รู้หรือไม่?</h3>
+          <p style="font-size:0.9em;">คำว่า <strong>criterion</strong> (เกณฑ์) และ <strong>crisis</strong> (วิกฤต = จุดตัดสิน) ก็มาจากรากศัพท์กรีกเดียวกัน! — ล้วนเกี่ยวกับการ "แยกแยะ" และ "ตัดสิน"</p>
+          <p style="font-size:0.9em; margin-top:8px;">นักปรัชญา <strong>Immanuel Kant</strong> เสนอแนวคิดว่า การตัดสินเชิงสุนทรียะที่ดี ต้อง <strong style="color:var(--teal);">ปราศจากอคติส่วนตัว (disinterestedness)</strong></p>
+        </div>
+      </div>
+      <p style="font-size:0.95em; color:var(--gold); margin-bottom:16px;">🃏 กดพลิกการ์ดเพื่อดูเฉลยว่าแต่ละข้อ "ใช่" หรือ "ไม่ใช่" การวิจารณ์ดนตรี (และเป็นประเภทใด)</p>
+      <div class="card-grid card-grid-3">
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h3 style="font-size:1.05em; font-weight:500; line-height:1.5;">"เสียงเปียโนในท่อนนี้เบาหวิวเหมือนหยาดฝน ทำให้รู้สึกเหงาและนึกถึงวัยเด็ก"</h3>
+              <span class="flip-hint">กดเพื่อพลิกดูคำตอบ</span>
+            </div>
+            <div class="flip-card-back" style="border-color:var(--rose); background:rgba(154,95,104,0.06);">
+              <h3 style="color:var(--rose); margin-bottom:8px;">✅ ใช่ (จิตวิจารณ์)</h3>
+              <p style="font-size:0.92em; color:var(--text-secondary);">เป็นการวิจารณ์ที่ถ่ายทอดอารมณ์ความรู้สึกส่วนตัวที่ได้รับจากการฟังดนตรีโดยตรง</p>
+            </div>
+          </div>
+        </div>
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h3 style="font-size:1.05em; font-weight:500; line-height:1.5;">"เพลงนี้แต่งขึ้นในคีย์ C Major มีความยาวทั้งหมด 4 นาที 15 วินาที"</h3>
+              <span class="flip-hint">กดเพื่อพลิกดูคำตอบ</span>
+            </div>
+            <div class="flip-card-back" style="border-color:var(--red); background:rgba(167,95,82,0.06);">
+              <h3 style="color:var(--red); margin-bottom:8px;">❌ ไม่ใช่การวิจารณ์</h3>
+              <p style="font-size:0.92em; color:var(--text-secondary);">เป็นเพียงการระบุ<strong>ข้อเท็จจริง (Fact)</strong> ของเพลง โดยไม่มีการประเมินคุณค่าหรือแสดงทัศนะใดๆ</p>
+            </div>
+          </div>
+        </div>
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <h3 style="font-size:1.05em; font-weight:500; line-height:1.5;">"การร้องคุมโทนเสียงได้นิ่ง แต่การมิกซ์เสียงกลองดังเกินไปจนกลบเสียงร้องนำ"</h3>
+              <span class="flip-hint">กดเพื่อพลิกดูคำตอบ</span>
+            </div>
+            <div class="flip-card-back" style="border-color:var(--teal); background:rgba(63,121,116,0.06);">
+              <h3 style="color:var(--teal); margin-bottom:8px;">✅ ใช่ (วิพากษ์วิจารณ์)</h3>
+              <p style="font-size:0.92em; color:var(--text-secondary);">เป็นการประเมินคุณค่าตามหลักเกณฑ์ทางเทคนิคและวิเคราะห์จุดเด่น/จุดด้อยอย่างมีเหตุผล</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: ประวัติศาสตร์ (Timeline) -->
+  <section class="slide" data-part="พื้นฐานการวิจารณ์ดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">PART 01</span>
+      <h2>📜 ประวัติศาสตร์การวิจารณ์ดนตรี</h2>
+      <div class="card-grid card-grid-2">
+        <div class="timeline">
+          <div class="timeline-item fade-in-up">
+            <div class="timeline-era">ยุค Classical (ค.ศ. 1700s)</div>
+            <p style="font-size:0.95em;">เริ่มมีนักวิจารณ์ดนตรีอาชีพในยุโรป เขียนบทวิจารณ์ลงหนังสือพิมพ์ เช่น การวิจารณ์ผลงานของ Mozart, Beethoven</p>
+          </div>
+          <div class="timeline-item fade-in-up delay-1">
+            <div class="timeline-era">ยุค Romantic (ค.ศ. 1800s)</div>
+            <p style="font-size:0.95em;">Robert Schumann ก่อตั้งวารสารดนตรี <em>Neue Zeitschrift für Musik</em> เน้นวิจารณ์เพื่อยกระดับรสนิยมดนตรีของสังคม</p>
+          </div>
+          <div class="timeline-item fade-in-up delay-2">
+            <div class="timeline-era">ยุค Modern (ค.ศ. 1900s)</div>
+            <p style="font-size:0.95em;">เกิดนิตยสารดนตรีสมัยใหม่ เช่น Rolling Stone (1967), NME — วิจารณ์ Pop, Rock, Jazz</p>
+          </div>
+          <div class="timeline-item fade-in-up delay-3">
+            <div class="timeline-era">ยุค Digital (2000s – ปัจจุบัน)</div>
+            <p style="font-size:0.95em;">ทุกคนเป็นนักวิจารณ์ได้ผ่านโซเชียลมีเดีย YouTube, TikTok แต่คุณภาพหลากหลาย</p>
+          </div>
+        </div>
+        <div class="glass-card" style="align-self:start;">
+          <h3 style="color:var(--gold);">💡 สิ่งที่เปลี่ยนไป</h3>
+          <ul>
+            <li><strong>ผู้วิจารณ์:</strong> จากผู้เชี่ยวชาญ → ทุกคน</li>
+            <li><strong>สื่อ:</strong> จากหนังสือพิมพ์ → โซเชียลมีเดีย</li>
+            <li><strong>ความเร็ว:</strong> จากรายสัปดาห์ → Realtime</li>
+          </ul>
+          <p style="margin-top:12px;"><strong style="color:var(--teal);">สิ่งที่ไม่เปลี่ยน:</strong> การวิจารณ์ที่ดียังต้องอาศัยความรู้ เหตุผล และความเป็นธรรม</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: หลักการวิจารณ์ดนตรี -->
+  <section class="slide" data-part="พื้นฐานการวิจารณ์ดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">PART 01</span>
+      <h2>หลักการวิจารณ์ดนตรี</h2>
+      <p>การวิจารณ์ดนตรีที่ดีต้องตั้งอยู่บนหลักการสำคัญเหล่านี้</p>
+      <div class="card-grid card-grid-2" style="margin-top:16px;">
+        <div class="glass-card">
+          <h3 style="color:var(--purple);">1. 🎧 การฟังอย่างตั้งใจ <span class="en" style="font-size:0.7em;">(Active Listening)</span></h3>
+          <p style="font-size:0.95em;">ฟังอย่างมีสมาธิ สังเกตรายละเอียดในหลายมิติ ไม่ใช่เพียงแค่ฟังเพื่อความเพลิดเพลิน แต่ฟังเพื่อวิเคราะห์ทุกองค์ประกอบ</p>
+        </div>
+        <div class="glass-card">
+          <h3 style="color:var(--teal);">2. 📚 ความรอบรู้ <span class="en" style="font-size:0.7em;">(Knowledge)</span></h3>
+          <p style="font-size:0.95em;">ต้องมีความรู้พื้นฐานด้านทฤษฎีดนตรี ประวัติศาสตร์ดนตรี สุนทรียศาสตร์ รวมถึงบริบททางสังคมและวัฒนธรรม</p>
+        </div>
+        <div class="glass-card">
+          <h3 style="color:var(--gold);">3. ⚖️ ความเป็นกลางและยุติธรรม <span class="en" style="font-size:0.7em;">(Objectivity)</span></h3>
+          <p style="font-size:0.95em;">ไม่ลำเอียงจากรสนิยมส่วนตัว ใช้เกณฑ์ที่ชัดเจนในการประเมิน มีเหตุผลรองรับทุกความเห็น</p>
+        </div>
+        <div class="glass-card">
+          <h3 style="color:var(--rose);">4. 🤝 การวิจารณ์อย่างสร้างสรรค์ <span class="en" style="font-size:0.7em;">(Constructive)</span></h3>
+          <p style="font-size:0.95em;">มุ่งเน้นให้ข้อเสนอแนะที่เป็นประโยชน์ต่อการพัฒนา ไม่ใช่การทำลายหรือดูถูกผลงาน</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: ประเภทของการวิจารณ์ -->
+  <section class="slide" data-part="พื้นฐานการวิจารณ์ดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">PART 01</span>
+      <h2>ประเภทของการวิจารณ์ดนตรี</h2>
+      <p>การวิจารณ์ดนตรีแบ่งออกเป็น 3 ประเภทหลัก ตามมุมมองและความลึกของการวิเคราะห์</p>
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="showTab(event, 'tab-jit')">💭 จิตวิจารณ์</button>
+        <button class="tab-btn" onclick="showTab(event, 'tab-attha')">📖 อรรถวิจารณ์</button>
+        <button class="tab-btn" onclick="showTab(event, 'tab-wipak')">⚖️ วิพากษ์วิจารณ์</button>
+      </div>
+      <div class="tab-panel active" id="tab-jit">
+        <div class="glass-card" style="border-color:var(--rose);">
+          <h3 style="color:var(--rose);">💭 จิตวิจารณ์ <span class="en">(Impressionistic Criticism)</span></h3>
+          <p>เป็นการวิจารณ์ที่เน้น <strong style="color:var(--rose);">ความรู้สึกนึกคิดส่วนตัว</strong> ของผู้วิจารณ์เป็นสำคัญ</p>
+          <ul>
+            <li><strong>ลักษณะ:</strong> ถ่ายทอดอารมณ์ความรู้สึกที่ได้รับจากการฟังดนตรีโดยตรง</li>
+            <li><strong>จุดแข็ง:</strong> จริงใจ เป็นธรรมชาติ เข้าถึงผู้อ่านได้ง่าย</li>
+            <li><strong>ข้อจำกัด:</strong> อาจขาดหลักฐานหรือเหตุผลทางทฤษฎีรองรับ</li>
+            <li><strong>ตัวอย่าง:</strong> "เสียงเปียโนในท่อนนี้ทำให้ฉันนึกถึงวันฝนตกในวัยเด็ก"</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tab-panel" id="tab-attha">
+        <div class="glass-card" style="border-color:var(--teal);">
+          <h3 style="color:var(--teal);">📖 อรรถวิจารณ์ <span class="en">(Interpretive Criticism)</span></h3>
+          <p>เป็นการวิจารณ์เชิง <strong style="color:var(--teal);">ตีความ</strong> — วิเคราะห์ถึงเนื้อหาสาระและความหมายที่ศิลปินต้องการสื่อสาร</p>
+          <ul>
+            <li><strong>ลักษณะ:</strong> วิเคราะห์เนื้อหา สาร แก่นของผลงาน แล้วเปรียบเทียบข้อดีข้อด้อยด้วยเหตุผล</li>
+            <li><strong>จุดแข็ง:</strong> มีความลึกซึ้ง ช่วยให้ผู้ฟังเข้าใจผลงานมากขึ้น</li>
+            <li><strong>ข้อจำกัด:</strong> อาจตีความต่างกันไปตามมุมมองของแต่ละคน</li>
+            <li><strong>ตัวอย่าง:</strong> "การใช้คีย์ไมเนอร์ตลอดทั้งเพลงสื่อถึงความสูญเสีย สอดคล้องกับเนื้อร้องที่พูดถึงการจากลา"</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tab-panel" id="tab-wipak">
+        <div class="glass-card" style="border-color:var(--gold-dark);">
+          <h3 style="color:var(--gold);">⚖️ วิพากษ์วิจารณ์ <span class="en">(Judicial Criticism)</span></h3>
+          <p>เป็นการวิจารณ์เชิง <strong style="color:var(--gold);">ตัดสินคุณค่า</strong> — ใช้ <strong>หลักเกณฑ์ มาตรฐาน และทฤษฎีทางศิลปะ</strong> ที่ได้รับการยอมรับเป็นเครื่องวัด</p>
+          <ul>
+            <li><strong>ลักษณะ:</strong> ประเมินว่าผลงานมีคุณค่าอยู่ในระดับใด โดยเทียบกับมาตรฐานที่กำหนด</li>
+            <li><strong>จุดแข็ง:</strong> เป็นระบบ มีเกณฑ์ชัดเจน ลดอคติส่วนตัว</li>
+            <li><strong>ข้อจำกัด:</strong> อาจดูเข้มงวด เกณฑ์อาจไม่ครอบคลุมทุกมิติ</li>
+            <li><strong>ตัวอย่าง:</strong> "ตามเกณฑ์ด้าน Ensemble วงนี้ได้ 22/25 — มี Balance ดี แต่ Tightness ยังหลุดในท่อน Bridge"</li>
+          </ul>
+          <p style="margin-top:12px; padding:10px 16px; background:rgba(167,95,82,0.08); border-radius:8px; font-size:0.9em;">⚠️ <strong style="color:var(--red);">ข้อควรระวัง:</strong> วิพากษ์วิจารณ์ต้องใช้ <em>หลักเกณฑ์</em> เป็นฐาน ไม่ใช่ "ความรู้สึกชอบไม่ชอบ" (นั่นคือจิตวิจารณ์)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- SLIDE 8: คุณสมบัตินักวิจารณ์ + Checklist -->
+  <section class="slide" data-part="พื้นฐานการวิจารณ์ดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">PART 01</span>
+      <h2>✅ คุณสมบัติของนักวิจารณ์ดนตรีที่ดี</h2>
+      <p>ลองเช็คดูว่าตัวเองมีคุณสมบัตินักวิจารณ์ข้อไหนบ้าง? <span style="color:var(--gold);">กดเลือกได้เลย!</span></p>
+      <div class="card-grid card-grid-2" style="margin-top:16px;">
+        <div>
+          <ul class="checklist" id="criticChecklist">
+            <li onclick="toggleCheck(this)"><div class="check-box"></div>มีประสบการณ์และความรู้อย่างละเอียดลึกซึ้งทางดนตรี</li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div>มีจิตใจรักและชื่นชมในศิลปะและสุนทรียภาพทางดนตรีอย่างแท้จริง</li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div>มีน้ำใจกว้างขวาง รักษาความเป็นกลาง ยอมรับความคิดเห็นของผู้อื่น</li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div>สามารถเชื่อมโยงวิชาความรู้อื่นๆ กับความรู้ทางดนตรีได้</li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div>มีอุดมคติในการวิจารณ์ ไม่ใช้คำวิจารณ์เป็นเครื่องมือทำลายผู้อื่น</li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div>มีจิตใจเป็นประชาธิปไตย เคารพสิทธิเสรีภาพของศิลปิน</li>
+            <li onclick="toggleCheck(this)"><div class="check-box"></div>มีอารมณ์เยือกเย็น หลีกเลี่ยงความรุนแรง มีเหตุมีผล</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="text-align:center; align-self:start;">
+          <p style="font-size:1em; color:var(--text-muted); margin-bottom:8px;">คะแนนนักวิจารณ์ของคุณ</p>
+          <div id="checkScore" style="font-family:var(--font-en); font-size:4em; font-weight:800; color:var(--purple);">0<span style="font-size:0.35em; color:var(--text-muted);">/7</span></div>
+          <p id="checkMsg" style="margin-top:12px; font-size:1em; color:var(--text-secondary);">เริ่มกดเลือกกันเลย!</p>
+          <button class="secondary-btn" onclick="resetChecklist()" style="margin-top:14px;">↺ ล้างรายการ</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- PART 3: องค์ประกอบดนตรี (Slides 9-14) -->
+  <!-- ============================== -->
+
+  <!-- SLIDE 9: Overview + Spin Wheel -->
+  <section class="slide" data-part="องค์ประกอบดนตรี">
+    <div class="slide-inner" style="text-align:center;">
+      <span class="section-num">PART 02</span>
+      <h2>🎼 องค์ประกอบของดนตรี <span class="en" style="font-size:0.6em; color:var(--text-muted);">Elements of Music</span></h2>
+      <p>องค์ประกอบ 7 ด้านที่นักวิจารณ์ต้องรู้จัก — ลอง<span style="color:var(--gold);"> หมุนวงล้อ</span> เพื่อสุ่มดูแต่ละหัวข้อ!</p>
+      <div class="wheel-container" style="margin-top:16px;">
+        <div class="wheel-wrapper">
+          <div class="wheel-pointer"></div>
+          <canvas class="wheel-canvas" id="wheelCanvas" width="320" height="320"></canvas>
+        </div>
+        <button class="spin-btn" onclick="spinWheel()">🎰 หมุนเลย!</button>
+        <div class="wheel-result" id="wheelResult">กดปุ่มเพื่อสุ่มเลือกองค์ประกอบ</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: Melody & Harmony -->
+  <section class="slide" data-part="องค์ประกอบดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">PART 02</span>
+      <h2>🎶 Melody &amp; Harmony</h2>
+      <div class="card-grid card-grid-2">
+        <div class="glass-card">
+          <h3 style="color:var(--purple);">🎵 ทำนอง <span class="en">(Melody)</span></h3>
+          <p style="font-size:0.95em;">ลำดับของเสียงที่เรียงต่อกันเป็นแนวนอน เป็นส่วนที่ผู้ฟังจดจำได้ง่ายที่สุด</p>
+          <ul style="font-size:0.9em;">
+            <li><strong>สิ่งที่ต้องสังเกต:</strong> ช่วงเสียง (Range), ทิศทางเสียง, ลักษณะโดดเด่น</li>
+            <li><strong>คำถามวิจารณ์:</strong> ทำนองน่าจดจำหรือไม่? มีเอกลักษณ์อย่างไร?</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3 style="color:var(--teal);">🎹 เสียงประสาน <span class="en">(Harmony)</span></h3>
+          <p style="font-size:0.95em;">การรวมกันของเสียงหลายเสียงพร้อมกัน สร้างคอร์ดและการดำเนินคอร์ด</p>
+          <ul style="font-size:0.9em;">
+            <li><strong>สิ่งที่ต้องสังเกต:</strong> คอร์ดโปรเกรสชัน, ความกลมกลืน (Consonance) vs ความขัดกัน (Dissonance)</li>
+            <li><strong>คำถามวิจารณ์:</strong> Harmony สร้างอารมณ์อย่างไร? ซับซ้อนหรือเรียบง่าย?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 11: Rhythm & Tempo -->
+  <section class="slide" data-part="องค์ประกอบดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">PART 02</span>
+      <h2>🥁 Rhythm &amp; Tempo</h2>
+      <div class="card-grid card-grid-2">
+        <div class="glass-card">
+          <h3 style="color:var(--gold);">🥁 จังหวะ <span class="en">(Rhythm)</span></h3>
+          <p style="font-size:0.95em;">รูปแบบของเสียงยาว-สั้นและการเน้นในดนตรี เป็น "โครงกระดูก" ของเพลง</p>
+          <ul style="font-size:0.9em;">
+            <li><strong>สิ่งที่ต้องสังเกต:</strong> รูปแบบจังหวะ (Rhythmic Pattern), จังหวะหนัก-เบา, Syncopation</li>
+            <li><strong>คำถามวิจารณ์:</strong> จังหวะมีความสม่ำเสมอหรือไม่? มีความซับซ้อนแค่ไหน?</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3 style="color:var(--rose);">⏱️ อัตราจังหวะ <span class="en">(Tempo)</span></h3>
+          <p style="font-size:0.95em;">ความเร็ว-ช้าของดนตรี วัดเป็น BPM (Beats Per Minute)</p>
+          <ul style="font-size:0.9em;">
+            <li><strong>คำศัพท์:</strong> Adagio (ช้า), Andante (เดิน), Allegro (เร็ว), Presto (เร็วมาก)</li>
+            <li><strong>คำถามวิจารณ์:</strong> Tempo เหมาะกับอารมณ์เพลงหรือไม่? มีการเปลี่ยน Tempo หรือไม่?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 12: Timbre & Dynamics -->
+  <section class="slide" data-part="องค์ประกอบดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">PART 02</span>
+      <h2>🔊 Timbre &amp; Dynamics</h2>
+      <div class="card-grid card-grid-2">
+        <div class="glass-card">
+          <h3 style="color:var(--teal);">🎻 คุณภาพเสียง <span class="en">(Timbre / Tone Color)</span></h3>
+          <p style="font-size:0.95em;">"สีสัน" ของเสียง — สิ่งที่ทำให้เราแยกเสียงกีตาร์ออกจากเสียงเปียโน แม้เล่นโน้ตเดียวกัน</p>
+          <ul style="font-size:0.9em;">
+            <li><strong>สิ่งที่ต้องสังเกต:</strong> ลักษณะเฉพาะของเสียงแต่ละเครื่อง, น้ำเสียงนักร้อง</li>
+            <li><strong>คำถามวิจารณ์:</strong> เสียงมีความอบอุ่น/คม/สว่าง/มืดอย่างไร?</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3 style="color:var(--purple);">🔈 ความดังเบา <span class="en">(Dynamics)</span></h3>
+          <p style="font-size:0.95em;">ระดับความดัง-เบาของดนตรี และการเปลี่ยนแปลงระดับเสียง</p>
+          <ul style="font-size:0.9em;">
+            <li><strong>คำศัพท์:</strong> pp (เบามาก) → p → mp → mf → f → ff (ดังมาก), crescendo (ค่อยๆ ดัง), diminuendo (ค่อยๆ เบา)</li>
+            <li><strong>คำถามวิจารณ์:</strong> มีการเปลี่ยนแปลง Dynamics หรือไม่? สร้างอารมณ์อย่างไร?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 13: Texture & Form -->
+  <section class="slide" data-part="องค์ประกอบดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">PART 02</span>
+      <h2>🧶 Texture &amp; Form</h2>
+      <div class="card-grid card-grid-2">
+        <div class="glass-card">
+          <h3 style="color:var(--gold);">🧶 เนื้อดนตรี <span class="en">(Texture)</span></h3>
+          <p style="font-size:0.95em;">วิธีที่แนวเสียงต่างๆ ผสมผสานกัน — "ความหนาแน่น" ของเสียง</p>
+          <ul style="font-size:0.9em;">
+            <li><strong>Monophonic:</strong> เสียงเดียว ไม่มีเสียงประสาน</li>
+            <li><strong>Homophonic:</strong> ทำนองหลัก + เสียงประกอบ (ที่พบบ่อยที่สุดในเพลง Pop)</li>
+            <li><strong>Polyphonic:</strong> หลายแนวเสียงดำเนินไปพร้อมกัน</li>
+          </ul>
+        </div>
+        <div class="glass-card">
+          <h3 style="color:var(--rose);">📐 โครงสร้างเพลง <span class="en">(Form)</span></h3>
+          <p style="font-size:0.95em;">การจัดวางส่วนต่างๆ ของเพลง — "แบบแปลนบ้าน" ของดนตรี</p>
+          <ul style="font-size:0.9em;">
+            <li><strong>Verse-Chorus:</strong> ท่อน-Hook สลับกัน (Pop ทั่วไป)</li>
+            <li><strong>AABA:</strong> ท่อน A ซ้ำ แล้วมี Bridge (Jazz Standard)</li>
+            <li><strong>Through-composed:</strong> ไม่ซ้ำ ดำเนินไปเรื่อยๆ</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 14: Drag & Drop Quiz -->
+  <section class="slide" data-part="องค์ประกอบดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">QUIZ TIME!</span>
+      <h2>🧩 จับคู่องค์ประกอบดนตรีกับความหมาย</h2>
+      <p>ลาก <span style="color:var(--purple);">คำศัพท์</span> ไปวางใน <span style="color:var(--teal);">ช่องความหมาย</span> ที่ถูกต้อง</p>
+      <div class="dnd-container" style="margin-top:16px;">
+        <div class="dnd-terms" id="dndTerms">
+          <div class="dnd-item" draggable="true" data-answer="melody">🎵 Melody</div>
+          <div class="dnd-item" draggable="true" data-answer="dynamics">🔊 Dynamics</div>
+          <div class="dnd-item" draggable="true" data-answer="timbre">🎻 Timbre</div>
+          <div class="dnd-item" draggable="true" data-answer="rhythm">🥁 Rhythm</div>
+          <div class="dnd-item" draggable="true" data-answer="harmony">🎹 Harmony</div>
+        </div>
+        <div class="dnd-targets">
+          <div class="dnd-target" data-accept="melody">ลำดับของเสียงที่เรียงต่อกันเป็นทำนองเพลง</div>
+          <div class="dnd-target" data-accept="harmony">การรวมกันของหลายเสียงพร้อมกัน สร้างคอร์ด</div>
+          <div class="dnd-target" data-accept="rhythm">รูปแบบของเสียงยาว-สั้นและการเน้นจังหวะ</div>
+          <div class="dnd-target" data-accept="timbre">"สีสัน" ของเสียงที่แยกเครื่องดนตรีแต่ละชิ้น</div>
+          <div class="dnd-target" data-accept="dynamics">ระดับความดัง-เบาของดนตรี</div>
+        </div>
+      </div>
+      <div class="dnd-score" id="dndScore"></div>
+      <div class="action-row">
+        <button class="secondary-btn" onclick="resetDnd()">↺ เริ่มจับคู่ใหม่</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- PART 4: กระบวนการ 5 ขั้นตอน (Slides 15-21) -->
+  <!-- ============================== -->
+
+  <!-- SLIDE 15: Overview 5 Steps -->
+  <section class="slide" data-part="กระบวนการวิจารณ์ 5 ขั้นตอน">
+    <div class="slide-inner">
+      <span class="section-num">PART 03</span>
+      <h2>📋 กระบวนการวิจารณ์ดนตรี 5 ขั้นตอน</h2>
+      <p>คลิกแต่ละขั้นตอนเพื่อดูรายละเอียด</p>
+      <div class="steps-container" id="stepsNav">
+        <div class="step-dot active" onclick="showStep(0)">1. บรรยาย</div>
+        <div class="step-dot" onclick="showStep(1)">2. วิเคราะห์</div>
+        <div class="step-dot" onclick="showStep(2)">3. ตีความ</div>
+        <div class="step-dot" onclick="showStep(3)">4. ประเมินค่า</div>
+        <div class="step-dot" onclick="showStep(4)">5. สรุป</div>
+      </div>
+      <div id="stepsContent">
+        <div class="step-content active glass-card">
+          <h3 style="color:var(--purple);">ขั้นที่ 1: การบรรยาย <span class="en">(Description)</span></h3>
+          <p>ระบุข้อมูลพื้นฐานตามที่ปรากฏ — ยังไม่ใส่ความเห็นส่วนตัว</p>
+          <ul><li>ชื่อเพลง / ศิลปิน / แนวเพลง</li><li>เครื่องดนตรีที่ใช้ จำนวนนักดนตรี</li><li>บรรยากาศโดยรวม</li></ul>
+        </div>
+        <div class="step-content glass-card">
+          <h3 style="color:var(--teal);">ขั้นที่ 2: การวิเคราะห์ <span class="en">(Analysis)</span></h3>
+          <p>เจาะลึกองค์ประกอบดนตรี — ดูว่า "เทคนิค" ไหนถูกนำมาใช้</p>
+          <ul><li>วิเคราะห์ Melody, Harmony, Rhythm, Dynamics, Texture, Form</li><li>สังเกตเทคนิคพิเศษ เช่น Improvisation, Modulation</li><li>คุณภาพเสียงโดยรวม</li></ul>
+        </div>
+        <div class="step-content glass-card">
+          <h3 style="color:var(--gold);">ขั้นที่ 3: การตีความ <span class="en">(Interpretation)</span></h3>
+          <p>ค้นหาความหมายเบื้องหลัง — ศิลปินต้องการสื่ออะไร?</p>
+          <ul><li>อารมณ์ความรู้สึกที่ได้รับ</li><li>ความหมายของเนื้อร้อง / ดนตรี</li><li>บริบททางสังคม วัฒนธรรม ประวัติศาสตร์</li></ul>
+        </div>
+        <div class="step-content glass-card">
+          <h3 style="color:var(--rose);">ขั้นที่ 4: การประเมินค่า <span class="en">(Evaluation)</span></h3>
+          <p>ตัดสินคุณค่าของผลงาน — โดยใช้เกณฑ์ที่เหมาะสม</p>
+          <ul><li>จุดเด่นและจุดด้อย</li><li>เปรียบเทียบกับมาตรฐานหรือผลงานอื่น</li><li>ความสำเร็จตามวัตถุประสงค์</li></ul>
+        </div>
+        <div class="step-content glass-card">
+          <h3 style="color:var(--green);">ขั้นที่ 5: การสรุปและข้อเสนอแนะ <span class="en">(Judgement)</span></h3>
+          <p>สรุปผลรวมและให้คำแนะนำที่สร้างสรรค์</p>
+          <ul><li>สรุปคุณค่าโดยรวม</li><li>ข้อเสนอแนะเพื่อการพัฒนา</li><li>ความเห็นส่วนตัวที่มีเหตุผลรองรับ</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 16: ขั้นที่ 1 -->
+  <section class="slide" data-part="กระบวนการวิจารณ์ 5 ขั้นตอน">
+    <div class="slide-inner">
+      <span class="section-num">STEP 01 / 05</span>
+      <h2>📝 ขั้นที่ 1: การบรรยาย <span class="en" style="font-size:0.6em; color:var(--text-muted);">Description</span></h2>
+      <div class="card-grid card-grid-2">
+        <div class="glass-card">
+          <h3>เป้าหมาย</h3>
+          <p style="font-size:0.95em;">บันทึกข้อมูลพื้นฐานอย่างตรงไปตรงมา ยังไม่มีการใส่ความรู้สึกหรือตัดสิน</p>
+          <h3 style="margin-top:16px;">สิ่งที่ต้องระบุ</h3>
+          <ul style="font-size:0.95em;">
+            <li>ชื่อเพลง / ชื่อศิลปินหรือวง</li>
+            <li>แนวเพลง (Genre) เช่น Pop, Rock, Jazz</li>
+            <li>เครื่องดนตรีที่ใช้ จำนวนนักดนตรี</li>
+            <li>บรรยากาศการแสดง (ถ้าเป็น Live)</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-color:var(--gold-dark); background:rgba(143,113,57,0.05);">
+          <h3 style="color:var(--gold);">💡 ตัวอย่าง</h3>
+          <p style="font-size:0.95em; font-style:italic; color:var(--text-secondary);">"บทเพลง 'ลมหายใจ' ขับร้องโดยวง XYZ ประกอบด้วยสมาชิก 5 คน ได้แก่ นักร้องนำ กีตาร์ เบส กลอง และคีย์บอร์ด แสดงในแนว Pop-Rock บนเวทีประกวดรอบชิงชนะเลิศ"</p>
+          <p style="font-size:0.85em; color:var(--text-muted); margin-top:12px;">⚠️ สังเกตว่ายังไม่มีคำว่า "เพราะ" "ดี" "แย่" เลย</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 17: ขั้นที่ 2 -->
+  <section class="slide" data-part="กระบวนการวิจารณ์ 5 ขั้นตอน">
+    <div class="slide-inner">
+      <span class="section-num">STEP 02 / 05</span>
+      <h2>🔍 ขั้นที่ 2: การวิเคราะห์ <span class="en" style="font-size:0.6em; color:var(--text-muted);">Analysis</span></h2>
+      <div class="card-grid card-grid-2">
+        <div class="glass-card">
+          <h3>เป้าหมาย</h3>
+          <p style="font-size:0.95em;">แยกองค์ประกอบย่อยๆ ออกมาพิจารณา ดูว่าแต่ละส่วนถูกใช้อย่างไร</p>
+          <h3 style="margin-top:16px;">ประเด็นที่ต้องวิเคราะห์</h3>
+          <ul style="font-size:0.95em;">
+            <li><strong>Melody:</strong> ทำนองจดจำง่ายไหม? ช่วงเสียงกว้างแค่ไหน?</li>
+            <li><strong>Harmony:</strong> ใช้คอร์ดอะไร? ซับซ้อนหรือเรียบง่าย?</li>
+            <li><strong>Rhythm:</strong> จังหวะมีลักษณะอย่างไร? มี Groove ไหม?</li>
+            <li><strong>Dynamics:</strong> มีการเปลี่ยนความดัง-เบาอย่างไร?</li>
+            <li><strong>Texture:</strong> เนื้อเสียงหนาหรือบาง?</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-color:var(--teal); background:rgba(63,121,116,0.05);">
+          <h3 style="color:var(--teal);">💡 ตัวอย่าง</h3>
+          <p style="font-size:0.95em; font-style:italic; color:var(--text-secondary);">"เพลงเปิดด้วย Intro กีตาร์อะคูสติก ก่อนเข้า Verse ด้วย Texture แบบ Homophonic จังหวะ 4/4 Tempo ประมาณ 90 BPM ท่อน Chorus ใช้ Dynamics เพิ่มขึ้น โดยเบสและกลองเข้ามาเสริมให้เสียงเต็มขึ้น"</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 18: ขั้นที่ 3 -->
+  <section class="slide" data-part="กระบวนการวิจารณ์ 5 ขั้นตอน">
+    <div class="slide-inner">
+      <span class="section-num">STEP 03 / 05</span>
+      <h2>💭 ขั้นที่ 3: การตีความ <span class="en" style="font-size:0.6em; color:var(--text-muted);">Interpretation</span></h2>
+      <div class="card-grid card-grid-2">
+        <div class="glass-card">
+          <h3>เป้าหมาย</h3>
+          <p style="font-size:0.95em;">ค้นหาว่าศิลปินต้องการสื่ออะไร ดนตรีสร้างอารมณ์อย่างไร</p>
+          <h3 style="margin-top:16px;">ประเด็นที่ต้องตีความ</h3>
+          <ul style="font-size:0.95em;">
+            <li>อารมณ์ที่ได้รับจากเพลง (เศร้า สุข ตื่นเต้น สงบ)</li>
+            <li>ความหมายที่ซ่อนอยู่ในเนื้อร้อง</li>
+            <li>แรงบันดาลใจของศิลปิน</li>
+            <li>บริบททางสังคม วัฒนธรรม หรือเหตุการณ์ที่เกี่ยวข้อง</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-color:var(--gold); background:rgba(143,113,57,0.05);">
+          <h3 style="color:var(--gold);">💡 ตัวอย่าง</h3>
+          <p style="font-size:0.95em; font-style:italic; color:var(--text-secondary);">"การเลือกใช้คีย์ไมเนอร์ตลอดทั้งเพลงร่วมกับ Tempo ที่ช้า สร้างบรรยากาศหม่นเศร้า สอดคล้องกับเนื้อร้องที่เล่าเรื่องการจากลา — ผู้ฟังสามารถสัมผัสถึงความเจ็บปวดที่นักร้องต้องการถ่ายทอด"</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 19: ขั้นที่ 4 -->
+  <section class="slide" data-part="กระบวนการวิจารณ์ 5 ขั้นตอน">
+    <div class="slide-inner">
+      <span class="section-num">STEP 04 / 05</span>
+      <h2>⚖️ ขั้นที่ 4: การประเมินค่า <span class="en" style="font-size:0.6em; color:var(--text-muted);">Evaluation</span></h2>
+      <div class="card-grid card-grid-2">
+        <div class="glass-card">
+          <h3>เป้าหมาย</h3>
+          <p style="font-size:0.95em;">ตัดสินจุดเด่น-จุดด้อยของผลงาน โดยใช้เกณฑ์ที่เหมาะสม</p>
+          <h3 style="margin-top:16px;">เกณฑ์ที่ใช้ในการประเมิน</h3>
+          <ul style="font-size:0.95em;">
+            <li><strong>ด้านเทคนิค:</strong> ความแม่นยำของระดับเสียง จังหวะ ทักษะการเล่น</li>
+            <li><strong>ด้านสุนทรียศาสตร์:</strong> ความไพเราะ ความงาม ความน่าสนใจ</li>
+            <li><strong>ด้านความคิดสร้างสรรค์:</strong> ความแปลกใหม่ เอกลักษณ์</li>
+            <li><strong>ด้านการสื่อสาร:</strong> ถ่ายทอดอารมณ์ได้สำเร็จหรือไม่?</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-color:var(--rose); background:rgba(154,95,104,0.05);">
+          <h3 style="color:var(--rose);">💡 ตัวอย่าง</h3>
+          <p style="font-size:0.95em; font-style:italic; color:var(--text-secondary);">"จุดเด่นของวงคือ Ensemble ที่แน่นมาก กลองกับเบสล็อกจังหวะกันดีเยี่ยม อย่างไรก็ตาม นักร้องมีปัญหาเรื่อง Intonation ในท่อน Bridge โดยเสียงตกลงประมาณ Quarter-tone"</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 20: ขั้นที่ 5 -->
+  <section class="slide" data-part="กระบวนการวิจารณ์ 5 ขั้นตอน">
+    <div class="slide-inner">
+      <span class="section-num">STEP 05 / 05</span>
+      <h2>📊 ขั้นที่ 5: การสรุปและข้อเสนอแนะ <span class="en" style="font-size:0.6em; color:var(--text-muted);">Judgement</span></h2>
+      <div class="card-grid card-grid-2">
+        <div class="glass-card">
+          <h3>เป้าหมาย</h3>
+          <p style="font-size:0.95em;">สรุปผลรวมอย่างมีเหตุผล พร้อมข้อเสนอแนะเพื่อการพัฒนา</p>
+          <h3 style="margin-top:16px;">สิ่งที่ต้องมีในบทสรุป</h3>
+          <ul style="font-size:0.95em;">
+            <li>สรุปจุดเด่นที่โดดเด่นที่สุด 2-3 ข้อ</li>
+            <li>สรุปจุดที่ควรปรับปรุง 1-2 ข้อ</li>
+            <li>ข้อเสนอแนะที่เป็นรูปธรรม (ปฏิบัติได้จริง)</li>
+            <li>ความเห็นรวม (Overall Impression)</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-color:var(--green); background:rgba(78,128,103,0.05);">
+          <h3 style="color:var(--green);">💡 ตัวอย่าง</h3>
+          <p style="font-size:0.95em; font-style:italic; color:var(--text-secondary);">"โดยรวม วง XYZ แสดงได้อย่างมีพลังและสนุก Ensemble แน่น ความคิดสร้างสรรค์ในการเรียบเรียงใหม่น่าชื่นชม สิ่งที่ควรพัฒนาคือการควบคุม Intonation ของนักร้องในช่วงเสียงสูง แนะนำให้ฝึก Vocal Exercise เพิ่มเพื่อเพิ่มความมั่นคงของเสียง"</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 21: กิจกรรมฝึกวิจารณ์ -->
+  <section class="slide practice-slide" data-part="กระบวนการวิจารณ์ 5 ขั้นตอน" id="practiceActivity">
+    <div class="slide-inner">
+      <span class="section-num">ACTIVITY</span>
+      <h2>✍️ กิจกรรม: ฝึกวิจารณ์ดนตรีตาม 5 ขั้นตอน</h2>
+      <p class="practice-intro">ใช้เป็นกระดานสรุปหน้าห้อง: ครูถาม นักเรียนช่วยตอบ แล้วครูกรอกสั้น ๆ เพื่อให้ทั้งห้องเห็นผลลัพธ์ร่วมกันทันที</p>
+      <div class="practice-layout">
+        <div class="practice-song-card glass-card">
+          <span class="badge badge-teal">เพลงตัวอย่างง่าย</span>
+          <h3>Twinkle Twinkle Little Star (Instrumental)</h3>
+          <p>เหมาะสำหรับฝึกครั้งแรก เพราะทำนองสั้น จังหวะชัด รูปแบบซ้ำง่าย และแยกประเด็น Melody / Rhythm / Dynamics ได้เร็ว</p>
+          <ul class="compact-list">
+            <li>ให้ฟังประมาณ 30-45 วินาที</li>
+            <li>ถามทีละขั้น ไม่ต้องให้นักเรียนเขียนยาว</li>
+            <li>ครูพิมพ์คำสำคัญจากทั้งห้องลงช่องด้านขวา</li>
+          </ul>
+          <a class="secondary-btn" href="https://www.youtube.com/results?search_query=Twinkle+Twinkle+Little+Star+instrumental" target="_blank" rel="noopener">ค้นหาเพลงตัวอย่าง</a>
+          <div class="teacher-flow">Output ของกิจกรรมนี้แสดงในกล่อง “สรุปร่วมกันของห้อง” ด้านขวาทันที ไม่ได้ส่งข้อมูลออกไปไหน เหมาะกับการใช้ระหว่างสอนหน้าห้อง</div>
+        </div>
+        <div class="class-summary-card glass-card">
+          <div class="class-summary-head">
+            <div>
+              <h3>สรุปความเห็นทั้งห้อง</h3>
+              <p>กรอกเป็นคำสั้น ๆ หรือวลีสำคัญ แล้วใช้สรุปด้านล่างเป็นคำตอบรวมของชั้นเรียน</p>
+            </div>
+          </div>
+          <div class="class-note-grid">
+            <div class="form-group">
+              <label>1. บรรยาย</label>
+              <textarea class="summary-textarea" data-storage-key="class-summary-description" data-summary-field="description" placeholder="ชื่อเพลง / เครื่องดนตรี / แนวเพลง"></textarea>
+            </div>
+            <div class="form-group">
+              <label>2. วิเคราะห์</label>
+              <textarea class="summary-textarea" data-storage-key="class-summary-analysis" data-summary-field="analysis" placeholder="ทำนอง / จังหวะ / ความดังเบา"></textarea>
+            </div>
+            <div class="form-group">
+              <label>3. ตีความ</label>
+              <textarea class="summary-textarea" data-storage-key="class-summary-interpretation" data-summary-field="interpretation" placeholder="เพลงให้อารมณ์อะไร"></textarea>
+            </div>
+            <div class="form-group">
+              <label>4. ประเมินค่า</label>
+              <textarea class="summary-textarea" data-storage-key="class-summary-evaluation" data-summary-field="evaluation" placeholder="จุดเด่น / จุดที่ควรปรับ"></textarea>
+            </div>
+            <div class="form-group full">
+              <label>5. สรุปและข้อเสนอแนะ</label>
+              <textarea class="summary-textarea" data-storage-key="class-summary-judgement" data-summary-field="judgement" placeholder="สรุปรวมเป็น 1-2 ประโยค"></textarea>
+            </div>
+          </div>
+          <div class="class-summary-output">
+            <h4>สรุปร่วมกันของห้อง</h4>
+            <p id="classSummaryOutput">เริ่มกรอกคำสำคัญด้านบน แล้วสรุปของห้องจะแสดงตรงนี้</p>
+          </div>
+          <div class="action-row">
+            <button class="primary-btn" onclick="exportActivity()">⇩ บันทึกสรุป</button>
+            <button class="secondary-btn" onclick="clearActivity()">↺ ล้างสรุป</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE NEW: เกณฑ์ประเมินคุณภาพเสียง + คุณค่าบทเพลง -->
+  <section class="slide" data-part="กระบวนการวิจารณ์ 5 ขั้นตอน">
+    <div class="slide-inner">
+      <span class="section-num">PART 03 — เกณฑ์ประเมิน</span>
+      <h2>📏 เกณฑ์การประเมินผลงานทางดนตรี</h2>
+      <p>เมื่อจะประเมินผลงานดนตรี เราใช้เกณฑ์ 2 มิติหลักร่วมกัน</p>
+      <div class="card-grid card-grid-2" style="margin-top:16px;">
+        <div class="glass-card" style="border-top: 3px solid var(--purple);">
+          <h3 style="color:var(--purple);">🔊 เกณฑ์ประเมินคุณภาพเสียง</h3>
+          <p style="font-size:0.9em; color:var(--text-muted); margin-bottom:12px;">ประเมินการบรรเลงและการขับร้อง</p>
+          <ul style="font-size:0.95em;">
+            <li><strong>1. ด้านทักษะ:</strong> ความชำนาญในการบรรเลง/ขับร้อง ความแม่นยำ ความคล่องแคล่ว</li>
+            <li><strong>2. ด้านเสียง:</strong> คุณภาพเสียง (Tone Quality) ความไพเราะ ความชัดเจน ระดับเสียงตรงคีย์</li>
+            <li><strong>3. ด้านรูปแบบ:</strong> โครงสร้างบทเพลง ความต่อเนื่อง ความสมบูรณ์ของการจัดวางท่อนต่างๆ</li>
+            <li><strong>4. ด้านเทคนิค:</strong> การใช้เทคนิคพิเศษ เช่น Vibrato, Dynamics, Articulation ได้เหมาะสม</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-top: 3px solid var(--gold);">
+          <h3 style="color:var(--gold);">🎵 เกณฑ์ประเมินคุณค่าบทเพลง</h3>
+          <p style="font-size:0.9em; color:var(--text-muted); margin-bottom:12px;">ประเมินตัวบทเพลงและสิ่งที่สื่อสาร</p>
+          <ul style="font-size:0.95em;">
+            <li><strong>1. ด้านความงาม:</strong> ความไพเราะของทำนอง ความกลมกลืนของเสียงประสาน ความสวยงามทางสุนทรียศาสตร์</li>
+            <li><strong>2. ด้านเนื้อหาสาระ:</strong> ความหมายของเนื้อร้อง สารที่ต้องการสื่อ คุณค่าต่อสังคมและวัฒนธรรม</li>
+            <li><strong>3. ด้านความรู้สึก:</strong> ความสามารถในการกระตุ้นอารมณ์ สร้างความประทับใจ ทำให้ผู้ฟังมีส่วนร่วมทางอารมณ์</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top:16px; font-size:0.9em; color:var(--text-muted);">💡 นักวิจารณ์ที่ดีจะใช้เกณฑ์ทั้ง 2 มิตินี้ประกอบกัน ไม่ได้ดูแค่มิติใดมิติเดียว</p>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- PART 5: การตัดสินดนตรี -->
+  <!-- ============================== -->
+
+  <!-- SLIDE 22: วิจารณ์ vs ตัดสิน -->
+  <section class="slide" data-part="การตัดสินดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">PART 04</span>
+      <h2>🔄 วิจารณ์ vs ตัดสิน — ต่างกันอย่างไร?</h2>
+      <div class="toggle-container">
+        <span class="toggle-label active" id="togLabel1">การวิจารณ์</span>
+        <div class="toggle-switch" id="compareToggle" onclick="toggleCompare()"></div>
+        <span class="toggle-label" id="togLabel2">การตัดสิน</span>
+      </div>
+      <div class="compare-panel active" id="panel-criticism">
+        <div class="glass-card" style="border-color:var(--purple);">
+          <h3 style="color:var(--purple);">📖 การวิจารณ์ <span class="en">(Criticism)</span></h3>
+          <div class="card-grid card-grid-2" style="margin-top:12px;">
+            <div>
+              <p><strong>เป้าหมาย:</strong> วิเคราะห์เพื่อ<em>เข้าใจ</em>ผลงาน</p>
+              <p><strong>ผู้ทำ:</strong> นักวิจารณ์ ผู้ฟังทั่วไป ทุกคน</p>
+              <p><strong>รูปแบบ:</strong> บทความ บทวิจารณ์ Review</p>
+            </div>
+            <div>
+              <p><strong>เกณฑ์:</strong> ยืดหยุ่น ขึ้นกับมุมมอง</p>
+              <p><strong>ผลลัพธ์:</strong> ความเห็น ข้อเสนอแนะ</p>
+              <p><strong>ไม่มี:</strong> คะแนน อันดับ ผู้ชนะ</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="compare-panel" id="panel-judging">
+        <div class="glass-card" style="border-color:var(--gold-dark);">
+          <h3 style="color:var(--gold);">🏆 การตัดสิน <span class="en">(Judging)</span></h3>
+          <div class="card-grid card-grid-2" style="margin-top:12px;">
+            <div>
+              <p><strong>เป้าหมาย:</strong> ประเมินเพื่อ<em>จัดอันดับ</em></p>
+              <p><strong>ผู้ทำ:</strong> กรรมการผู้เชี่ยวชาญ</p>
+              <p><strong>รูปแบบ:</strong> ใบให้คะแนน Score Sheet</p>
+            </div>
+            <div>
+              <p><strong>เกณฑ์:</strong> กำหนดตายตัว เป็นมาตรฐาน</p>
+              <p><strong>ผลลัพธ์:</strong> คะแนน อันดับ ผู้ชนะ</p>
+              <p><strong>ต้องมี:</strong> ความเป็นกลาง ยุติธรรม</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top:16px; color:var(--text-muted); font-size:0.95em;">💡 ทั้งสองอย่างต้องใช้ <strong style="color:var(--teal);">ความรู้ + เหตุผล</strong> เหมือนกัน!</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 23: เกณฑ์ตัดสิน Overview -->
+  <section class="slide" data-part="การตัดสินดนตรี">
+    <div class="slide-inner" style="text-align:center;">
+      <span class="section-num">PART 04</span>
+      <h2>🏆 เกณฑ์การตัดสินวงดนตรี</h2>
+      <p>อ้างอิงจากเกณฑ์การประกวด <strong style="color:var(--gold);">The Power Band</strong> — วิทยาลัยดุริยางคศิลป์ มหาวิทยาลัยมหิดล</p>
+      <div class="card-grid card-grid-4" style="margin-top:24px;">
+        <div class="glass-card" style="text-align:center; border-top: 3px solid #7a7798;">
+          <div style="font-size:2.5em; margin-bottom:8px;">🎼</div>
+          <h3 style="color:#7a7798;" class="en">Ensemble</h3>
+          <p style="font-size:0.9em;">ความสมบูรณ์ในการเล่นเป็นวง</p>
+          <div style="font-family:var(--font-en); font-size:2em; font-weight:800; color:var(--gold); margin-top:8px;">25<span style="font-size:0.5em; color:var(--text-muted);"> คะแนน</span></div>
+        </div>
+        <div class="glass-card" style="text-align:center; border-top: 3px solid var(--teal);">
+          <div style="font-size:2.5em; margin-bottom:8px;">🎤</div>
+          <h3 style="color:var(--teal);" class="en">Vocal / Instrumental</h3>
+          <p style="font-size:0.9em;">ทักษะการขับร้องและบรรเลง</p>
+          <div style="font-family:var(--font-en); font-size:2em; font-weight:800; color:var(--gold); margin-top:8px;">25<span style="font-size:0.5em; color:var(--text-muted);"> คะแนน</span></div>
+        </div>
+        <div class="glass-card" style="text-align:center; border-top: 3px solid var(--rose);">
+          <div style="font-size:2.5em; margin-bottom:8px;">🎭</div>
+          <h3 style="color:var(--rose);" class="en">Performance</h3>
+          <p style="font-size:0.9em;">การสื่อสารและอารมณ์เพลง</p>
+          <div style="font-family:var(--font-en); font-size:2em; font-weight:800; color:var(--gold); margin-top:8px;">25<span style="font-size:0.5em; color:var(--text-muted);"> คะแนน</span></div>
+        </div>
+        <div class="glass-card" style="text-align:center; border-top: 3px solid var(--gold);">
+          <div style="font-size:2.5em; margin-bottom:8px;">💡</div>
+          <h3 style="color:var(--gold);" class="en">Music Creative</h3>
+          <p style="font-size:0.9em;">ความคิดสร้างสรรค์ดนตรี</p>
+          <div style="font-family:var(--font-en); font-size:2em; font-weight:800; color:var(--gold); margin-top:8px;">25<span style="font-size:0.5em; color:var(--text-muted);"> คะแนน</span></div>
+        </div>
+      </div>
+      <p style="margin-top:20px; font-family:var(--font-en); font-size:1.3em; font-weight:700; color:var(--gold);">รวม 100 คะแนน</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 24: Ensemble -->
+  <section class="slide" data-part="การตัดสินดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">CRITERIA 01 / 04</span>
+      <div class="criteria-card ensemble">
+        <div class="criteria-num">01</div>
+        <h2>🎼 Ensemble — ความสมบูรณ์ในการเล่นเป็นวง <span class="criteria-score" style="background:rgba(122,119,152,0.16); color:#7a7798;">25 คะแนน</span></h2>
+        <p>ดูว่าสมาชิกทุกคนในวง "เล่นเป็นทีม" ได้ดีแค่ไหน</p>
+        <div class="card-grid card-grid-3" style="margin-top:16px;">
+          <div class="glass-card">
+            <h3>🔊 Balance</h3>
+            <p style="font-size:0.9em;">ความสมดุลของเสียง — เสียงเครื่องดนตรีแต่ละชิ้นไม่กลบกัน ได้ยินชัดทุกเครื่อง</p>
+          </div>
+          <div class="glass-card">
+            <h3>🤝 Tightness</h3>
+            <p style="font-size:0.9em;">ความพร้อมเพรียง — เล่นลงจังหวะเดียวกัน เริ่ม-หยุดพร้อมกัน ไม่มีใครหลุดกลุ่ม</p>
+          </div>
+          <div class="glass-card">
+            <h3>👂 Listening</h3>
+            <p style="font-size:0.9em;">การฟังซึ่งกันและกัน — สมาชิกปรับตัวตามกัน ไม่ใช่ต่างคนต่างเล่น</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 25: Vocal / Instrumental -->
+  <section class="slide" data-part="การตัดสินดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">CRITERIA 02 / 04</span>
+      <div class="criteria-card vocal">
+        <div class="criteria-num">02</div>
+        <h2>🎤 Vocal / Instrumental — ทักษะการขับร้องและบรรเลง <span class="criteria-score" style="background:rgba(63,121,116,0.16); color:var(--teal);">25 คะแนน</span></h2>
+        <p>ความสามารถทางเทคนิคของนักดนตรีและนักร้องแต่ละคน</p>
+        <div class="card-grid card-grid-2" style="margin-top:16px;">
+          <div class="glass-card">
+            <h3>🎤 ทักษะการขับร้อง</h3>
+            <ul style="font-size:0.9em;">
+              <li><strong>Pitch / Intonation:</strong> ร้องตรงคีย์ ไม่เพี้ยน</li>
+              <li><strong>Tone Quality:</strong> น้ำเสียงไพเราะ คุณภาพดี</li>
+              <li><strong>Breath Control:</strong> ควบคุมลมหายใจ ไม่ขาดช่วง</li>
+              <li><strong>Expression:</strong> ถ่ายทอดอารมณ์ผ่านเสียงร้อง</li>
+            </ul>
+          </div>
+          <div class="glass-card">
+            <h3>🎸 ทักษะการบรรเลง</h3>
+            <ul style="font-size:0.9em;">
+              <li><strong>Accuracy:</strong> เล่นถูกโน้ต ถูกจังหวะ</li>
+              <li><strong>Technique:</strong> เทคนิคการบรรเลงที่เหมาะสม</li>
+              <li><strong>Tone:</strong> คุณภาพเสียงเครื่องดนตรี</li>
+              <li><strong>Musicianship:</strong> ความเป็นนักดนตรี ความเข้าใจเพลง</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 26: Performance -->
+  <section class="slide" data-part="การตัดสินดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">CRITERIA 03 / 04</span>
+      <div class="criteria-card performance">
+        <div class="criteria-num">03</div>
+        <h2>🎭 Performance — การสื่อสารและอารมณ์เพลง <span class="criteria-score" style="background:rgba(154,95,104,0.16); color:var(--rose);">25 คะแนน</span></h2>
+        <p>ดูว่าวงสามารถ "เล่าเรื่อง" ผ่านการแสดงได้ดีแค่ไหน</p>
+        <div class="card-grid card-grid-3" style="margin-top:16px;">
+          <div class="glass-card">
+            <h3>🎭 Stage Presence</h3>
+            <p style="font-size:0.9em;">ความมั่นใจบนเวที บุคลิกภาพ ความสง่างาม การเคลื่อนไหว</p>
+          </div>
+          <div class="glass-card">
+            <h3>💫 Emotional Delivery</h3>
+            <p style="font-size:0.9em;">การถ่ายทอดอารมณ์ — ผู้ชมรู้สึกได้ถึงสิ่งที่วงต้องการสื่อ</p>
+          </div>
+          <div class="glass-card">
+            <h3>👥 Audience Connection</h3>
+            <p style="font-size:0.9em;">ปฏิสัมพันธ์กับผู้ชม — สบตา ยิ้ม เชิญชวนให้ผู้ชมมีส่วนร่วม</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 27: Music Creative -->
+  <section class="slide" data-part="การตัดสินดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">CRITERIA 04 / 04</span>
+      <div class="criteria-card creative">
+        <div class="criteria-num">04</div>
+        <h2>💡 Music Creative — ความคิดสร้างสรรค์ดนตรี <span class="criteria-score" style="background:rgba(143,113,57,0.16); color:var(--gold);">25 คะแนน</span></h2>
+        <p>วงมีความคิดสร้างสรรค์ในการนำเสนอดนตรีแค่ไหน</p>
+        <div class="card-grid card-grid-3" style="margin-top:16px;">
+          <div class="glass-card">
+            <h3>🎵 Arrangement</h3>
+            <p style="font-size:0.9em;">การเรียบเรียงดนตรีใหม่ — สร้างสรรค์ ไม่ลอกต้นฉบับทั้งหมด มี "ตัวตน" ของวง</p>
+          </div>
+          <div class="glass-card">
+            <h3>🌟 Originality</h3>
+            <p style="font-size:0.9em;">ความแปลกใหม่ เอกลักษณ์ — นำเสนอมุมมองที่น่าสนใจ แตกต่างจากที่เคยเห็น</p>
+          </div>
+          <div class="glass-card">
+            <h3>🎨 Overall Concept</h3>
+            <p style="font-size:0.9em;">แนวคิดการนำเสนอโดยรวม — เพลงเข้ากัน เชื่อมต่อกันดี มีความเป็นเอกภาพ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 28: สรุป + Radar Chart -->
+  <section class="slide" data-part="การตัดสินดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">PART 04 — SUMMARY</span>
+      <h2>📊 ทดลองให้คะแนน — กราฟสรุปคะแนน</h2>
+      <p>ลองปรับแถบเลื่อนแต่ละด้านเพื่อดูว่าคะแนนรวมและกราฟเปลี่ยนอย่างไร</p>
+      <div class="radar-section" style="margin-top:16px;">
+        <div class="radar-canvas-wrap">
+          <canvas id="radarCanvas" width="360" height="360"></canvas>
+        </div>
+        <div>
+          <div class="radar-sliders">
+            <div class="slider-group">
+              <label>🎼 Ensemble <span id="val-ens" class="en" style="color:var(--gold);">15</span>/25</label>
+              <input type="range" min="0" max="25" value="15" oninput="updateRadar()" id="slider-ens">
+            </div>
+            <div class="slider-group">
+              <label>🎤 Vocal / Instrumental <span id="val-voc" class="en" style="color:var(--gold);">15</span>/25</label>
+              <input type="range" min="0" max="25" value="15" oninput="updateRadar()" id="slider-voc">
+            </div>
+            <div class="slider-group">
+              <label>🎭 Performance <span id="val-per" class="en" style="color:var(--gold);">15</span>/25</label>
+              <input type="range" min="0" max="25" value="15" oninput="updateRadar()" id="slider-per">
+            </div>
+            <div class="slider-group">
+              <label>💡 Music Creative <span id="val-cre" class="en" style="color:var(--gold);">15</span>/25</label>
+              <input type="range" min="0" max="25" value="15" oninput="updateRadar()" id="slider-cre">
+            </div>
+          </div>
+          <div class="radar-total">
+            <div style="color:var(--text-muted); font-size:0.9em;">คะแนนรวม</div>
+            <div class="total-num" id="radarTotal">60</div>
+            <div style="color:var(--text-muted); font-size:0.85em;">/ 100 คะแนน</div>
+          </div>
+          <div class="action-row">
+            <button class="secondary-btn" onclick="resetRadar()">↺ รีเซ็ตคะแนน</button>
+            <button class="primary-btn" onclick="exportRadar()">⇩ ส่งออกคะแนน</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- PART 6: Role Play + Closing (Slides 29-33) -->
+  <!-- ============================== -->
+
+  <!-- SLIDE NEW: สิ่งที่ควรคำนึงเมื่อเป็นกรรมการตัดสิน -->
+  <section class="slide" data-part="การตัดสินดนตรี">
+    <div class="slide-inner">
+      <span class="section-num">PART 04 — เตรียมพร้อม</span>
+      <h2>⚖️ สิ่งที่ควรคำนึงเมื่อเป็นกรรมการตัดสิน</h2>
+      <p>ก่อนจะลงมือตัดสินผลงานดนตรี ต้องยึดหลักปฏิบัติเหล่านี้</p>
+      <div class="card-grid card-grid-2" style="margin-top:16px;">
+        <div>
+          <div class="glass-card" style="border-left: 4px solid var(--gold); margin-bottom:16px;">
+            <h3 style="color:var(--gold);">📋 หลักการตัดสินของกรรมการ</h3>
+            <ul style="font-size:0.95em;">
+              <li><strong>1. จัด Ranking &amp; Rating ให้ได้:</strong> ต้องสามารถจัดลำดับ (Ranking) และให้คะแนน (Rating) ผลงานแต่ละวงได้อย่างชัดเจน ไม่ลังเล</li>
+              <li><strong>2. พิจารณาตาม BOX คะแนน:</strong> ให้คะแนนตามเกณฑ์ที่กำหนดในแต่ละช่อง อย่าข้ามหัวข้อ — ดูทีละด้านอย่างเป็นระบบ</li>
+              <li><strong>3. ซื่อสัตย์ต่อคะแนนตนเอง:</strong> ให้คะแนนตามสิ่งที่ได้ยินและเห็นจริง ไม่ตามเพื่อน ไม่เกรงใจ ไม่ลำเอียง</li>
+            </ul>
+          </div>
+          <div class="glass-card" style="border-left: 4px solid var(--teal);">
+            <h3 style="color:var(--teal);">🎯 เทคนิคการให้คะแนนที่ดี</h3>
+            <ul style="font-size:0.95em;">
+              <li><strong>ฟังก่อนตัดสิน:</strong> ฟังจบทั้งเพลงก่อนลงคะแนน อย่าด่วนสรุปจากท่อนแรก</li>
+              <li><strong>จดบันทึก:</strong> จดจุดเด่น-จุดด้อยสั้นๆ ระหว่างฟัง เพื่อใช้อ้างอิงเวลาให้คะแนน</li>
+              <li><strong>ใช้ช่วงคะแนน:</strong> อย่าให้คะแนนเต็มทุกข้อหรือต่ำทุกข้อ ควรกระจายตามคุณภาพจริง</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="glass-card" style="border-left: 4px solid var(--purple); margin-bottom:16px;">
+            <h3 style="color:var(--purple);">🚫 สิ่งที่ต้องหลีกเลี่ยง</h3>
+            <ul style="font-size:0.95em;">
+              <li>❌ <strong>อคติส่วนตัว:</strong> ไม่ให้คะแนนตามความชอบส่วนตัว แต่ใช้เกณฑ์ที่กำหนด</li>
+              <li>❌ <strong>เปรียบเทียบแบบไม่ยุติธรรม:</strong> ตัดสินแต่ละวงตามมาตรฐาน ไม่ใช่เทียบกับวงที่ชอบ</li>
+              <li>❌ <strong>ตามกระแส:</strong> ไม่แอบดูคะแนนเพื่อน ไม่ปรับคะแนนตามเสียงเชียร์</li>
+              <li>❌ <strong>ลืมให้เหตุผล:</strong> คะแนนทุกข้อต้องมีเหตุผลรองรับ อธิบายได้</li>
+            </ul>
+          </div>
+          <div class="glass-card" style="border-left: 4px solid var(--rose); text-align:center; background:rgba(154,95,104,0.05);">
+            <h3 style="color:var(--rose);">💡 จำไว้เสมอ</h3>
+            <p style="font-size:1.1em; font-style:italic; line-height:1.8; margin:0;">
+              "กรรมการที่ดี ไม่ใช่คนที่ให้คะแนนถูกใจทุกคน<br>
+              แต่คือคนที่ให้คะแนน<strong style="color:var(--gold);"> อธิบายได้ทุกข้อ</strong>"
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 29: คำชี้แจง Role Play -->
+  <section class="slide" data-part="กิจกรรม Role Play">
+    <div class="slide-inner" style="text-align:center;">
+      <span class="section-num">ACTIVITY</span>
+      <div class="mission-card">
+        <div class="mission-icon">🏆</div>
+        <h2>วันนี้... คุณคือกรรมการ!</h2>
+        <p style="font-size:1.1em; color:var(--gold);">Role Play: กรรมการตัดสินวงดนตรี</p>
+        <p>สวมบทบาทเป็นกรรมการตัดสินรายการ The Power Band ดูวีดีโอการแสดงวงดนตรีจริง แล้วให้คะแนนตามเกณฑ์ 4 ด้าน ลงใน Google Sheet ที่ครูแจกให้</p>
+        <div class="mission-steps">
+          <div class="mission-step">
+            <div class="step-num">1</div>
+            <p style="font-size:0.95em;"><strong>ดูวีดีโอ</strong><br>ชมการแสดงจริงจากการประกวด The Power Band อย่างตั้งใจ</p>
+          </div>
+          <div class="mission-step">
+            <div class="step-num">2</div>
+            <p style="font-size:0.95em;"><strong>ให้คะแนน</strong><br>ให้คะแนนตามเกณฑ์ 4 ด้าน ด้านละ 25 คะแนน พร้อมเขียนเหตุผล</p>
+          </div>
+          <div class="mission-step">
+            <div class="step-num">3</div>
+            <p style="font-size:0.95em;"><strong>อภิปราย</strong><br>แต่ละกลุ่มนำเสนอผลคะแนนพร้อมเหตุผลประกอบ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 30: Quick Reference Card -->
+  <section class="slide" data-part="กิจกรรม Role Play">
+    <div class="slide-inner">
+      <span class="section-num">QUICK REFERENCE</span>
+      <h2>📋 สรุปเกณฑ์การให้คะแนน</h2>
+      <p>ใช้ตารางนี้เป็นตัวช่วยขณะดูวีดีโอ — จดบันทึกลงใน Google Sheet ของกลุ่ม</p>
+      <table class="score-table" style="margin-top:16px;">
+        <thead>
+          <tr>
+            <th>เกณฑ์</th>
+            <th>สิ่งที่ต้องสังเกต</th>
+            <th class="score-col">คะแนน</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>🎼 Ensemble</strong><br><small style="color:var(--text-muted);">ความสมบูรณ์ในการเล่นเป็นวง</small></td>
+            <td>Balance, ความพร้อมเพรียง, การฟังซึ่งกันและกัน, จังหวะร่วมกัน</td>
+            <td class="score-col">/25</td>
+          </tr>
+          <tr>
+            <td><strong>🎤 Vocal / Instrumental</strong><br><small style="color:var(--text-muted);">ทักษะการขับร้องและบรรเลง</small></td>
+            <td>Pitch, Tone Quality, เทคนิค, ความแม่นยำ, Musicianship</td>
+            <td class="score-col">/25</td>
+          </tr>
+          <tr>
+            <td><strong>🎭 Performance</strong><br><small style="color:var(--text-muted);">การสื่อสารและอารมณ์เพลง</small></td>
+            <td>Stage Presence, การถ่ายทอดอารมณ์, ปฏิสัมพันธ์กับผู้ชม</td>
+            <td class="score-col">/25</td>
+          </tr>
+          <tr>
+            <td><strong>💡 Music Creative</strong><br><small style="color:var(--text-muted);">ความคิดสร้างสรรค์ดนตรี</small></td>
+            <td>การเรียบเรียงใหม่, เอกลักษณ์, แนวคิดการนำเสนอ</td>
+            <td class="score-col">/25</td>
+          </tr>
+          <tr style="background:rgba(143,113,57,0.08);">
+            <td colspan="2" style="text-align:right; font-family:var(--font-heading); font-weight:600;">รวมคะแนน</td>
+            <td class="score-col" style="font-size:1.2em;">/100</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:12px; font-size:0.9em; color:var(--text-muted); text-align:center;">⚠️ อย่าลืมเขียน <strong>เหตุผล</strong> ประกอบในแต่ละเกณฑ์ ไม่ใช่แค่ให้คะแนนอย่างเดียว!</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 31: Reflection -->
+  <section class="slide" data-part="กิจกรรม Role Play" id="reflectionActivity">
+    <div class="slide-inner" style="text-align:center;">
+      <span class="section-num">REFLECTION</span>
+      <h2>💭 สะท้อนคิด</h2>
+      <div class="reflection-card">
+        <p style="font-size:1.1em; margin-bottom:20px;">หลังจากได้สวมบทเป็นกรรมการตัดสิน ลองตอบคำถามเหล่านี้</p>
+        <div class="form-group" style="text-align:left;">
+          <label>1. สิ่งที่คุณได้เรียนรู้จากการเป็น "กรรมการ" คืออะไร?</label>
+          <textarea class="reflection-textarea" placeholder="เขียนความรู้สึกและสิ่งที่ได้เรียนรู้..."></textarea>
+        </div>
+        <div class="form-group" style="text-align:left;">
+          <label>2. เกณฑ์ข้อไหนที่คุณรู้สึกว่ายากที่สุดในการให้คะแนน? เพราะอะไร?</label>
+          <textarea class="reflection-textarea" placeholder="อธิบายพร้อมเหตุผล..."></textarea>
+        </div>
+        <div class="form-group" style="text-align:left;">
+          <label>3. คุณจะนำความรู้จากบทเรียนนี้ไปใช้ในชีวิตจริงอย่างไร?</label>
+          <textarea class="reflection-textarea" placeholder="การนำไปประยุกต์ใช้..."></textarea>
+        </div>
+        <div class="action-row">
+          <button class="primary-btn" onclick="exportReflection()">⇩ ส่งออกสะท้อนคิด</button>
+          <button class="secondary-btn" onclick="clearReflection()">↺ ล้างคำตอบ</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 32: References -->
+  <section class="slide" data-part="อ้างอิง">
+    <div class="slide-inner">
+      <span class="section-num">REFERENCES</span>
+      <h2>📚 แหล่งอ้างอิง</h2>
+      <div class="card-grid card-grid-2" style="margin-top:16px;">
+        <div class="ref-card">
+          <h3>แหล่งอ้างอิงหลัก</h3>
+          <ol class="ref-list">
+            <li>วิทยาลัยดุริยางคศิลป์ มหาวิทยาลัยมหิดล. (2026). <em>กติกาและเกณฑ์การตัดสิน The Power Band Season 6</em>. สืบค้นจาก <a href="https://www.music.mahidol.ac.th/thepowerband/register.html" target="_blank">music.mahidol.ac.th</a></li>
+            <li>กระทรวงศึกษาธิการ. (2560). <em>หลักสูตรแกนกลางการศึกษาขั้นพื้นฐาน พุทธศักราช 2551 (ฉบับปรับปรุง 2560): กลุ่มสาระการเรียนรู้ศิลปะ สาระที่ 2 ดนตรี</em>. กรุงเทพฯ: โรงพิมพ์ชุมนุมสหกรณ์การเกษตรแห่งประเทศไทย.</li>
+            <li>สุกรี เจริญสุข. (2556). <em>ดนตรีวิจารณ์: หลักการและแนวทาง</em>. นครปฐม: วิทยาลัยดุริยางคศิลป์ มหาวิทยาลัยมหิดล.</li>
+          </ol>
+        </div>
+        <div class="ref-card">
+          <h3>แหล่งอ้างอิงเพิ่มเติม</h3>
+          <ol class="ref-list" start="4">
+            <li>Scholes, P. A. (1970). <em>The Oxford Companion to Music</em> (10th ed.). Oxford University Press.</li>
+            <li>Swanwick, K. (1979). <em>A Basis for Music Education</em>. London: Routledge.</li>
+            <li>Reimer, B. (2003). <em>A Philosophy of Music Education: Advancing the Vision</em> (3rd ed.). Prentice Hall.</li>
+            <li>สำนักงานคณะกรรมการการศึกษาขั้นพื้นฐาน. (2560). <em>มาตรฐานการเรียนรู้และตัวชี้วัด สาระดนตรี</em>.</li>
+            <li>ณรุทธ์ สุทธจิตต์. (2561). <em>ดนตรีศึกษา: หลักการและสาระสำคัญ</em> (พิมพ์ครั้งที่ 11). กรุงเทพฯ: จุฬาลงกรณ์มหาวิทยาลัย.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 33: Thank You -->
+  <section class="slide end-slide" data-part="จบบทเรียน">
+    <div class="slide-inner">
+      <span class="music-icon">🎶</span>
+      <h1>ขอบคุณครับ!<br><span class="gradient-text">Thank You</span></h1>
+      <p style="font-size:1.2em; color:var(--gold); font-family:var(--font-heading);">"การวิจารณ์ที่ดี ไม่ใช่การทำลาย แต่คือการสร้างสรรค์"</p>
+      <div class="end-credits">
+        <p style="font-weight: bold; color: var(--teal); margin-bottom: 8px;">ครูผู้สอน: นายเอกณัฐ ลุผลแท้</p>
+        <p>วิชาดนตรีสากล — ระดับชั้นมัธยมศึกษาปีที่ 5</p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- .presentation -->
+
+<script>
+/* ========== SLIDE ENGINE ========== */
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+let currentSlide = 0;
+let toastTimer = null;
+
+function showSlide(n) {
+  if (n < 0 || n >= totalSlides) return;
+  slides.forEach((s, i) => {
+    s.classList.remove('active', 'prev');
+    if (i < n) s.classList.add('prev');
+  });
+  slides[n].classList.add('active');
+  currentSlide = n;
+  // Progress bar
+  document.getElementById('progressFill').style.width = ((n + 1) / totalSlides * 100) + '%';
+  // Counter
+  document.getElementById('slideCounter').textContent = (n + 1) + ' / ' + totalSlides;
+  // Part indicator
+  const part = slides[n].getAttribute('data-part');
+  document.getElementById('partIndicator').textContent = part || '';
+  document.getElementById('prevBtn').disabled = n === 0;
+  document.getElementById('nextBtn').disabled = n === totalSlides - 1;
+  document.querySelectorAll('.slide-jump').forEach((btn, i) => btn.classList.toggle('active', i === n));
+  // Scroll to top
+  slides[n].scrollTop = 0;
+  history.replaceState(null, '', '#slide-' + (n + 1));
+}
+
+function nextSlide() { showSlide(currentSlide + 1); }
+function prevSlide() { showSlide(currentSlide - 1); }
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+  const menuOpen = document.getElementById('slideMenu').classList.contains('open');
+  if (e.key === 'Escape') {
+    toggleSlideMenu(false);
+    return;
+  }
+  if (menuOpen) return;
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+  if (e.key === 'Home') { e.preventDefault(); showSlide(0); }
+  if (e.key === 'End') { e.preventDefault(); showSlide(totalSlides - 1); }
+});
+
+// Touch swipe support
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].screenX;
+  if (Math.abs(diff) > 50) { diff > 0 ? nextSlide() : prevSlide(); }
+});
+
+function getSlideTitle(slide, index) {
+  const titleEl = slide.querySelector('h1, h2');
+  const part = slide.getAttribute('data-part') || 'บทเรียน';
+  const title = titleEl ? titleEl.textContent.replace(/\s+/g, ' ').trim() : part;
+  return { part, title: title.slice(0, 96), number: index + 1 };
+}
+
+function buildSlideMenu() {
+  const list = document.getElementById('slideList');
+  list.innerHTML = '';
+  slides.forEach((slide, index) => {
+    const info = getSlideTitle(slide, index);
+    const btn = document.createElement('button');
+    btn.className = 'slide-jump';
+    btn.type = 'button';
+    btn.innerHTML = '<small>สไลด์ ' + info.number + ' · ' + info.part + '</small>' + info.title;
+    btn.addEventListener('click', () => {
+      showSlide(index);
+      toggleSlideMenu(false);
+    });
+    list.appendChild(btn);
+  });
+}
+
+function toggleSlideMenu(force) {
+  const menu = document.getElementById('slideMenu');
+  const shouldOpen = typeof force === 'boolean' ? force : !menu.classList.contains('open');
+  menu.classList.toggle('open', shouldOpen);
+  if (shouldOpen) {
+    const active = menu.querySelector('.slide-jump.active') || menu.querySelector('.slide-jump');
+    if (active) active.focus();
+  }
+}
+
+document.getElementById('slideMenu').addEventListener('click', e => {
+  if (e.target.id === 'slideMenu') toggleSlideMenu(false);
+});
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+function getInitialSlide() {
+  const match = window.location.hash.match(/slide-(\d+)/);
+  if (!match) return 0;
+  const index = Number(match[1]) - 1;
+  return Number.isInteger(index) && index >= 0 && index < totalSlides ? index : 0;
+}
+
+// Init
+buildSlideMenu();
+initTextareas();
+showSlide(getInitialSlide());
+
+/* ========== VIDEO VERSION SELECTOR ========== */
+const videoVersions = {
+  A: {
+    title: 'กำลังแสดง: Version A',
+    embed: 'https://www.youtube.com/embed/rc7KnQAh_1I?si=mtPiIDMliE000CxO',
+    link: 'https://www.youtube.com/watch?v=rc7KnQAh_1I'
+  },
+  B: {
+    title: 'กำลังแสดง: Version B',
+    embed: 'https://www.youtube.com/embed/aOLtAuH-qUI',
+    link: 'https://www.youtube.com/watch?v=aOLtAuH-qUI'
+  }
+};
+
+function selectVersion(version) {
+  const data = videoVersions[version];
+  if (!data) return;
+  const player = document.getElementById('versionPlayer');
+  const title = document.getElementById('versionTitle');
+  const link = document.getElementById('versionLink');
+  const shell = document.getElementById('videoShell');
+  const placeholder = document.getElementById('videoPlaceholder');
+  if (player) {
+    player.src = data.embed;
+    player.title = 'YouTube เพลงสำหรับเปรียบเทียบ ' + version;
+  }
+  if (title) title.textContent = data.title;
+  if (link) link.href = data.link;
+  if (shell) shell.style.display = 'block';
+  if (placeholder) placeholder.style.display = 'none';
+  document.querySelectorAll('.version-btn').forEach(btn => {
+    const isActive = btn.getAttribute('onclick')?.includes("'" + version + "'");
+    btn.classList.toggle('active', Boolean(isActive));
+    btn.setAttribute('aria-pressed', String(Boolean(isActive)));
+  });
+}
+
+function resetVersionSelector() {
+  const player = document.getElementById('versionPlayer');
+  const title = document.getElementById('versionTitle');
+  const link = document.getElementById('versionLink');
+  const shell = document.getElementById('videoShell');
+  const placeholder = document.getElementById('videoPlaceholder');
+  if (player) player.src = '';
+  if (title) title.textContent = 'กำลังแสดง: ';
+  if (link) link.href = '';
+  if (shell) shell.style.display = 'none';
+  if (placeholder) placeholder.style.display = 'block';
+  document.querySelectorAll('.version-btn').forEach(btn => {
+    btn.classList.remove('active');
+    btn.setAttribute('aria-pressed', 'false');
+  });
+}
+
+/* ========== POLL ========== */
+function vote(btn, choice, pct) {
+  const container = btn.closest('.poll-container');
+  if (!container) return;
+  const btns = container.querySelectorAll('.poll-btn');
+  const key = 'votes' + choice;
+  container.dataset[key] = String((Number(container.dataset[key]) || 0) + 1);
+  btns.forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  updatePoll(container);
+}
+
+function updatePoll(container) {
+  const btns = [...container.querySelectorAll('.poll-btn')];
+  const total = btns.reduce((sum, btn) => {
+    const choice = btn.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || '';
+    return sum + (Number(container.dataset['votes' + choice]) || 0);
+  }, 0);
+  btns.forEach(b => {
+    const choice = b.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || '';
+    const count = Number(container.dataset['votes' + choice]) || 0;
+    const p = total ? Math.round((count / total) * 100) : 0;
+    b.querySelector('.poll-bar').style.width = p + '%';
+    b.querySelector('.poll-pct').textContent = total ? count + ' คน · ' + p + '%' : '';
+    b.classList.toggle('voted', total > 0);
+  });
+}
+
+function resetPoll(id) {
+  const container = document.getElementById(id);
+  if (!container) return;
+  Object.keys(container.dataset).forEach(key => {
+    if (key.startsWith('votes')) delete container.dataset[key];
+  });
+  container.querySelectorAll('.poll-btn').forEach(btn => {
+    btn.classList.remove('selected', 'voted');
+    btn.querySelector('.poll-bar').style.width = '0%';
+    btn.querySelector('.poll-pct').textContent = '';
+  });
+  showToast('เริ่มโหวตใหม่แล้ว');
+}
+
+/* ========== FLIP CARD (handled via onclick in HTML) ========== */
+document.querySelectorAll('.flip-card').forEach(card => {
+  card.tabIndex = 0;
+  card.setAttribute('role', 'button');
+  card.setAttribute('aria-label', 'พลิกการ์ดตัวอย่างการวิจารณ์');
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      card.classList.toggle('flipped');
+    }
+  });
+});
+
+/* ========== CHECKLIST ========== */
+function toggleCheck(li) {
+  li.classList.toggle('checked');
+  const box = li.querySelector('.check-box');
+  box.innerHTML = li.classList.contains('checked') ? '✓' : '';
+  // Update score
+  const checked = document.querySelectorAll('#criticChecklist li.checked').length;
+  const total = document.querySelectorAll('#criticChecklist li').length;
+  document.getElementById('checkScore').innerHTML = checked + '<span style="font-size:0.35em; color:var(--text-muted);">/' + total + '</span>';
+  const msgs = ['เริ่มกดเลือกกันเลย!', 'เริ่มต้นดี!', 'กำลังไปได้ดี!', 'ดีมาก!', 'ใกล้ครบแล้ว!', 'ยอดเยี่ยม!', 'เกือบครบแล้ว!', 'คุณมีคุณสมบัตินักวิจารณ์ครบ!'];
+  document.getElementById('checkMsg').textContent = msgs[checked];
+}
+
+function resetChecklist() {
+  document.querySelectorAll('#criticChecklist li').forEach(li => {
+    li.classList.remove('checked');
+    li.querySelector('.check-box').innerHTML = '';
+  });
+  document.getElementById('checkScore').innerHTML = '0<span style="font-size:0.35em; color:var(--text-muted);">/7</span>';
+  document.getElementById('checkMsg').textContent = 'เริ่มกดเลือกกันเลย!';
+  showToast('ล้างเช็กลิสต์แล้ว');
+}
+
+/* ========== SPIN WHEEL ========== */
+const wheelItems = [
+  { label: 'Melody', color: '#665979', desc: 'ทำนอง — ลำดับของเสียงที่เรียงต่อกัน สร้างท่วงทำนองที่จดจำได้' },
+  { label: 'Harmony', color: '#3f7974', desc: 'เสียงประสาน — การรวมเสียงหลายเสียงพร้อมกันเป็นคอร์ด' },
+  { label: 'Rhythm', color: '#8f7139', desc: 'จังหวะ — รูปแบบของเสียงยาว-สั้นและการเน้น' },
+  { label: 'Timbre', color: '#9a5f68', desc: 'คุณภาพเสียง — "สีสัน" ที่แยกเครื่องดนตรีแต่ละชิ้น' },
+  { label: 'Dynamics', color: '#7a7798', desc: 'ความดังเบา — การเปลี่ยนแปลงระดับเสียง' },
+  { label: 'Texture', color: '#4e8067', desc: 'เนื้อดนตรี — วิธีที่แนวเสียงต่างๆ ผสมผสานกัน' },
+  { label: 'Form', color: '#a66f4f', desc: 'โครงสร้างเพลง — การจัดวางส่วนต่างๆ ของเพลง' }
+];
+let wheelAngle = 0;
+let spinning = false;
+
+function drawWheel() {
+  const canvas = document.getElementById('wheelCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const cx = 160, cy = 160, r = 145;
+  const arc = (2 * Math.PI) / wheelItems.length;
+  ctx.clearRect(0, 0, 320, 320);
+  wheelItems.forEach((item, i) => {
+    const startAngle = wheelAngle + i * arc;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, startAngle, startAngle + arc);
+    ctx.fillStyle = item.color;
+    ctx.fill();
+    ctx.strokeStyle = '#f6f8f5';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    // Text
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(startAngle + arc / 2);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 13px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(item.label, r * 0.6, 5);
+    ctx.restore();
+  });
+  // Center circle
+  ctx.beginPath();
+  ctx.arc(cx, cy, 22, 0, 2 * Math.PI);
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
+  ctx.strokeStyle = '#d7e0da';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+}
+
+function spinWheel() {
+  if (spinning) return;
+  spinning = true;
+  const spinAmount = Math.random() * 10 + 10; // 10-20 full rotations
+  const targetAngle = wheelAngle + spinAmount * Math.PI;
+  const duration = 4000;
+  const startTime = performance.now();
+  const startAngle = wheelAngle;
+
+  function animate(time) {
+    const elapsed = time - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    wheelAngle = startAngle + (targetAngle - startAngle) * eased;
+    drawWheel();
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      spinning = false;
+      // Determine selected item (top = -PI/2)
+      const arc = (2 * Math.PI) / wheelItems.length;
+      const normalizedAngle = (((-wheelAngle - Math.PI / 2) % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+      const index = Math.floor(normalizedAngle / arc);
+      const selected = wheelItems[index % wheelItems.length];
+      document.getElementById('wheelResult').innerHTML = '<strong style="color:' + selected.color + ';">' + selected.label + '</strong>: ' + selected.desc;
+    }
+  }
+  requestAnimationFrame(animate);
+}
+drawWheel();
+
+/* ========== DRAG & DROP ========== */
+let dndCorrect = 0;
+const dndTotal = 5;
+let selectedDndAnswer = null;
+
+document.querySelectorAll('.dnd-item').forEach(item => {
+  item.tabIndex = 0;
+  item.setAttribute('role', 'button');
+  item.setAttribute('aria-label', 'เลือกคำศัพท์ ' + item.textContent.trim());
+  item.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text/plain', item.dataset.answer);
+    item.style.opacity = '0.5';
+  });
+  item.addEventListener('dragend', e => { item.style.opacity = '1'; });
+  item.addEventListener('click', () => selectDndItem(item));
+  item.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      selectDndItem(item);
+    }
+  });
+});
+
+document.querySelectorAll('.dnd-target').forEach(target => {
+  target.tabIndex = 0;
+  target.setAttribute('role', 'button');
+  target.setAttribute('aria-label', 'ช่องความหมาย ' + target.textContent.trim());
+  target.dataset.originalText = target.textContent.trim();
+  target.addEventListener('dragover', e => { e.preventDefault(); target.classList.add('over'); });
+  target.addEventListener('dragleave', () => { target.classList.remove('over'); });
+  target.addEventListener('drop', e => {
+    e.preventDefault();
+    target.classList.remove('over');
+    const answer = e.dataTransfer.getData('text/plain');
+    tryDndMatch(answer, target);
+  });
+  target.addEventListener('click', () => {
+    if (selectedDndAnswer) tryDndMatch(selectedDndAnswer, target);
+  });
+  target.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && selectedDndAnswer) {
+      e.preventDefault();
+      tryDndMatch(selectedDndAnswer, target);
+    }
+  });
+});
+
+function selectDndItem(item) {
+  if (item.classList.contains('correct')) return;
+  selectedDndAnswer = item.dataset.answer;
+  document.querySelectorAll('.dnd-item').forEach(el => el.classList.toggle('selected', el === item));
+  document.getElementById('dndScore').textContent = 'เลือก "' + item.textContent.trim() + '" แล้วเลือกช่องความหมาย';
+}
+
+function tryDndMatch(answer, target) {
+  if (!answer || target.classList.contains('matched')) return;
+  if (answer === target.dataset.accept) {
+    completeDndMatch(answer, target);
+  } else {
+    const item = document.querySelector('.dnd-item[data-answer="' + answer + '"]');
+    target.classList.add('wrong');
+    item?.classList.add('wrong');
+    setTimeout(() => {
+      target.classList.remove('wrong');
+      item?.classList.remove('wrong');
+    }, 420);
+  }
+}
+
+function completeDndMatch(answer, target) {
+  target.classList.add('matched');
+  const item = document.querySelector('.dnd-item[data-answer="' + answer + '"]');
+  if (item) item.classList.add('correct');
+  const chip = document.createElement('span');
+  chip.className = 'dnd-answer-chip';
+  chip.textContent = item ? item.textContent.trim() : answer;
+  target.appendChild(document.createElement('br'));
+  target.appendChild(chip);
+  selectedDndAnswer = null;
+  document.querySelectorAll('.dnd-item').forEach(el => el.classList.remove('selected'));
+  dndCorrect++;
+  updateDndScore();
+}
+
+function updateDndScore() {
+  const score = document.getElementById('dndScore');
+  if (dndCorrect === dndTotal) {
+    score.innerHTML = '<span style="color:var(--green);">ถูกทั้งหมด ยอดเยี่ยม!</span>';
+  } else {
+    score.textContent = 'ถูก ' + dndCorrect + '/' + dndTotal;
+  }
+}
+
+function resetDnd() {
+  dndCorrect = 0;
+  selectedDndAnswer = null;
+  document.querySelectorAll('.dnd-item').forEach(item => {
+    item.classList.remove('correct', 'wrong', 'selected');
+    item.style.opacity = '1';
+  });
+  document.querySelectorAll('.dnd-target').forEach(target => {
+    target.classList.remove('matched', 'wrong', 'over');
+    target.innerHTML = target.dataset.originalText;
+  });
+  updateDndScore();
+  showToast('เริ่มจับคู่ใหม่แล้ว');
+}
+updateDndScore();
+
+/* ========== STEPS ========== */
+function showStep(n) {
+  const dots = document.querySelectorAll('#stepsNav .step-dot');
+  const contents = document.querySelectorAll('#stepsContent .step-content');
+  dots.forEach((d, i) => d.classList.toggle('active', i === n));
+  contents.forEach((c, i) => c.classList.toggle('active', i === n));
+}
+
+/* ========== TABS ========== */
+function showTab(e, id) {
+  const btn = e.currentTarget || e.target;
+  const parent = btn.closest('.slide-inner');
+  parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  parent.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+/* ========== COMPARE TOGGLE ========== */
+function toggleCompare() {
+  const toggle = document.getElementById('compareToggle');
+  toggle.classList.toggle('on');
+  const isOn = toggle.classList.contains('on');
+  toggle.setAttribute('aria-checked', String(isOn));
+  document.getElementById('togLabel1').classList.toggle('active', !isOn);
+  document.getElementById('togLabel2').classList.toggle('active', isOn);
+  document.getElementById('panel-criticism').classList.toggle('active', !isOn);
+  document.getElementById('panel-judging').classList.toggle('active', isOn);
+}
+
+const compareToggle = document.getElementById('compareToggle');
+if (compareToggle) {
+  compareToggle.tabIndex = 0;
+  compareToggle.setAttribute('role', 'switch');
+  compareToggle.setAttribute('aria-checked', 'false');
+  compareToggle.setAttribute('aria-label', 'สลับระหว่างการวิจารณ์และการตัดสิน');
+  compareToggle.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleCompare();
+    }
+  });
+}
+
+/* ========== WRITING WORKSHEETS ========== */
+function initTextareas() {
+  document.querySelectorAll('textarea').forEach((textarea, index) => {
+    const key = textarea.dataset.storageKey || 'music-criticism-textarea-' + index;
+    textarea.dataset.storageKey = key;
+    textarea.value = localStorage.getItem(key) || textarea.value;
+    textarea.addEventListener('input', () => {
+      localStorage.setItem(key, textarea.value);
+      if (textarea.closest('#practiceActivity')) updateClassSummary();
+    });
+  });
+  updateClassSummary();
+}
+
+function getFieldLabel(textarea) {
+  const label = textarea.closest('.form-group')?.querySelector('label');
+  return label ? label.textContent.trim().replace(/^\d+\.\s*/, '') : 'คำตอบ';
+}
+
+function collectTextareas(selector) {
+  const root = document.querySelector(selector);
+  if (!root) return [];
+  return [...root.querySelectorAll('textarea')].map(textarea => ({
+    label: getFieldLabel(textarea),
+    value: textarea.value.trim()
+  }));
+}
+
+function downloadTextFile(filename, content) {
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function formatTextExport(title, fields) {
+  const lines = [title, 'วันที่บันทึก: ' + new Date().toLocaleString('th-TH'), ''];
+  fields.forEach((field, index) => {
+    lines.push((index + 1) + '. ' + field.label);
+    lines.push(field.value || '-');
+    lines.push('');
+  });
+  return lines.join('\n');
+}
+
+function clearTextareas(selector, message) {
+  const root = document.querySelector(selector);
+  if (!root) return;
+  root.querySelectorAll('textarea').forEach(textarea => {
+    textarea.value = '';
+    if (textarea.dataset.storageKey) localStorage.removeItem(textarea.dataset.storageKey);
+  });
+  if (selector === '#practiceActivity') updateClassSummary();
+  showToast(message);
+}
+
+function exportActivity() {
+  const fields = collectTextareas('#practiceActivity');
+  const summary = document.getElementById('classSummaryOutput')?.textContent || '';
+  const content = formatTextExport('สรุปความเห็นทั้งห้อง: ฝึกวิจารณ์ดนตรีตาม 5 ขั้นตอน', fields) + '\nสรุปร่วมกันของห้อง\n' + summary + '\n';
+  downloadTextFile('music-criticism-class-summary.txt', content);
+  showToast('บันทึกสรุปแล้ว');
+}
+
+function clearActivity() {
+  clearTextareas('#practiceActivity', 'ล้างแบบฝึกแล้ว');
+}
+
+function exportReflection() {
+  const fields = collectTextareas('#reflectionActivity');
+  downloadTextFile('music-criticism-reflection.txt', formatTextExport('สะท้อนคิดหลังเป็นกรรมการตัดสินดนตรี', fields));
+  showToast('ส่งออกสะท้อนคิดแล้ว');
+}
+
+function clearReflection() {
+  clearTextareas('#reflectionActivity', 'ล้างคำตอบสะท้อนคิดแล้ว');
+}
+
+function updateClassSummary() {
+  const output = document.getElementById('classSummaryOutput');
+  if (!output) return;
+  const getValue = field => document.querySelector('[data-summary-field="' + field + '"]')?.value.trim();
+  const description = getValue('description');
+  const analysis = getValue('analysis');
+  const interpretation = getValue('interpretation');
+  const evaluation = getValue('evaluation');
+  const judgement = getValue('judgement');
+  const hasAny = [description, analysis, interpretation, evaluation, judgement].some(Boolean);
+  if (!hasAny) {
+    output.textContent = 'เริ่มกรอกคำสำคัญด้านบน แล้วสรุปของห้องจะแสดงตรงนี้';
+    return;
+  }
+  const sentences = [];
+  if (description) sentences.push('ผลงานที่ฟัง: ' + description);
+  if (analysis) sentences.push('องค์ประกอบที่เด่น: ' + analysis);
+  if (interpretation) sentences.push('อารมณ์/ความหมาย: ' + interpretation);
+  if (evaluation) sentences.push('การประเมิน: ' + evaluation);
+  if (judgement) sentences.push('สรุป: ' + judgement);
+  output.textContent = sentences.join(' | ');
+}
+
+/* ========== RADAR CHART ========== */
+function updateRadar() {
+  const ens = parseInt(document.getElementById('slider-ens').value);
+  const voc = parseInt(document.getElementById('slider-voc').value);
+  const per = parseInt(document.getElementById('slider-per').value);
+  const cre = parseInt(document.getElementById('slider-cre').value);
+
+  document.getElementById('val-ens').textContent = ens;
+  document.getElementById('val-voc').textContent = voc;
+  document.getElementById('val-per').textContent = per;
+  document.getElementById('val-cre').textContent = cre;
+  document.getElementById('radarTotal').textContent = ens + voc + per + cre;
+  localStorage.setItem('music-criticism-radar', JSON.stringify([ens, voc, per, cre]));
+
+  drawRadar([ens, voc, per, cre]);
+}
+
+function drawRadar(values) {
+  const canvas = document.getElementById('radarCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const cx = 180, cy = 180, maxR = 128;
+  const labels = ['Ensemble', 'Vocal', 'Performance', 'Creative'];
+  const colors = ['#7a7798', '#3f7974', '#9a5f68', '#8f7139'];
+  const n = 4;
+  const angleStep = (2 * Math.PI) / n;
+  const startAngle = -Math.PI / 2;
+
+  ctx.clearRect(0, 0, 360, 360);
+
+  // Grid lines
+  for (let level = 1; level <= 5; level++) {
+    const r = (level / 5) * maxR;
+    ctx.beginPath();
+    for (let i = 0; i <= n; i++) {
+      const angle = startAngle + i * angleStep;
+      const x = cx + r * Math.cos(angle);
+      const y = cy + r * Math.sin(angle);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = '#dce5df';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Axes
+  for (let i = 0; i < n; i++) {
+    const angle = startAngle + i * angleStep;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + maxR * Math.cos(angle), cy + maxR * Math.sin(angle));
+    ctx.strokeStyle = '#cbd7d0';
+    ctx.stroke();
+  }
+
+  // Labels
+  ctx.font = 'bold 13px Inter, Kanit, sans-serif';
+  for (let i = 0; i < n; i++) {
+    const angle = startAngle + i * angleStep;
+    const cos = Math.cos(angle);
+    let lx = cx + (maxR + 20) * cos;
+    const ly = cy + (maxR + 24) * Math.sin(angle);
+    if (cos > 0.35) lx = Math.min(lx, 304);
+    if (cos < -0.35) lx = Math.max(lx, 72);
+    ctx.textAlign = cos > 0.35 ? 'left' : (cos < -0.35 ? 'right' : 'center');
+    ctx.fillStyle = colors[i];
+    ctx.fillText(labels[i], lx, ly + 4);
+  }
+
+  // Data polygon
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const angle = startAngle + i * angleStep;
+    const r = (values[i] / 25) * maxR;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(63, 121, 116, 0.18)';
+  ctx.fill();
+  ctx.strokeStyle = '#3f7974';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Data points
+  for (let i = 0; i < n; i++) {
+    const angle = startAngle + i * angleStep;
+    const r = (values[i] / 25) * maxR;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, 2 * Math.PI);
+    ctx.fillStyle = colors[i];
+    ctx.fill();
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+}
+
+function resetRadar() {
+  ['ens', 'voc', 'per', 'cre'].forEach(key => {
+    document.getElementById('slider-' + key).value = 15;
+  });
+  updateRadar();
+  showToast('รีเซ็ตคะแนนแล้ว');
+}
+
+function exportRadar() {
+  const labels = [
+    ['Ensemble', document.getElementById('slider-ens').value],
+    ['Vocal / Instrumental', document.getElementById('slider-voc').value],
+    ['Performance', document.getElementById('slider-per').value],
+    ['Music Creative', document.getElementById('slider-cre').value]
+  ];
+  const total = labels.reduce((sum, item) => sum + Number(item[1]), 0);
+  const lines = ['คะแนนทดลองตัดสินวงดนตรี', 'วันที่บันทึก: ' + new Date().toLocaleString('th-TH'), ''];
+  labels.forEach(item => lines.push(item[0] + ': ' + item[1] + '/25'));
+  lines.push('', 'รวม: ' + total + '/100');
+  downloadTextFile('music-judging-score.txt', lines.join('\n'));
+  showToast('ส่งออกคะแนนแล้ว');
+}
+
+function loadRadar() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('music-criticism-radar') || 'null');
+    if (Array.isArray(saved) && saved.length === 4) {
+      ['ens', 'voc', 'per', 'cre'].forEach((key, index) => {
+        const value = Math.max(0, Math.min(25, Number(saved[index]) || 15));
+        document.getElementById('slider-' + key).value = value;
+      });
+    }
+  } catch (error) {
+    localStorage.removeItem('music-criticism-radar');
+  }
+  updateRadar();
+}
+
+function resetAllActivities() {
+  resetVersionSelector();
+  resetPoll('poll1');
+  resetChecklist();
+  resetDnd();
+  clearActivity();
+  clearReflection();
+  resetRadar();
+  showToast('รีเซ็ตกิจกรรมทั้งหมดแล้ว');
+}
+
+// Initial radar draw
+loadRadar();
+</script>
+</body>
+</html>

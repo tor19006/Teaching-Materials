@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>คาบที่ 4 — เสียงเคาะ จังหวะ และ Pattern</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --white: #ffffff; --bg: #fafaf9; --surface: #f5f5f4; --border: #e7e5e4;
+      --text: #1c1917; --text-secondary: #57534e; --text-muted: #a8a29e;
+      --accent: #2563eb; --accent-light: #eff6ff; --accent-muted: #93c5fd;
+      --warm: #ea580c; --warm-light: #fff7ed;
+      --green: #16a34a; --green-light: #f0fdf4;
+      --red: #dc2626; --red-light: #fef2f2;
+      --purple: #7c3aed; --purple-light: #f5f3ff;
+      --font: 'IBM Plex Sans Thai', 'Sarabun', 'Inter', system-ui, sans-serif;
+      --font-en: 'Inter', system-ui, sans-serif;
+      --radius: 10px;
+    }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: var(--white); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+
+    /* slides */
+    .slide { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 56px 90px 80px; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; overflow-y: auto; }
+    .slide.active { opacity: 1; pointer-events: auto; }
+    .progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; background: var(--border); z-index: 100; }
+    .progress-fill { height: 100%; background: var(--warm); transition: width 0.35s ease; }
+
+    /* typo */
+    h1 { font-size: 44px; font-weight: 700; line-height: 1.3; letter-spacing: -0.02em; }
+    h2 { font-size: 34px; font-weight: 700; line-height: 1.35; letter-spacing: -0.01em; }
+    h3 { font-size: 19px; font-weight: 600; line-height: 1.4; }
+    .sub { font-size: 17px; color: var(--text-secondary); line-height: 1.8; margin-top: 10px; max-width: 720px; }
+    .small { font-size: 13px; color: var(--text-muted); }
+    .accent { color: var(--accent); } .warm { color: var(--warm); } .green { color: var(--green); } .purple { color: var(--purple); }
+    .em { font-weight: 600; color: var(--text); }
+    .big-num { font-family: var(--font-en); font-size: 110px; font-weight: 700; color: var(--border); line-height: 1; margin-bottom: 8px; }
+
+    /* layout */
+    .center { align-items: center; text-align: center; }
+    .center .sub { margin-left: auto; margin-right: auto; }
+    .max-w { max-width: 960px; width: 100%; }
+    .row { display: flex; gap: 32px; align-items: center; margin-top: 24px; }
+    .row-rev { flex-direction: row-reverse; }
+    .col-text { flex: 1; }
+    .col-img { flex: 0 0 320px; }
+    .col-img img { width: 100%; height: auto; border-radius: var(--radius); }
+
+    /* tag */
+    .tag { display: inline-block; padding: 4px 14px; border-radius: 100px; font-size: 13px; font-weight: 500; margin-bottom: 12px; background: var(--warm-light); color: var(--warm); }
+    .tag-blue { background: var(--accent-light); color: var(--accent); }
+    .tag-green { background: var(--green-light); color: var(--green); }
+    .tag-red { background: var(--red-light); color: var(--red); }
+    .tag-purple { background: var(--purple-light); color: var(--purple); }
+
+    .sn { position: absolute; bottom: 28px; right: 44px; font-family: var(--font-en); font-size: 13px; color: var(--text-muted); }
+
+    /* grid */
+    .grid { display: grid; gap: 14px; width: 100%; margin-top: 20px; }
+    .g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: 1fr 1fr 1fr; } .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+    /* card */
+    .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+    .card h3 { font-size: 15px; margin-bottom: 5px; } .card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+    .card-icon { font-size: 26px; margin-bottom: 8px; display: block; }
+
+    /* table */
+    .tbl { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+    .tbl th { text-align: left; padding: 10px 14px; font-weight: 600; font-size: 13px; color: var(--text-secondary); border-bottom: 2px solid var(--border); background: var(--bg); }
+    .tbl td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-secondary); line-height: 1.6; vertical-align: top; }
+    .tbl td strong { color: var(--text); font-weight: 600; } .tbl tr:last-child td { border-bottom: none; }
+
+    /* list */
+    .lst { list-style: none; margin-top: 12px; }
+    .lst li { display: flex; align-items: baseline; gap: 10px; font-size: 15px; line-height: 1.8; color: var(--text-secondary); padding: 3px 0; }
+    .lst li .ico { flex-shrink: 0; font-size: 15px; } .lst li strong { color: var(--text); }
+
+    /* quote & callout */
+    .quote { border-left: 3px solid var(--warm); padding: 18px 22px; margin-top: 20px; background: var(--warm-light); border-radius: 0 var(--radius) var(--radius) 0; }
+    .quote p { font-size: 15px; line-height: 1.8; color: var(--text); }
+    .callout { display: flex; align-items: flex-start; gap: 12px; background: var(--warm-light); border: 1px solid #fed7aa; border-radius: var(--radius); padding: 16px 20px; margin-top: 16px; }
+    .callout-blue { background: var(--accent-light); border-color: var(--accent-muted); }
+    .callout-green { background: var(--green-light); border-color: #86efac; }
+    .callout-red { background: var(--red-light); border-color: #fca5a5; }
+    .callout-purple { background: var(--purple-light); border-color: #c4b5fd; }
+    .callout p { font-size: 14px; line-height: 1.7; color: var(--text-secondary); } .callout strong { color: var(--text); }
+
+    /* badges */
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .badge { padding: 6px 14px; border-radius: 100px; font-size: 13px; background: var(--surface); border: 1px solid var(--border); color: var(--text-secondary); }
+
+    /* image in slide */
+    .slide-img { max-width: 320px; width: 100%; height: auto; border-radius: var(--radius); margin: 16px 0; }
+    .slide-img-sm { max-width: 220px; }
+
+    /* stripe */
+    .stripe { position: absolute; top: 0; left: 0; width: 100%; height: 4px; }
+    .stripe-blue { background: var(--accent); } .stripe-warm { background: var(--warm); } .stripe-green { background: var(--green); } .stripe-purple { background: var(--purple); }
+    .bl-accent { border-left: 3px solid var(--accent); } .bl-warm { border-left: 3px solid var(--warm); } .bl-green { border-left: 3px solid var(--green); } .bl-purple { border-left: 3px solid var(--purple); }
+
+    /* nav */
+    .nav { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; z-index: 100; background: var(--white); border: 1px solid var(--border); padding: 7px 14px; border-radius: 100px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .nav-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: var(--white); color: var(--text); font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+    .nav-btn:hover { background: var(--bg); } .nav-btn:disabled { opacity: 0.25; cursor: default; }
+    .dots { display: flex; gap: 4px; } .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); cursor: pointer; transition: all 0.25s; } .dot.on { background: var(--warm); width: 18px; border-radius: 3px; }
+    .kbd-hint { position: fixed; bottom: 72px; right: 36px; font-size: 11px; color: var(--text-muted); z-index: 100; display: flex; align-items: center; gap: 5px; }
+    .kbd { padding: 2px 6px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; font-family: var(--font-en); font-size: 11px; }
+    .fs-btn { position: fixed; top: 14px; right: 14px; width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--border); background: var(--white); color: var(--text-muted); font-size: 13px; cursor: pointer; z-index: 200; display: flex; align-items: center; justify-content: center; }
+
+    /* ====== INTERACTIVE 1: BPM Tapper ====== */
+    .tapper-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-top: 16px; text-align: center; }
+    .tap-zone { width: 160px; height: 160px; border-radius: 50%; background: var(--warm); color: white; font-size: 18px; font-weight: 700; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 16px auto; transition: transform 0.1s; box-shadow: 0 4px 20px rgba(234,88,12,0.3); user-select: none; }
+    .tap-zone:active { transform: scale(0.93); }
+    .tap-zone .bpm-val { font-family: var(--font-en); font-size: 48px; font-weight: 700; line-height: 1; }
+    .tap-zone .bpm-label { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+    .tap-result { margin-top: 16px; font-size: 15px; color: var(--text-secondary); min-height: 40px; }
+    .tap-reset { padding: 6px 18px; border-radius: 100px; border: 1px solid var(--border); background: var(--white); color: var(--text-secondary); font-size: 13px; cursor: pointer; margin-top: 10px; }
+
+    /* ====== INTERACTIVE 2: Beat Grid Maker ====== */
+    .grid-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-top: 16px; }
+    .beat-grid { display: grid; grid-template-columns: 100px repeat(8, 1fr); gap: 4px; margin-top: 12px; }
+    .grid-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; padding: 4px 8px; }
+    .grid-num { font-family: var(--font-en); font-size: 11px; font-weight: 700; color: var(--text-muted); text-align: center; padding: 4px; }
+    .grid-cell { width: 100%; aspect-ratio: 1; border-radius: 6px; border: 1px solid var(--border); background: var(--white); cursor: pointer; transition: all 0.15s; }
+    .grid-cell:hover { border-color: var(--warm); }
+    .grid-cell.on-kick { background: var(--warm); border-color: var(--warm); }
+    .grid-cell.on-snare { background: var(--accent); border-color: var(--accent); }
+    .grid-cell.on-hat { background: var(--purple); border-color: var(--purple); }
+    .grid-cell.on-fx { background: var(--green); border-color: var(--green); }
+    .grid-cell.playing { box-shadow: 0 0 0 2px var(--text); transform: scale(1.1); }
+    .grid-controls { display: flex; align-items: center; gap: 12px; margin-top: 16px; justify-content: center; flex-wrap: wrap; }
+    .grid-btn { padding: 8px 20px; border-radius: 100px; border: 1px solid var(--warm); background: var(--warm); color: white; font-weight: 600; cursor: pointer; font-size: 14px; font-family: var(--font); }
+    .grid-btn:hover { opacity: 0.9; }
+    .grid-btn.outline { background: var(--white); color: var(--warm); }
+    .tempo-control { display: flex; align-items: center; gap: 8px; }
+    .tempo-control input[type="range"] { width: 100px; accent-color: var(--warm); }
+    .tempo-control span { font-family: var(--font-en); font-size: 13px; font-weight: 600; color: var(--warm); min-width: 60px; }
+
+    /* ====== INTERACTIVE 3: Metronome ====== */
+    .metro-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-top: 16px; text-align: center; }
+    .metro-display { font-family: var(--font-en); font-size: 64px; font-weight: 700; color: var(--warm); margin: 12px 0; }
+    .metro-beats { display: flex; justify-content: center; gap: 12px; margin: 16px 0; }
+    .metro-dot { width: 20px; height: 20px; border-radius: 50%; background: var(--border); transition: all 0.1s; }
+    .metro-dot.hit { background: var(--warm); transform: scale(1.3); }
+    .metro-dot.first.hit { background: var(--red); }
+
+    /* ====== INTERACTIVE 4: Timer ====== */
+    .timer-circle { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--font-en); font-size: 30px; font-weight: 700; color: var(--warm); margin: 20px auto; position: relative; }
+    .timer-circle.running { border-color: var(--warm); animation: timerPulse 1s ease-in-out infinite; }
+    @keyframes timerPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.03);} }
+    .timer-btn { padding: 10px 28px; border-radius: 100px; border: 1px solid var(--warm); background: var(--warm); color: white; font-size: 15px; font-weight: 600; cursor: pointer; font-family: var(--font); }
+    .timer-btn:hover { opacity: 0.9; }
+    .timer-btn.outline { background: var(--white); color: var(--warm); }
+
+    /* ====== FINAL QUIZ ====== */
+    .fq-grid { margin-top: 16px; min-height: 220px; }
+    .fq-item { display: none; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; text-align: left; max-width: 650px; margin: 0 auto; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .fq-item.active { display: block; }
+    .fq-q { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; display: flex; gap: 8px; }
+    .fq-q .fq-num { color: var(--warm); font-family: var(--font-en); font-weight: 700; min-width: 22px; }
+    .fq-opts { display: flex; flex-direction: column; gap: 4px; padding-left: 30px; }
+    .fq-opt {
+      padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px;
+      background: var(--white); cursor: pointer; font-size: 13px; transition: all 0.2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .fq-opt:hover { border-color: var(--warm); background: var(--warm-light); }
+    .fq-opt.fq-selected { border-color: var(--warm); background: var(--warm-light); font-weight: 600; }
+    .fq-opt.fq-correct { border-color: var(--green); background: var(--green-light); }
+    .fq-opt.fq-wrong { border-color: var(--red); background: var(--red-light); }
+    .fq-opt.fq-disabled { pointer-events: none; opacity: 0.5; }
+    .fq-opt.fq-correct.fq-disabled { opacity: 1; }
+    .fq-opt .fq-letter { width: 22px; height: 22px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--font-en); font-weight: 600; font-size: 11px; flex-shrink: 0; }
+    .fq-opt.fq-correct .fq-letter { background: var(--green); color: white; border-color: var(--green); }
+    .fq-opt.fq-wrong .fq-letter { background: var(--red); color: white; border-color: var(--red); }
+    .fq-nav-row { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 24px; }
+    .fq-nav-btn {
+      padding: 8px 18px; border-radius: 100px; border: 1px solid var(--border);
+      background: var(--white); color: var(--text-secondary); font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+    }
+    .fq-nav-btn:hover:not(:disabled) { border-color: var(--warm); color: var(--warm); background: var(--warm-light); }
+    .fq-nav-btn:disabled { opacity: 0.3; cursor: default; }
+    .fq-counter { font-family: var(--font-en); font-size: 14px; font-weight: 700; color: var(--text-secondary); min-width: 90px; text-align: center; }
+    .fq-submit-row { display: flex; gap: 12px; justify-content: center; margin-top: 20px; }
+    .fq-btn {
+      padding: 10px 32px; border-radius: 100px; border: 1px solid var(--warm);
+      background: var(--warm); color: white; font-size: 15px; font-weight: 600;
+      cursor: pointer; font-family: var(--font); transition: all 0.2s;
+    }
+    .fq-btn:hover { opacity: 0.9; } .fq-btn:disabled { opacity: 0.4; cursor: default; }
+    .fq-btn.outline { background: var(--white); color: var(--warm); }
+    .fq-result { text-align: center; margin-top: 20px; padding: 24px; background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border); display: none; }
+    .fq-score { font-family: var(--font-en); font-size: 56px; font-weight: 700; }
+    .fq-msg { font-size: 16px; margin-top: 8px; color: var(--text-secondary); }
+
+    /* Pattern notation */
+    .pattern-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-top: 14px; font-family: var(--font-en); }
+    .pattern-row { display: grid; grid-template-columns: 80px repeat(4, 1fr); gap: 2px; margin: 2px 0; }
+    .pattern-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); display: flex; align-items: center; padding-right: 8px; font-family: var(--font); }
+    .pattern-cell { text-align: center; padding: 6px; font-size: 15px; font-weight: 700; border-radius: 4px; }
+    .pattern-cell.hit { background: var(--warm-light); color: var(--warm); }
+    .pattern-cell.empty { color: var(--text-muted); }
+    .pattern-header .pattern-cell { font-size: 13px; font-weight: 700; color: var(--accent); background: var(--accent-light); }
+
+    /* Video embed */
+    .video-frame { position: relative; width: 100%; max-width: 560px; margin: 16px auto; padding-bottom: 56.25%; height: 0; border-radius: var(--radius); overflow: hidden; background: var(--surface); border: 1px solid var(--border); }
+    .video-frame iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+    @media (max-width: 900px) {
+      .slide { padding: 44px 24px 80px; } h1 { font-size: 30px; } h2 { font-size: 24px; }
+      .g2,.g3,.g4 { grid-template-columns: 1fr; }
+      .row { flex-direction: column; } .row-rev { flex-direction: column; } .col-img { flex: 0 0 auto; max-width: 200px; }
+      .beat-grid { grid-template-columns: 70px repeat(8, 1fr); gap: 2px; }
+      .tap-zone { width: 130px; height: 130px; }
+      .tap-zone .bpm-val { font-size: 36px; }
+    }
+  </style>
+</head>
+<body>
+<div class="progress"><div class="progress-fill" id="pbar"></div></div>
+<button class="fs-btn" onclick="toggleFS()" title="เต็มจอ">⛶</button>
+
+<!-- ====== 0: TITLE ====== -->
+<div class="slide center active" data-s="0">
+  <div class="max-w">
+    <p class="small" style="margin-bottom: 28px; letter-spacing: 2px;">คาบที่ 4 · เทคโนโลยีดนตรีและการสร้างสรรค์เสียงด้วย AI</p>
+    <h1>เสียงเคาะ จังหวะ<br>และ Pattern</h1>
+    <p class="sub">เปลี่ยนสิ่งของรอบตัว — โต๊ะ ปากกา ขวดน้ำ ตบมือ — ให้กลายเป็นเครื่องดนตรี<br>สร้าง Beat Pattern แรกของคุณโดยไม่ต้องอ่านโน้ตสักตัว!</p>
+    <div class="badges" style="justify-content: center; margin-top: 24px;">
+      <span class="badge">🥁 Object Percussion</span>
+      <span class="badge">🎵 จังหวะ & Beat</span>
+      <span class="badge">⏱️ Tempo & BPM</span>
+      <span class="badge">🔄 Pattern</span>
+    </div>
+    <p class="small" style="margin-top: 32px;">โรงเรียนสุรศักดิ์มนตรี · ครูเอกณัฐ ลุผลแท้ · ม.4</p>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 1: WELCOME & RECAP ====== -->
+<div class="slide" data-s="1">
+  <div class="max-w">
+    <div class="row">
+      <div class="col-text">
+        <span class="tag tag-green">เช็คอินก่อนเริ่มคาบ</span>
+        <h2>ยินดีต้อนรับสู่ คาบที่ 4!</h2>
+        <p class="sub">คาบที่แล้วเราเจาะลึกเรื่อง <strong>Ambience</strong> — เสียงบรรยากาศที่ควบคุมอารมณ์ ได้ทดลองมิกซ์เสียง ผสม Layer และเขียน Prompt สั่ง AI</p>
+        <div class="callout callout-green" style="margin-top: 20px;">
+          <span>📋</span>
+          <p><strong>เช็คการบ้าน:</strong> ทุกคนส่ง <strong>ใบงานที่ 1: Listening & Sound Diary</strong> ลง Google Classroom เรียบร้อยแล้วใช่ไหม? วันนี้เราจะเปลี่ยนจากเสียง "ฉากหลัง" มาสู่เสียง "จังหวะ" กัน!</p>
+        </div>
+      </div>
+      <div class="col-img">
+        <img src="img/week4_object_percussion.jpg" alt="Object Percussion ในห้องเรียน" class="slide-img">
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 2: RECAP 4 CATEGORIES ====== -->
+<div class="slide" data-s="2">
+  <div class="max-w">
+    <span class="tag tag-blue">ทบทวนความรู้เดิม</span>
+    <h2>ประเภทเสียง 4 กลุ่มที่เราเก็บมา</h2>
+    <p class="sub">จำได้ไหม? เสียงที่เราล่ามาในสัปดาห์ที่ 2 ถูกแบ่งเป็น 4 กลุ่ม — วันนี้เราจะ "ซูม" เข้าไปที่กลุ่มที่ 2!</p>
+    <div class="grid g4" style="margin-top: 20px;">
+      <div class="card">
+        <h3>🌧️ Ambience</h3>
+        <p>เสียงบรรยากาศฉากหลัง<br><span class="small">✅ เรียนแล้ว (คาบ 3)</span></p>
+      </div>
+      <div class="card bl-warm" style="border: 2px solid var(--warm); background: var(--warm-light);">
+        <h3 style="color: var(--warm);">🥁 Object Percussion</h3>
+        <p style="color: var(--warm);"><strong>🎯 วันนี้! เสียงเคาะจังหวะจากสิ่งของรอบตัว</strong></p>
+      </div>
+      <div class="card">
+        <h3>🗣️ Voice / Vocal</h3>
+        <p>เสียงพูด ร้อง ฮัม<br><span class="small">📅 เรียนสัปดาห์หน้า</span></p>
+      </div>
+      <div class="card">
+        <h3>🔔 Signal / Alert</h3>
+        <p>เสียงสัญญาณ เสียงเตือน<br><span class="small">ใช้เป็น Effect</span></p>
+      </div>
+    </div>
+    <div class="quote" style="margin-top: 20px;">
+      <p>💡 <strong>Object Percussion</strong> คือการทำ "จังหวะ" จากสิ่งของที่ไม่ใช่เครื่องดนตรี — ถ้า Ambience เป็น "ฉากหลัง" แล้ว Object Percussion ก็คือ "หัวใจ" ของเพลง!</p>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 3: SECTION 1 DIVIDER ====== -->
+<div class="slide center" data-s="3">
+  <div class="stripe stripe-warm"></div>
+  <div class="max-w">
+    <span class="big-num">01</span>
+    <span class="tag">ส่วนที่ 1</span>
+    <h1>จังหวะ คืออะไร?</h1>
+    <p class="sub">ทำความรู้จัก Beat, Rhythm, Tempo และ BPM<br>ไม่ต้องอ่านโน้ต — แค่ฟังและนับตามก็เข้าใจได้!</p>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 4: WHAT IS RHYTHM ====== -->
+<div class="slide" data-s="4">
+  <div class="max-w">
+    <span class="tag">แนวคิดพื้นฐาน</span>
+    <h2>🎵 จังหวะ (Rhythm) คืออะไร?</h2>
+    <p class="sub">จังหวะ = <strong>รูปแบบของเสียงและความเงียบที่เรียงตัวกันตามเวลา</strong> — เป็นสิ่งที่ทำให้ดนตรีน่าสนใจ ไม่ใช่แค่เสียง "ติ๊กๆ" เท่ากัน</p>
+    <div class="grid g2" style="margin-top: 20px;">
+      <div class="card bl-warm">
+        <h3>💓 จังหวะอยู่รอบตัวเรา</h3>
+        <ul class="lst">
+          <li>• เสียงนาฬิกา <strong>ติ๊ก-ต๊อก-ติ๊ก-ต๊อก</strong></li>
+          <li>• จังหวะการเดิน <strong>ก้าว-ก้าว-ก้าว-ก้าว</strong></li>
+          <li>• เสียงฝนตกหยด <strong>ป๊ะ..ป๊ะ..ป๊ะ..</strong></li>
+          <li>• เสียงพิมพ์แชท <strong>ต๊ะ-ต๊ะ-ต๊ะต๊ะ-ต๊ะ</strong></li>
+          <li>• หัวใจเต้น <strong>ตุ๊บ-ตุ๊บ-ตุ๊บ-ตุ๊บ</strong></li>
+        </ul>
+      </div>
+      <div class="card bl-accent">
+        <h3>🧠 ทุกคนมีจังหวะในตัว!</h3>
+        <p>ลองเอามือวางบนหน้าอก แล้วรู้สึกการเต้นของหัวใจ — <strong>นั่นคือจังหวะ!</strong></p>
+        <p style="margin-top: 12px;">เวลาเราพูด บางคำสั้น บางคำยาว — นั่นก็คือจังหวะเช่นกัน!</p>
+        <div class="callout callout-blue" style="margin-top: 12px;">
+          <span>🔑</span>
+          <p><strong>สูตรง่ายๆ:</strong> จังหวะ = เสียง + ความเงียบ + เวลา</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 5: BEAT VS RHYTHM ====== -->
+<div class="slide" data-s="5">
+  <div class="max-w">
+    <span class="tag tag-blue">เปรียบเทียบ</span>
+    <h2>🥊 Beat กับ Rhythm ต่างกันยังไง?</h2>
+    <div class="row" style="align-items: flex-start;">
+      <div class="col-text" style="flex: 1;">
+        <table class="tbl" style="margin-top: 12px;">
+          <thead>
+            <tr><th></th><th>Beat (บีท)</th><th>Rhythm (จังหวะ)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>คือ</strong></td><td>ชีพจรสม่ำเสมอ <strong>เหมือนหัวใจ</strong></td><td>ลวดลายของเสียง <strong>เหมือนท่าเต้น</strong></td></tr>
+            <tr><td><strong>ลักษณะ</strong></td><td>คงที่ ไม่เปลี่ยน<br>ติ๊ก-ติ๊ก-ติ๊ก-ติ๊ก</td><td>เปลี่ยนไปเรื่อย<br>ตุ๊ม-แตก-ตุ๊ม ตุ๊ม-แตก</td></tr>
+            <tr><td><strong>เปรียบ</strong></td><td>🚶 <strong>การเดิน</strong> — ก้าวสม่ำเสมอ</td><td>💃 <strong>การเต้นรำ</strong> — หลากหลายท่า</td></tr>
+            <tr><td><strong>ลองทำ</strong></td><td>เคาะเท้าตามเพลง</td><td>ปรบมือตามทำนองร้อง</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-img" style="flex: 0 0 280px;">
+        <img src="img/week4_beat_vs_rhythm.jpg" alt="Beat vs Rhythm" class="slide-img">
+      </div>
+    </div>
+    <div class="callout" style="margin-top: 16px;">
+      <span>🎧</span>
+      <p><strong>ลองทำตาม:</strong> เปิดเพลงที่ชอบ → เคาะเท้าตามจังหวะ (= Beat) → ปรบมือตามทำนองร้อง (= Rhythm) → สังเกต: เท้าเคาะสม่ำเสมอ แต่มือปรบแตกต่างกันในแต่ละท่อน!</p>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 6: TEMPO & BPM ====== -->
+<div class="slide" data-s="6">
+  <div class="max-w">
+    <span class="tag">ความเร็วจังหวะ</span>
+    <h2>⏱️ Tempo & BPM — เพลงเร็วเพลงช้าวัดยังไง?</h2>
+    <p class="sub"><strong>Tempo</strong> (เทมโป) = ความเร็วของ Beat — วัดเป็น <strong>BPM</strong> (Beats Per Minute) หรือจำนวนจังหวะต่อนาที</p>
+    <div class="grid g2" style="margin-top: 20px;">
+      <div>
+        <table class="tbl">
+          <thead><tr><th>แนวเพลง</th><th>BPM</th><th>อารมณ์</th></tr></thead>
+          <tbody>
+            <tr><td>🐢 <strong>บัลลาด/Slow</strong></td><td style="font-family:var(--font-en);">60–80</td><td>ช้า เศร้า ซึ้ง</td></tr>
+            <tr><td>🚶 <strong>Hip-Hop/R&B</strong></td><td style="font-family:var(--font-en);">85–115</td><td>ชิลๆ มีสไตล์</td></tr>
+            <tr><td>🏃 <strong>Pop</strong></td><td style="font-family:var(--font-en);">100–130</td><td>สนุก ฟังสบาย</td></tr>
+            <tr><td>🏃‍♂️ <strong>Rock/EDM</strong></td><td style="font-family:var(--font-en);">120–140</td><td>ตื่นเต้น พลังสูง</td></tr>
+            <tr><td>🚀 <strong>Drum & Bass</strong></td><td style="font-family:var(--font-en);">160–180</td><td>เร็วมาก ลุ้นระทึก</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="card bl-warm">
+          <h3>📏 ลองจับเวลาดู!</h3>
+          <ul class="lst">
+            <li>• <strong>60 BPM</strong> = ตบมือ <strong>1 ครั้งต่อวินาที</strong> (เท่าเข็มวินาที)</li>
+            <li>• <strong>120 BPM</strong> = ตบมือ <strong>2 ครั้งต่อวินาที</strong> (เท่าจังหวะเดินเร็ว)</li>
+            <li>• <strong>180 BPM</strong> = ตบมือ <strong>3 ครั้งต่อวินาที</strong> (เร็วมาก!)</li>
+          </ul>
+        </div>
+        <div class="callout callout-blue" style="margin-top: 14px;">
+          <span>💡</span>
+          <p>BPM สูง = เร็ว = ตื่นเต้น<br>BPM ต่ำ = ช้า = สงบ/เศร้า</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 7: INTERACTIVE — BPM TAPPER ====== -->
+<div class="slide center" data-s="7">
+  <div class="max-w" style="max-width: 700px;">
+    <span class="tag tag-purple">กิจกรรมที่ 1</span>
+    <h2>🎯 Tap to Find BPM!</h2>
+    <p class="sub" style="margin-left: auto; margin-right: auto;">ลองเปิดเพลงที่ชอบ แล้ว<strong>กดปุ่มตามจังหวะ</strong> ระบบจะคำนวณ BPM ให้อัตโนมัติ!</p>
+    <div class="tapper-box">
+      <div class="grid g2">
+        <div>
+          <button class="tap-zone" id="tapZone" onclick="handleTap()">
+            <span class="bpm-val" id="tapBPM">–</span>
+            <span class="bpm-label">BPM</span>
+          </button>
+          <p class="small" style="margin-top: 8px;">กดตามจังหวะเพลง (อย่างน้อย 4 ครั้ง)</p>
+          <button class="tap-reset" onclick="resetTapper()">↻ เริ่มใหม่</button>
+        </div>
+        <div style="text-align: left;">
+          <div class="tap-result" id="tapResult">เริ่มกดเลย! 🥁</div>
+          <div class="callout callout-blue" style="margin-top: 12px;">
+            <span>📌</span>
+            <p><strong>วิธีใช้:</strong> เปิดเพลง → กดปุ่มส้มตามจังหวะ Beat ของเพลง (เคาะเท้าตามก่อนก็ได้) → ดูค่า BPM ที่คำนวณได้!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 8: SECTION 2 DIVIDER ====== -->
+<div class="slide center" data-s="8">
+  <div class="stripe stripe-blue"></div>
+  <div class="max-w">
+    <span class="big-num">02</span>
+    <span class="tag tag-blue">ส่วนที่ 2</span>
+    <h1>Pattern คืออะไร?<br>สร้างยังไง?</h1>
+    <p class="sub">เรียนรู้การสร้างรูปแบบจังหวะ แค่นับ 1-2-3-4<br>ไม่ต้องอ่านโน้ต ไม่ต้องเล่นกลองเป็น!</p>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 9: WHAT IS PATTERN ====== -->
+<div class="slide" data-s="9">
+  <div class="max-w">
+    <span class="tag tag-blue">รูปแบบจังหวะ</span>
+    <h2>🔄 Pattern (แพทเทิร์น) คืออะไร?</h2>
+    <p class="sub">Pattern = <strong>รูปแบบจังหวะที่ทำซ้ำได้</strong> เหมือนลายผ้า — ทุกเพลงมี Pattern ตั้งแต่ K-Pop ไปจนถึงเพลงลูกทุ่ง!</p>
+    <div class="grid g2" style="margin-top: 20px;">
+      <div>
+        <div class="card bl-accent">
+          <h3>📐 จังหวะ 4/4 (สี่สี่)</h3>
+          <p>จังหวะที่ใช้บ่อยที่สุดในโลก! นับ <strong>1-2-3-4</strong> แล้วเริ่มใหม่</p>
+          <p style="margin-top: 8px;">เพลงป๊อป ร็อค ฮิปฮอป แร็ป EDM ลูกทุ่ง — ส่วนใหญ่ใช้ 4/4 ทั้งนั้น!</p>
+        </div>
+        <div class="card bl-warm" style="margin-top: 14px;">
+          <h3>🧩 วิธีสร้าง Pattern ง่ายๆ</h3>
+          <ul class="lst">
+            <li>• <strong>ขั้น 1:</strong> นับ 1-2-3-4 ให้สม่ำเสมอ</li>
+            <li>• <strong>ขั้น 2:</strong> เลือกเสียง 2-3 แบบ</li>
+            <li>• <strong>ขั้น 3:</strong> เลือกว่าจะ "ตี" จังหวะไหน "เงียบ" จังหวะไหน</li>
+            <li>• <strong>ขั้น 4:</strong> ทำซ้ำ! แค่นี้ก็ได้ Pattern แล้ว!</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 8px;">📊 ใช้สัญลักษณ์แทนโน้ต</h3>
+        <p class="small" style="margin-bottom: 12px;">X = ตี/เคาะ &nbsp; – = เงียบ</p>
+        <div class="pattern-box">
+          <div class="pattern-row pattern-header"><div class="pattern-label">นับ</div><div class="pattern-cell">1</div><div class="pattern-cell">2</div><div class="pattern-cell">3</div><div class="pattern-cell">4</div></div>
+          <div class="pattern-row"><div class="pattern-label" style="color:var(--warm);">🪘 Kick</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div></div>
+          <div class="pattern-row"><div class="pattern-label" style="color:var(--accent);">👏 Snare</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div></div>
+          <div class="pattern-row"><div class="pattern-label" style="color:var(--purple);">🖊️ Hi-hat</div><div class="pattern-cell hit">X</div><div class="pattern-cell hit">X</div><div class="pattern-cell hit">X</div><div class="pattern-cell hit">X</div></div>
+        </div>
+        <p class="small" style="margin-top: 10px;">👆 นี่คือ Pattern พื้นฐานที่ใช้ในเพลงป๊อปทั่วโลก!<br>Kick (จังหวะหนัก) ตี 1 กับ 3 · Snare (จังหวะเน้น) ตี 2 กับ 4 · Hi-hat ตีทุกจังหวะ</p>
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 10: PATTERN LEVELS ====== -->
+<div class="slide" data-s="10">
+  <div class="max-w">
+    <span class="tag tag-blue">4 ระดับความยาก</span>
+    <h2>🎮 ฝึก Pattern ทีละขั้น!</h2>
+    <p class="sub">เริ่มง่ายสุดแล้วค่อยๆ เพิ่มความสนุก — ไม่ต้องรีบ ทำทีละขั้น</p>
+    <div class="grid g2" style="margin-top: 16px;">
+      <div class="card" style="border-top: 3px solid var(--green);">
+        <h3 style="color: var(--green);">🟢 Level 1: ง่ายสุด</h3>
+        <p>เคาะทุกจังหวะ — <strong>ตบมือ: X X X X</strong></p>
+        <div class="pattern-box" style="margin-top: 8px;">
+          <div class="pattern-row"><div class="pattern-label">ตบมือ</div><div class="pattern-cell hit">X</div><div class="pattern-cell hit">X</div><div class="pattern-cell hit">X</div><div class="pattern-cell hit">X</div></div>
+        </div>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--accent);">
+        <h3 style="color: var(--accent);">🔵 Level 2: แบ่ง 2 เสียง</h3>
+        <p>โต๊ะ = Kick (1,3) · ตบมือ = Snare (2,4)</p>
+        <div class="pattern-box" style="margin-top: 8px;">
+          <div class="pattern-row"><div class="pattern-label" style="color:var(--warm);">โต๊ะ</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div></div>
+          <div class="pattern-row"><div class="pattern-label" style="color:var(--accent);">ตบมือ</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div></div>
+        </div>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--warm);">
+        <h3 style="color: var(--warm);">🟠 Level 3: เพิ่ม Hi-hat</h3>
+        <p>เพิ่มปากกาเคาะเป็น Hi-hat ทุกจังหวะ</p>
+        <div class="pattern-box" style="margin-top: 8px;">
+          <div class="pattern-row"><div class="pattern-label" style="color:var(--warm);">โต๊ะ</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div></div>
+          <div class="pattern-row"><div class="pattern-label" style="color:var(--accent);">ตบมือ</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div></div>
+          <div class="pattern-row"><div class="pattern-label" style="color:var(--purple);">ปากกา</div><div class="pattern-cell hit">X</div><div class="pattern-cell hit">X</div><div class="pattern-cell hit">X</div><div class="pattern-cell hit">X</div></div>
+        </div>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--red);">
+        <h3 style="color: var(--red);">🔴 Level 4: ท้าทาย!</h3>
+        <p>เพิ่ม Effect (ขวดน้ำ) ในบางจังหวะ</p>
+        <div class="pattern-box" style="margin-top: 8px;">
+          <div class="pattern-row"><div class="pattern-label" style="color:var(--warm);">โต๊ะ</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div></div>
+          <div class="pattern-row"><div class="pattern-label" style="color:var(--accent);">ตบมือ</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div></div>
+          <div class="pattern-row"><div class="pattern-label" style="color:var(--purple);">ปากกา</div><div class="pattern-cell hit">X</div><div class="pattern-cell hit">X</div><div class="pattern-cell hit">X</div><div class="pattern-cell hit">X</div></div>
+          <div class="pattern-row"><div class="pattern-label" style="color:var(--green);">ขวดน้ำ</div><div class="pattern-cell empty">–</div><div class="pattern-cell empty">–</div><div class="pattern-cell hit">X</div><div class="pattern-cell empty">–</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 11: INTERACTIVE — BEAT GRID ====== -->
+<div class="slide center" data-s="11">
+  <div class="max-w" style="max-width: 800px;">
+    <span class="tag tag-purple">กิจกรรมที่ 2</span>
+    <h2>🎛️ Beat Grid Maker!</h2>
+    <p class="sub" style="margin-left:auto;margin-right:auto;">กดช่องเพื่อวาง Beat แล้วกดเล่น — ลองสร้าง Pattern ของคุณเอง!</p>
+    <div class="grid-box">
+      <div class="beat-grid" id="beatGrid">
+        <div class="grid-label"></div>
+        <div class="grid-num">1</div><div class="grid-num">&</div>
+        <div class="grid-num">2</div><div class="grid-num">&</div>
+        <div class="grid-num">3</div><div class="grid-num">&</div>
+        <div class="grid-num">4</div><div class="grid-num">&</div>
+        <!-- Kick row -->
+        <div class="grid-label"><span style="color:var(--warm);">🪘 Kick</span></div>
+        <div class="grid-cell" data-row="kick" data-col="0" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="kick" data-col="1" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="kick" data-col="2" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="kick" data-col="3" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="kick" data-col="4" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="kick" data-col="5" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="kick" data-col="6" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="kick" data-col="7" onclick="toggleGridCell(this)"></div>
+        <!-- Snare row -->
+        <div class="grid-label"><span style="color:var(--accent);">👏 Snare</span></div>
+        <div class="grid-cell" data-row="snare" data-col="0" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="snare" data-col="1" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="snare" data-col="2" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="snare" data-col="3" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="snare" data-col="4" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="snare" data-col="5" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="snare" data-col="6" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="snare" data-col="7" onclick="toggleGridCell(this)"></div>
+        <!-- Hi-hat row -->
+        <div class="grid-label"><span style="color:var(--purple);">🖊️ Hi-hat</span></div>
+        <div class="grid-cell" data-row="hat" data-col="0" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="hat" data-col="1" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="hat" data-col="2" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="hat" data-col="3" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="hat" data-col="4" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="hat" data-col="5" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="hat" data-col="6" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="hat" data-col="7" onclick="toggleGridCell(this)"></div>
+        <!-- FX row -->
+        <div class="grid-label"><span style="color:var(--green);">🫧 Effect</span></div>
+        <div class="grid-cell" data-row="fx" data-col="0" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="fx" data-col="1" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="fx" data-col="2" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="fx" data-col="3" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="fx" data-col="4" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="fx" data-col="5" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="fx" data-col="6" onclick="toggleGridCell(this)"></div>
+        <div class="grid-cell" data-row="fx" data-col="7" onclick="toggleGridCell(this)"></div>
+      </div>
+      <div class="grid-controls">
+        <button class="grid-btn" id="gridPlayBtn" onclick="toggleGridPlay()">▶ เล่น</button>
+        <div class="tempo-control">
+          <span>🏃</span>
+          <input type="range" id="gridTempo" min="60" max="180" value="100" oninput="updateGridTempo()">
+          <span id="gridTempoVal">100 BPM</span>
+        </div>
+        <button class="grid-btn outline" onclick="clearGrid()">↻ ล้าง</button>
+        <button class="grid-btn outline" onclick="loadPreset()">🎵 ตัวอย่าง</button>
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 12: SECTION 3 DIVIDER ====== -->
+<div class="slide center" data-s="12">
+  <div class="stripe stripe-green"></div>
+  <div class="max-w">
+    <span class="big-num">03</span>
+    <span class="tag tag-green">ส่วนที่ 3</span>
+    <h1>Object Percussion<br>เปลี่ยนสิ่งของเป็นเครื่องดนตรี</h1>
+    <p class="sub">โต๊ะ ปากกา ขวดน้ำ หนังสือ ตบมือ ดีดนิ้ว กระทืบเท้า<br>ทุกอย่างรอบตัวสามารถเป็นเครื่องดนตรีได้!</p>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 13: OBJECT PERCUSSION TABLE ====== -->
+<div class="slide" data-s="13">
+  <div class="max-w">
+    <span class="tag tag-green">สิ่งของรอบห้องเรียน</span>
+    <h2>🪑 Object Percussion — เสียงจากสิ่งของ</h2>
+    <p class="sub">ไม่ต้องมีกลองจริง — ใช้สิ่งของบนโต๊ะเรียนก็สร้าง Beat ได้!</p>
+    <table class="tbl" style="margin-top: 16px;">
+      <thead>
+        <tr><th>สิ่งของ</th><th>วิธีทำเสียง</th><th>เสียงคล้าย</th><th>หน้าที่ใน Beat</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>🪑 โต๊ะ</strong></td><td>ตบฝ่ามือ / กำหมัดเคาะ</td><td>Kick (กลองเบส)</td><td style="color:var(--warm);font-weight:600;">จังหวะหนัก 💥</td></tr>
+        <tr><td><strong>🖊️ ปากกา</strong></td><td>เคาะกับโต๊ะ / กลิ้งเคาะ</td><td>Hi-hat (ฉาบ)</td><td style="color:var(--purple);font-weight:600;">จังหวะถี่เบาๆ</td></tr>
+        <tr><td><strong>📖 หนังสือ</strong></td><td>ปิดดังๆ / ตบ / เคาะ</td><td>Snare (กลองสแนร์)</td><td style="color:var(--accent);font-weight:600;">จังหวะเน้น 👊</td></tr>
+        <tr><td><strong>🧴 ขวดน้ำ</strong></td><td>เคาะด้านข้าง / เขย่า</td><td>Shaker / Effect</td><td style="color:var(--green);font-weight:600;">เพิ่มสีสัน ✨</td></tr>
+        <tr><td><strong>📏 ไม้บรรทัด</strong></td><td>เคาะกับโต๊ะ / สั่นเสียง</td><td>Woodblock / Rim</td><td>จังหวะเสริม</td></tr>
+      </tbody>
+    </table>
+    <div class="callout" style="margin-top: 16px;">
+      <span>💡</span>
+      <p><strong>เคล็ดลับ:</strong> เสียงจะเปลี่ยนตามตำแหน่งที่เคาะ! ลองเคาะ <strong>กลางโต๊ะ vs ขอบโต๊ะ</strong>, <strong>ขวดมีน้ำ vs ขวดเปล่า</strong>, <strong>ตบมือแบน vs ถ้วยมือ</strong> — เสียงต่างกันมาก!</p>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 14: BODY PERCUSSION ====== -->
+<div class="slide" data-s="14">
+  <div class="max-w">
+    <span class="tag tag-green">ใช้ร่างกายเป็นเครื่องดนตรี</span>
+    <h2>🙌 Body Percussion — เสียงจากร่างกาย</h2>
+    <p class="sub">ไม่มีสิ่งของ? ไม่เป็นไร! ร่างกายของเราก็เป็นเครื่องดนตรีได้</p>
+    <div class="grid g3" style="margin-top: 20px;">
+      <div class="card bl-warm">
+        <span class="card-icon">👏</span>
+        <h3>Clap (ตบมือ)</h3>
+        <p>ตบมือเข้าด้วยกัน<br>เสียงคล้าย: <strong>Snare/Clap</strong><br><span class="small">💡 แบมือ vs ถ้วยมือ = เสียงต่าง!</span></p>
+      </div>
+      <div class="card bl-accent">
+        <span class="card-icon">🤏</span>
+        <h3>Snap (ดีดนิ้ว)</h3>
+        <p>ดีดนิ้วกลาง<br>เสียงคล้าย: <strong>Hi-hat เบาๆ</strong><br><span class="small">ใช้เป็นจังหวะเบาได้</span></p>
+      </div>
+      <div class="card bl-purple">
+        <span class="card-icon">🦵</span>
+        <h3>Pat (ตบขา)</h3>
+        <p>ตบฝ่ามือลงหน้าขา<br>เสียงคล้าย: <strong>Bongo drum</strong><br><span class="small">เสียงนุ่มกว่าตบมือ</span></p>
+      </div>
+      <div class="card bl-green">
+        <span class="card-icon">🦶</span>
+        <h3>Stomp (กระทืบเท้า)</h3>
+        <p>กระทืบเท้าลงพื้น<br>เสียงคล้าย: <strong>Bass drum</strong><br><span class="small">เสียงทุ้ม หนัก สั่น!</span></p>
+      </div>
+      <div class="card">
+        <span class="card-icon">👅</span>
+        <h3>Click (ปรบลิ้น)</h3>
+        <p>ปรบลิ้นกับเพดานปาก<br>เสียงคล้าย: <strong>Tick/Click</strong><br><span class="small">เสียงคม แหลม</span></p>
+      </div>
+      <div class="card" style="border: 1px dashed var(--warm);">
+        <span class="card-icon">🎵</span>
+        <h3 style="color: var(--warm);">ลองผสมกัน!</h3>
+        <p style="color: var(--warm);">เท้า (1) → ขา (2) → ตบมือ (3) → ดีดนิ้ว (4) → ทำซ้ำ!</p>
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 15: VIDEO — STOMP ====== -->
+<div class="slide" data-s="15">
+  <div class="max-w">
+    <span class="tag tag-green">แรงบันดาลใจ</span>
+    <h2>🎬 STOMP — เมื่อขยะกลายเป็นดนตรี!</h2>
+    <p class="sub"><strong>STOMP</strong> คือกลุ่มศิลปินระดับโลกที่สร้างดนตรีจากสิ่งของรอบตัว — ไม้กวาด ถังขยะ ฝาหม้อ แก้วน้ำ — ทุกอย่างเป็นเครื่องดนตรีได้!</p>
+    <div class="grid g2" style="margin-top: 16px;">
+      <div>
+        <div class="video-frame">
+          <iframe src="https://www.youtube.com/embed/kYJ_E2sJp4A" title="STOMP Brooms" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p class="small" style="text-align: center; margin-top: 6px;">STOMP — Brooms (ไม้กวาด)</p>
+      </div>
+      <div>
+        <div class="card bl-warm" style="margin-bottom: 14px;">
+          <h3>🤔 คำถามให้คิด</h3>
+          <ul class="lst">
+            <li>• เขาใช้สิ่งของอะไรบ้างเป็นเครื่องดนตรี?</li>
+            <li>• Pattern (รูปแบบจังหวะ) เปลี่ยนไปยังไงบ้าง?</li>
+            <li>• เสียงไหนทำหน้าที่ Kick, Snare, Hi-hat?</li>
+            <li>• สิ่งของอะไร<strong>ในห้องเรียน</strong>ที่เราใช้ได้คล้ายกัน?</li>
+          </ul>
+        </div>
+        <div class="callout callout-blue">
+          <span>🔗</span>
+          <p><strong>ดูเพิ่มเติม:</strong> ลอง YouTube ค้นหา "bucket drumming", "pen tapping" หรือ "cup song" — เด็กวัยเดียวกันทำ Beat จากสิ่งของได้สุดยอดมาก!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 16: RECORDING TIPS ====== -->
+<div class="slide" data-s="16">
+  <div class="max-w">
+    <span class="tag tag-green">เทคนิคอัดเสียง</span>
+    <h2>📱 เคล็ดลับอัดเสียงเคาะด้วยมือถือ</h2>
+    <p class="sub">เก็บเสียง Object Percussion ให้ชัดและคมที่สุด!</p>
+    <div class="grid g3" style="margin-top: 20px;">
+      <div class="card bl-warm">
+        <span class="card-icon">📏</span>
+        <h3>ระยะห่าง 30-60 ซม.</h3>
+        <p>ถือมือถือห่างจากวัตถุพอประมาณ<br><strong>ใกล้เกินไป</strong> = เสียงแตก<br><strong>ไกลเกินไป</strong> = เสียงเบา</p>
+      </div>
+      <div class="card bl-accent">
+        <span class="card-icon">🚫</span>
+        <h3>อย่าวางมือถือบนโต๊ะที่เคาะ!</h3>
+        <p>ถ้าเคาะโต๊ะ ให้ <strong>ถือมือถือ</strong> หรือ วางที่อื่น เพราะจะสั่นตามมาก</p>
+      </div>
+      <div class="card bl-green">
+        <span class="card-icon">🔇</span>
+        <h3>หาที่เงียบ</h3>
+        <p>ปิดพัดลม ปิดหน้าต่าง ไม่อัดตอนมีคนคุย — วางผ้าช่วยลดเสียงก้อง</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🧪</span>
+        <h3>ทดลองอัดสั้นๆ ก่อน!</h3>
+        <p>อัดทดสอบ <strong>5 วินาที</strong> แล้วฟังดูก่อนอัดจริง — ลองหลายตำแหน่ง</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📂</span>
+        <h3>อัดแยกไฟล์</h3>
+        <p>อัดเสียงแต่ละวัตถุ<strong>แยกไฟล์</strong> เช่น desk_kick.m4a, pen_hihat.m4a</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📲</span>
+        <h3>แอปที่ใช้ได้</h3>
+        <p><strong>Voice Memos</strong> (iOS) · <strong>Recorder</strong> (Android) · <strong>BandLab</strong> (ทุกระบบ)</p>
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 17: SECTION 4 DIVIDER ====== -->
+<div class="slide center" data-s="17">
+  <div class="stripe stripe-purple"></div>
+  <div class="max-w">
+    <span class="big-num">04</span>
+    <span class="tag tag-purple">ส่วนที่ 4</span>
+    <h1>กิจกรรม:<br>Object Orchestra! 🎶</h1>
+    <p class="sub">ถึงเวลาลงมือทำจริง! เปลี่ยนห้องเรียนให้เป็นสตูดิโอ<br>สร้าง Beat Pattern จากสิ่งของรอบตัว แล้วอัดเป็นไฟล์เสียง</p>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 18: WARM-UP ACTIVITY ====== -->
+<div class="slide" data-s="18">
+  <div class="max-w">
+    <span class="tag tag-purple">กิจกรรม Warm-up</span>
+    <h2>🔥 Call & Response — ตบตามครู!</h2>
+    <p class="sub">ครูจะเคาะจังหวะ → นักเรียนเลียนแบบตามทันที! เริ่มง่ายแล้วค่อยยากขึ้น</p>
+    <div class="grid g2" style="margin-top: 20px;">
+      <div>
+        <div class="card bl-warm" style="margin-bottom: 14px;">
+          <h3>📋 กติกา</h3>
+          <ul class="lst">
+            <li>• ครูตบจังหวะ <strong>4 จังหวะ</strong></li>
+            <li>• นักเรียนทำตาม <strong>ทันที</strong></li>
+            <li>• เริ่มง่าย → ค่อยๆ ยากขึ้น</li>
+            <li>• ห้ามเริ่มก่อนครูตบเสร็จ!</li>
+          </ul>
+        </div>
+        <div class="card" style="border: 1px dashed var(--purple);">
+          <h3 style="color: var(--purple);">🎮 Poison Rhythm!</h3>
+          <p>ครูกำหนด "จังหวะพิษ" 1 แบบ — ถ้าครูเคาะจังหวะพิษ <strong>ต้องเงียบ!</strong> ถ้าตบตามก็ "ออก"!</p>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 12px;">ระดับความยาก</h3>
+        <div class="card" style="border-top: 3px solid var(--green); margin-bottom: 8px;">
+          <h3 style="color:var(--green);">🟢 ง่าย</h3>
+          <p style="font-family:var(--font-en); font-size: 18px; font-weight: 600;">👏 👏 👏 👏</p>
+        </div>
+        <div class="card" style="border-top: 3px solid var(--accent); margin-bottom: 8px;">
+          <h3 style="color:var(--accent);">🔵 กลาง</h3>
+          <p style="font-family:var(--font-en); font-size: 18px; font-weight: 600;">👏 – 👏👏 –</p>
+        </div>
+        <div class="card" style="border-top: 3px solid var(--warm); margin-bottom: 8px;">
+          <h3 style="color:var(--warm);">🟠 ยาก</h3>
+          <p style="font-family:var(--font-en); font-size: 18px; font-weight: 600;">👏 🦵 👏👏 🦶</p>
+        </div>
+        <div class="card" style="border-top: 3px solid var(--red);">
+          <h3 style="color:var(--red);">🔴 ท้าทาย!</h3>
+          <p style="font-family:var(--font-en); font-size: 18px; font-weight: 600;">🦶 👏 🦵🤏 👏🦶</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 19: WORKSHOP MISSION ====== -->
+<div class="slide" data-s="19">
+  <div class="max-w">
+    <span class="tag tag-purple">ภารกิจกลุ่ม</span>
+    <h2>🏆 Object Orchestra Workshop</h2>
+    <p class="sub">แบ่งกลุ่ม 4-5 คน ร่วมกันสร้าง Beat Pattern จากสิ่งของรอบตัว!</p>
+    <div class="grid g2" style="margin-top: 16px;">
+      <div>
+        <div class="card" style="border: 2px solid var(--warm); background: var(--warm-light);">
+          <h3 style="color: var(--warm);">📝 โจทย์ (ใบงานที่ 3: Object Beat Plan)</h3>
+          <ul class="lst">
+            <li>• เลือกวัตถุ/เสียง <strong>อย่างน้อย 3 แบบ</strong></li>
+            <li>• กำหนดหน้าที่: Kick / Snare / Hi-hat / Effect</li>
+            <li>• จัดเป็น <strong>Pattern ยาว 15-30 วินาที</strong></li>
+            <li>• นับจังหวะ <strong>1-2-3-4</strong></li>
+            <li>• อัดเป็นไฟล์เสียงด้วยมือถือ</li>
+            <li>• ตั้งชื่อไฟล์ชัดเจน เช่น <strong>group1_beat.m4a</strong></li>
+          </ul>
+        </div>
+        <div class="callout callout-red" style="margin-top: 14px;">
+          <span>⚠️</span>
+          <p><strong>เช็คก่อนส่ง:</strong> ✅ มีเสียง ≥ 3 แบบ · ✅ เสียงไม่แตก/เบา · ✅ จัดเป็น pattern ซ้ำได้ · ✅ ตั้งชื่อไฟล์ชัดเจน</p>
+        </div>
+      </div>
+      <div>
+        <div class="card bl-accent" style="margin-bottom: 14px;">
+          <h3>🗺️ ขั้นตอนทำงาน</h3>
+          <ul class="lst">
+            <li><strong>5 นาที</strong> — สำรวจเสียงจากสิ่งของ ลองเคาะหลายแบบ</li>
+            <li><strong>5 นาที</strong> — เลือก 3-4 เสียง กำหนดหน้าที่</li>
+            <li><strong>10 นาที</strong> — ออกแบบ Pattern ฝึกนับ 1-2-3-4</li>
+            <li><strong>5 นาที</strong> — ฝึกซ้อมจนเข้ากัน ปรับจังหวะ</li>
+            <li><strong>5 นาที</strong> — อัดเสียงด้วยมือถือ อัดซ้ำได้!</li>
+          </ul>
+        </div>
+        <div class="callout callout-blue">
+          <span>📌</span>
+          <p><strong>สำหรับครู:</strong> เดินดูแต่ละกลุ่ม ช่วยแก้ปัญหา ชี้แนะเรื่อง Pattern และคุณภาพเสียง กระตุ้นให้ลองเสียงหลากหลาย</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 20: TIMER ====== -->
+<div class="slide center" data-s="20">
+  <div class="max-w" style="max-width: 700px;">
+    <span class="tag tag-purple">เวลาทำงานกลุ่ม</span>
+    <h2>⏱️ Object Orchestra — เริ่ม!</h2>
+    <p class="sub" style="margin-left:auto;margin-right:auto;">แต่ละกลุ่มมีเวลา 25 นาที สำรวจ → ออกแบบ → ฝึกซ้อม → อัดเสียง</p>
+
+    <div class="timer-circle" id="timerCircle">25:00</div>
+    <div style="display: flex; justify-content: center; gap: 12px;">
+      <button class="timer-btn" id="timerBtn" onclick="startTimer()">▶ เริ่มจับเวลา!</button>
+      <button class="timer-btn outline" onclick="resetTimer()">↻ ตั้งใหม่</button>
+    </div>
+
+    <div class="callout callout-blue" style="margin-top: 24px; max-width: 600px; margin-left: auto; margin-right: auto; text-align: left;">
+      <span>📌</span>
+      <p><strong>คำแนะนำครู:</strong> เดินดูแต่ละกลุ่ม ช่วยนักเรียนแก้ปัญหาเรื่อง Pattern, การอัดเสียง และทดลองเสียงใหม่ๆ ถ้ากลุ่มไหนเสร็จเร็ว ให้ลองเพิ่ม Level หรือลองเปลี่ยน Tempo</p>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 21: SHOWCASE & FEEDBACK ====== -->
+<div class="slide" data-s="21">
+  <div class="max-w">
+    <span class="tag tag-purple">นำเสนอ</span>
+    <h2>🎤 โชว์ผลงาน & Feedback</h2>
+    <p class="sub">แต่ละกลุ่มเล่น Beat Pattern ของตัวเอง (สดหรือเปิดไฟล์เสียง) แล้วช่วยกันฟีดแบ็ค!</p>
+    <div class="grid g2" style="margin-top: 20px;">
+      <div class="card bl-warm">
+        <h3>🎯 สิ่งที่ต้องอธิบายตอนนำเสนอ</h3>
+        <ul class="lst">
+          <li>• ใช้สิ่งของอะไรบ้าง?</li>
+          <li>• แต่ละเสียงทำหน้าที่อะไร? (Kick/Snare/Hi-hat/Effect)</li>
+          <li>• Pattern มีกี่จังหวะ? ทำซ้ำกี่ห้อง?</li>
+          <li>• มีปัญหาอะไรตอนทำ? แก้ยังไง?</li>
+        </ul>
+      </div>
+      <div class="card bl-accent">
+        <h3>💬 Feedback ที่ดี</h3>
+        <ul class="lst">
+          <li>✅ <strong>"ชอบเสียง... เพราะ..."</strong> (ชมเฉพาะเจาะจง)</li>
+          <li>✅ <strong>"ลองเพิ่ม... น่าจะดี"</strong> (เสนอแนะ)</li>
+          <li>✅ <strong>"เสียง... ตรงจังหวะมาก!"</strong> (ชมทักษะ)</li>
+          <li>❌ ไม่ใช่ <em>"เพราะดี"</em> หรือ <em>"ไม่ชอบ"</em> (กว้างเกินไป)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 22: SUMMARY ====== -->
+<div class="slide" data-s="22">
+  <div class="max-w">
+    <span class="tag tag-green">สรุปท้ายคาบ</span>
+    <h2>สรุปเนื้อหาสำคัญและคาบเรียนต่อไป</h2>
+    <p class="sub">วันนี้เราเปลี่ยนจาก "ฉากหลัง" (Ambience) มาสู่ "หัวใจ" (Rhythm & Beat) ของดนตรี!</p>
+    <div class="grid g2" style="margin-top: 20px;">
+      <div class="card bl-warm">
+        <h3>💡 สิ่งที่เก็บกลับบ้านวันนี้</h3>
+        <ul class="lst">
+          <li>• <strong>Beat</strong> = ชีพจรสม่ำเสมอ · <strong>Rhythm</strong> = ลวดลายบน Beat</li>
+          <li>• <strong>Tempo/BPM</strong> = ความเร็วจังหวะ (ตัวเลขสูง = เร็ว)</li>
+          <li>• <strong>Pattern</strong> = จังหวะที่ทำซ้ำ สร้างจากการนับ 1-2-3-4</li>
+          <li>• <strong>Object Percussion</strong> = ทุกสิ่งรอบตัวเป็นเครื่องดนตรีได้!</li>
+          <li>• <strong>Kick, Snare, Hi-hat</strong> = บทบาทเสียงในจังหวะ</li>
+        </ul>
+      </div>
+      <div class="card bl-accent">
+        <h3>🚀 แผนสำหรับสัปดาห์หน้า (สัปดาห์ที่ 5)</h3>
+        <ul class="lst">
+          <li>• ส่ง <strong>ใบงานที่ 3: Object Beat Plan</strong> + ไฟล์เสียง ลง Google Classroom</li>
+          <li>• สัปดาห์หน้า: <strong>เสียงพูด เสียงร้อง และ Humming</strong></li>
+          <li>• เตรียมไอเดีย: คิดประโยคสั้นๆ, slogan, หรือทำนองฮัมสั้น</li>
+          <li>• จะรวมกับ Ambience + Object Beat เป็น Sound Collage ในอนาคต!</li>
+        </ul>
+      </div>
+    </div>
+    <p class="small" style="margin-top: 24px; text-align: center;">👇 สไลด์ถัดไปจะเป็นแบบทดสอบทบทวนความเข้าใจ 10 ข้อสำหรับสัปดาห์นี้</p>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- ====== 23: FINAL QUIZ (10 QUESTIONS) ====== -->
+<div class="slide center" data-s="23">
+  <div class="max-w" style="max-width: 800px;">
+    <p class="small" style="margin-bottom: 8px; letter-spacing: 2px;">แบบทดสอบเก็บคะแนนสะสม</p>
+    <h2>🧠 ควิซประเมินผลทบทวนความเข้าใจ (10 ข้อ)</h2>
+
+    <div class="fq-grid">
+      <!-- Q1 -->
+      <div class="fq-item active" data-fq="1">
+        <div class="fq-q"><span class="fq-num">1.</span> "จังหวะ" (Rhythm) หมายถึงอะไร?</div>
+        <div class="fq-opts">
+          <div class="fq-opt" onclick="fqSelect(this,1,'a')" data-ans="a"><span class="fq-letter">ก</span> ความดังของเสียง</div>
+          <div class="fq-opt" onclick="fqSelect(this,1,'b')" data-ans="b"><span class="fq-letter">ข</span> รูปแบบของเสียงและความเงียบที่เรียงตัวกันตามเวลา</div>
+          <div class="fq-opt" onclick="fqSelect(this,1,'c')" data-ans="c"><span class="fq-letter">ค</span> ระดับเสียงสูงต่ำ</div>
+          <div class="fq-opt" onclick="fqSelect(this,1,'d')" data-ans="d"><span class="fq-letter">ง</span> ชนิดของเครื่องดนตรี</div>
+        </div>
+      </div>
+      <!-- Q2 -->
+      <div class="fq-item" data-fq="2">
+        <div class="fq-q"><span class="fq-num">2.</span> Beat กับ Rhythm ต่างกันอย่างไร?</div>
+        <div class="fq-opts">
+          <div class="fq-opt" onclick="fqSelect(this,2,'a')" data-ans="a"><span class="fq-letter">ก</span> Beat คือชีพจรสม่ำเสมอ แต่ Rhythm คือลวดลายที่เปลี่ยนไป</div>
+          <div class="fq-opt" onclick="fqSelect(this,2,'b')" data-ans="b"><span class="fq-letter">ข</span> Beat กับ Rhythm เป็นสิ่งเดียวกัน แค่เรียกต่างภาษา</div>
+          <div class="fq-opt" onclick="fqSelect(this,2,'c')" data-ans="c"><span class="fq-letter">ค</span> Beat ใช้กับเพลงเร็ว ส่วน Rhythm ใช้กับเพลงช้า</div>
+          <div class="fq-opt" onclick="fqSelect(this,2,'d')" data-ans="d"><span class="fq-letter">ง</span> Beat ใช้กลอง ส่วน Rhythm ใช้กีตาร์</div>
+        </div>
+      </div>
+      <!-- Q3 -->
+      <div class="fq-item" data-fq="3">
+        <div class="fq-q"><span class="fq-num">3.</span> BPM ย่อมาจากอะไร?</div>
+        <div class="fq-opts">
+          <div class="fq-opt" onclick="fqSelect(this,3,'a')" data-ans="a"><span class="fq-letter">ก</span> Basic Pitch Measurement</div>
+          <div class="fq-opt" onclick="fqSelect(this,3,'b')" data-ans="b"><span class="fq-letter">ข</span> Band Production Method</div>
+          <div class="fq-opt" onclick="fqSelect(this,3,'c')" data-ans="c"><span class="fq-letter">ค</span> Beats Per Minute (จำนวนจังหวะต่อนาที)</div>
+          <div class="fq-opt" onclick="fqSelect(this,3,'d')" data-ans="d"><span class="fq-letter">ง</span> Bass Performance Mode</div>
+        </div>
+      </div>
+      <!-- Q4 -->
+      <div class="fq-item" data-fq="4">
+        <div class="fq-q"><span class="fq-num">4.</span> เพลง Pop ทั่วไปมี BPM ประมาณเท่าไหร่?</div>
+        <div class="fq-opts">
+          <div class="fq-opt" onclick="fqSelect(this,4,'a')" data-ans="a"><span class="fq-letter">ก</span> 30-50 BPM</div>
+          <div class="fq-opt" onclick="fqSelect(this,4,'b')" data-ans="b"><span class="fq-letter">ข</span> 100-130 BPM</div>
+          <div class="fq-opt" onclick="fqSelect(this,4,'c')" data-ans="c"><span class="fq-letter">ค</span> 180-220 BPM</div>
+          <div class="fq-opt" onclick="fqSelect(this,4,'d')" data-ans="d"><span class="fq-letter">ง</span> 300-400 BPM</div>
+        </div>
+      </div>
+      <!-- Q5 -->
+      <div class="fq-item" data-fq="5">
+        <div class="fq-q"><span class="fq-num">5.</span> "Pattern" ในทางดนตรีหมายถึงอะไร?</div>
+        <div class="fq-opts">
+          <div class="fq-opt" onclick="fqSelect(this,5,'a')" data-ans="a"><span class="fq-letter">ก</span> เพลงที่มีเนื้อร้องยาว</div>
+          <div class="fq-opt" onclick="fqSelect(this,5,'b')" data-ans="b"><span class="fq-letter">ข</span> รูปแบบจังหวะที่ทำซ้ำได้</div>
+          <div class="fq-opt" onclick="fqSelect(this,5,'c')" data-ans="c"><span class="fq-letter">ค</span> เครื่องดนตรีราคาแพง</div>
+          <div class="fq-opt" onclick="fqSelect(this,5,'d')" data-ans="d"><span class="fq-letter">ง</span> โน้ตเพลงที่ซับซ้อนมาก</div>
+        </div>
+      </div>
+      <!-- Q6 -->
+      <div class="fq-item" data-fq="6">
+        <div class="fq-q"><span class="fq-num">6.</span> ในการสร้าง Beat Pattern จากสิ่งของ เสียงเคาะโต๊ะ (เสียงทุ้มหนัก) ทำหน้าที่คล้ายเสียงใด?</div>
+        <div class="fq-opts">
+          <div class="fq-opt" onclick="fqSelect(this,6,'a')" data-ans="a"><span class="fq-letter">ก</span> Hi-hat (ฉาบ)</div>
+          <div class="fq-opt" onclick="fqSelect(this,6,'b')" data-ans="b"><span class="fq-letter">ข</span> Kick (กลองเบส)</div>
+          <div class="fq-opt" onclick="fqSelect(this,6,'c')" data-ans="c"><span class="fq-letter">ค</span> Flute (ขลุ่ย)</div>
+          <div class="fq-opt" onclick="fqSelect(this,6,'d')" data-ans="d"><span class="fq-letter">ง</span> Violin (ไวโอลิน)</div>
+        </div>
+      </div>
+      <!-- Q7 -->
+      <div class="fq-item" data-fq="7">
+        <div class="fq-q"><span class="fq-num">7.</span> ถ้าต้องอัดเสียงเคาะโต๊ะด้วยมือถือ ควรทำอย่างไร?</div>
+        <div class="fq-opts">
+          <div class="fq-opt" onclick="fqSelect(this,7,'a')" data-ans="a"><span class="fq-letter">ก</span> วางมือถือบนโต๊ะที่เคาะ เสียงจะชัดที่สุด</div>
+          <div class="fq-opt" onclick="fqSelect(this,7,'b')" data-ans="b"><span class="fq-letter">ข</span> ถือมือถือห่าง 30-60 ซม. ไม่วางบนโต๊ะที่เคาะ</div>
+          <div class="fq-opt" onclick="fqSelect(this,7,'c')" data-ans="c"><span class="fq-letter">ค</span> วางมือถือไว้ในกระเป๋า จะไม่มีเสียงรบกวน</div>
+          <div class="fq-opt" onclick="fqSelect(this,7,'d')" data-ans="d"><span class="fq-letter">ง</span> ถือชิดปากให้มากที่สุด</div>
+        </div>
+      </div>
+      <!-- Q8 -->
+      <div class="fq-item" data-fq="8">
+        <div class="fq-q"><span class="fq-num">8.</span> ใน Beat Pattern พื้นฐาน (4/4) เสียง Snare (เช่น ตบมือ) มักตีจังหวะใด?</div>
+        <div class="fq-opts">
+          <div class="fq-opt" onclick="fqSelect(this,8,'a')" data-ans="a"><span class="fq-letter">ก</span> จังหวะ 1 และ 3</div>
+          <div class="fq-opt" onclick="fqSelect(this,8,'b')" data-ans="b"><span class="fq-letter">ข</span> จังหวะ 2 และ 4</div>
+          <div class="fq-opt" onclick="fqSelect(this,8,'c')" data-ans="c"><span class="fq-letter">ค</span> ทุกจังหวะ 1-2-3-4</div>
+          <div class="fq-opt" onclick="fqSelect(this,8,'d')" data-ans="d"><span class="fq-letter">ง</span> ไม่มีจังหวะตายตัว</div>
+        </div>
+      </div>
+      <!-- Q9 -->
+      <div class="fq-item" data-fq="9">
+        <div class="fq-q"><span class="fq-num">9.</span> "Body Percussion" คืออะไร?</div>
+        <div class="fq-opts">
+          <div class="fq-opt" onclick="fqSelect(this,9,'a')" data-ans="a"><span class="fq-letter">ก</span> การเล่นกลองชุดจริง</div>
+          <div class="fq-opt" onclick="fqSelect(this,9,'b')" data-ans="b"><span class="fq-letter">ข</span> การใช้ร่างกายสร้างเสียงจังหวะ เช่น ตบมือ ตบขา กระทืบเท้า</div>
+          <div class="fq-opt" onclick="fqSelect(this,9,'c')" data-ans="c"><span class="fq-letter">ค</span> การร้องเพลง</div>
+          <div class="fq-opt" onclick="fqSelect(this,9,'d')" data-ans="d"><span class="fq-letter">ง</span> การออกกำลังกายประกอบจังหวะ</div>
+        </div>
+      </div>
+      <!-- Q10 -->
+      <div class="fq-item" data-fq="10">
+        <div class="fq-q"><span class="fq-num">10.</span> STOMP คืออะไร?</div>
+        <div class="fq-opts">
+          <div class="fq-opt" onclick="fqSelect(this,10,'a')" data-ans="a"><span class="fq-letter">ก</span> แอปพลิเคชันตัดต่อเสียง</div>
+          <div class="fq-opt" onclick="fqSelect(this,10,'b')" data-ans="b"><span class="fq-letter">ข</span> กลุ่มศิลปินที่สร้างดนตรีจากสิ่งของในชีวิตประจำวัน</div>
+          <div class="fq-opt" onclick="fqSelect(this,10,'c')" data-ans="c"><span class="fq-letter">ค</span> เทคนิคการร้องเพลงสมัยใหม่</div>
+          <div class="fq-opt" onclick="fqSelect(this,10,'d')" data-ans="d"><span class="fq-letter">ง</span> เครื่องดนตรีไฟฟ้าแบบใหม่</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fq-nav-row">
+      <button class="fq-nav-btn" id="fqPrevBtn" onclick="fqPrevQ()" disabled>← ก่อนหน้า</button>
+      <span class="fq-counter" id="fqCounter">ข้อ 1 / 10</span>
+      <button class="fq-nav-btn" id="fqNextBtn" onclick="fqNextQ()">ถัดไป →</button>
+    </div>
+    <div class="fq-submit-row">
+      <button class="fq-btn" id="fqSubmitBtn" onclick="fqSubmit()" disabled>✅ ส่งคำตอบ</button>
+      <button class="fq-btn outline" onclick="fqReset()">↻ ทำใหม่</button>
+    </div>
+
+    <div class="fq-result" id="fqResult">
+      <div class="fq-score" id="fqScore"></div>
+      <div class="fq-msg" id="fqMsg"></div>
+    </div>
+  </div>
+  <span class="sn"></span>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn" id="prev" onclick="go(cur-1)">←</button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn" id="next" onclick="go(cur+1)">→</button>
+</div>
+<div class="kbd-hint"><span class="kbd">←</span><span class="kbd">→</span> เปลี่ยนสไลด์ · <span class="kbd">F</span> เต็มจอ</div>
+
+<script>
+// ===== SLIDES ENGINE =====
+const all = document.querySelectorAll('.slide');
+const total = all.length;
+let cur = 0;
+const dc = document.getElementById('dots');
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0?' on':'');
+  d.onclick = ()=>go(i);
+  dc.appendChild(d);
+}
+function go(i) {
+  if(i<0||i>=total||i===cur)return;
+  // Stop audio when leaving interactive slides
+  if (cur === 11 && i !== 11) stopGridPlay();
+  all[cur].classList.remove('active');
+  all[i].classList.add('active');
+  cur=i;
+  ui();
+}
+function ui() {
+  document.getElementById('pbar').style.width = ((cur+1)/total*100)+'%';
+  document.getElementById('prev').disabled = cur===0;
+  document.getElementById('next').disabled = cur===total-1;
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===cur));
+  all.forEach((s,i)=>{ const sn=s.querySelector('.sn'); if(sn) sn.textContent=(i+1)+' / '+total; });
+}
+
+document.addEventListener('keydown', e=>{
+  if (cur === total - 1) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); fqNextQ(); return; }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); if (fqCurQ > 1) fqPrevQ(); else go(cur - 1); return; }
+  }
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(cur+1);}
+  else if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1);}
+  else if(e.key==='Home'){e.preventDefault();go(0);}
+  else if(e.key==='End'){e.preventDefault();go(total-1);}
+  else if(e.key==='f'||e.key==='F') toggleFS();
+});
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.changedTouches[0].screenX;},{passive:true});
+document.addEventListener('touchend',e=>{
+  const d=tx-e.changedTouches[0].screenX;
+  if(Math.abs(d)>50) {
+    if (cur === total - 1) {
+      if (d > 0) fqNextQ(); else { if (fqCurQ > 1) fqPrevQ(); else go(cur - 1); }
+    } else {
+      go(d>0?cur+1:cur-1);
+    }
+  }
+},{passive:true});
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});else document.exitFullscreen();}
+ui();
+
+// ===== WEB AUDIO =====
+let audioCtx = null;
+
+// Global user interaction listener to resume AudioContext
+document.addEventListener("click", function unlockAudio() {
+  if (audioCtx && audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+}, { once: false });
+
+function getAudioContext() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function playFeedbackTone(freq, duration) {
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, now);
+    gain.gain.setValueAtTime(0.15, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(now + duration);
+  } catch (e) {}
+}
+
+// Drum sounds using Web Audio
+function playKick() {
+  const ctx = getAudioContext();
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(150, now);
+  osc.frequency.exponentialRampToValueAtTime(40, now + 0.12);
+  gain.gain.setValueAtTime(0.8, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(now); osc.stop(now + 0.3);
+}
+
+function playSnare() {
+  const ctx = getAudioContext();
+  const now = ctx.currentTime;
+  // Noise burst
+  const bufSize = ctx.sampleRate * 0.15;
+  const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < bufSize; i++) d[i] = Math.random() * 2 - 1;
+  const noise = ctx.createBufferSource();
+  noise.buffer = buf;
+  const nGain = ctx.createGain();
+  nGain.gain.setValueAtTime(0.4, now);
+  nGain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'highpass'; filter.frequency.value = 1500;
+  noise.connect(filter); filter.connect(nGain); nGain.connect(ctx.destination);
+  noise.start(now); noise.stop(now + 0.15);
+  // Body
+  const osc = ctx.createOscillator();
+  const oGain = ctx.createGain();
+  osc.type = 'triangle'; osc.frequency.setValueAtTime(200, now);
+  oGain.gain.setValueAtTime(0.3, now);
+  oGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+  osc.connect(oGain); oGain.connect(ctx.destination);
+  osc.start(now); osc.stop(now + 0.1);
+}
+
+function playHat() {
+  const ctx = getAudioContext();
+  const now = ctx.currentTime;
+  const bufSize = ctx.sampleRate * 0.05;
+  const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < bufSize; i++) d[i] = Math.random() * 2 - 1;
+  const noise = ctx.createBufferSource();
+  noise.buffer = buf;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0.2, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'highpass'; filter.frequency.value = 7000;
+  noise.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+  noise.start(now); noise.stop(now + 0.05);
+}
+
+function playFx() {
+  const ctx = getAudioContext();
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(800, now);
+  osc.frequency.exponentialRampToValueAtTime(400, now + 0.2);
+  gain.gain.setValueAtTime(0.2, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(now); osc.stop(now + 0.25);
+}
+
+// ===== INTERACTIVE 1: BPM TAPPER =====
+let tapTimes = [];
+function handleTap() {
+  const now = Date.now();
+  tapTimes.push(now);
+  if (tapTimes.length > 20) tapTimes.shift();
+  playFeedbackTone(440, 0.08);
+
+  if (tapTimes.length < 2) {
+    document.getElementById('tapBPM').textContent = '–';
+    document.getElementById('tapResult').textContent = 'กดอีก! (อย่างน้อย 4 ครั้ง)';
+    return;
+  }
+
+  // Calculate average interval
+  let totalInterval = 0;
+  for (let i = 1; i < tapTimes.length; i++) {
+    totalInterval += tapTimes[i] - tapTimes[i-1];
+  }
+  const avgInterval = totalInterval / (tapTimes.length - 1);
+  const bpm = Math.round(60000 / avgInterval);
+
+  document.getElementById('tapBPM').textContent = bpm;
+
+  let genre = '';
+  if (bpm < 80) genre = '🐢 ช้า — บัลลาด / Lo-Fi / เพลงเศร้า';
+  else if (bpm < 110) genre = '🚶 กลาง — Hip-Hop / R&B / เพลงอินดี้';
+  else if (bpm < 130) genre = '🏃 สนุก — Pop / K-Pop / เพลงไทยสากล';
+  else if (bpm < 150) genre = '🏃‍♂️ เร็ว — Rock / EDM / เพลงเชียร์';
+  else genre = '🚀 เร็วมาก! — Drum & Bass / Speed Metal';
+
+  document.getElementById('tapResult').innerHTML = '<strong>' + bpm + ' BPM</strong> — ' + genre + '<br><span class="small">กดแล้ว ' + tapTimes.length + ' ครั้ง</span>';
+}
+
+function resetTapper() {
+  tapTimes = [];
+  document.getElementById('tapBPM').textContent = '–';
+  document.getElementById('tapResult').textContent = 'เริ่มกดเลย! 🥁';
+}
+
+// ===== INTERACTIVE 2: BEAT GRID =====
+const gridState = {
+  kick:  [0,0,0,0,0,0,0,0],
+  snare: [0,0,0,0,0,0,0,0],
+  hat:   [0,0,0,0,0,0,0,0],
+  fx:    [0,0,0,0,0,0,0,0]
+};
+let gridPlaying = false;
+let gridInterval = null;
+let gridStep = 0;
+let gridBPM = 100;
+
+function toggleGridCell(el) {
+  const row = el.dataset.row;
+  const col = parseInt(el.dataset.col);
+  gridState[row][col] = gridState[row][col] ? 0 : 1;
+  el.classList.toggle('on-' + row, gridState[row][col]);
+
+  // Play sound on toggle
+  if (gridState[row][col]) {
+    if (row === 'kick') playKick();
+    else if (row === 'snare') playSnare();
+    else if (row === 'hat') playHat();
+    else if (row === 'fx') playFx();
+  }
+}
+
+function toggleGridPlay() {
+  if (gridPlaying) {
+    stopGridPlay();
+  } else {
+    gridPlaying = true;
+    gridStep = 0;
+    document.getElementById('gridPlayBtn').textContent = '⏸ หยุด';
+    playGridStep();
+    const intervalMs = (60000 / gridBPM) / 2; // 8th notes
+    gridInterval = setInterval(playGridStep, intervalMs);
+  }
+}
+
+function stopGridPlay() {
+  gridPlaying = false;
+  if (gridInterval) { clearInterval(gridInterval); gridInterval = null; }
+  document.getElementById('gridPlayBtn').textContent = '▶ เล่น';
+  document.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('playing'));
+}
+
+function playGridStep() {
+  // Remove previous highlight
+  document.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('playing'));
+
+  // Highlight current column
+  document.querySelectorAll('.grid-cell[data-col="'+gridStep+'"]').forEach(c => c.classList.add('playing'));
+
+  // Play sounds
+  if (gridState.kick[gridStep]) playKick();
+  if (gridState.snare[gridStep]) playSnare();
+  if (gridState.hat[gridStep]) playHat();
+  if (gridState.fx[gridStep]) playFx();
+
+  gridStep = (gridStep + 1) % 8;
+}
+
+function updateGridTempo() {
+  gridBPM = parseInt(document.getElementById('gridTempo').value);
+  document.getElementById('gridTempoVal').textContent = gridBPM + ' BPM';
+  if (gridPlaying) {
+    clearInterval(gridInterval);
+    const intervalMs = (60000 / gridBPM) / 2;
+    gridInterval = setInterval(playGridStep, intervalMs);
+  }
+}
+
+function clearGrid() {
+  stopGridPlay();
+  ['kick','snare','hat','fx'].forEach(row => {
+    for (let i = 0; i < 8; i++) gridState[row][i] = 0;
+  });
+  document.querySelectorAll('.grid-cell').forEach(c => {
+    c.classList.remove('on-kick','on-snare','on-hat','on-fx','playing');
+  });
+}
+
+function loadPreset() {
+  clearGrid();
+  // Basic rock beat
+  gridState.kick =  [1,0,0,0,1,0,0,0];
+  gridState.snare = [0,0,1,0,0,0,1,0];
+  gridState.hat =   [1,1,1,1,1,1,1,1];
+  gridState.fx =    [0,0,0,0,0,0,0,1];
+
+  // Update visual
+  document.querySelectorAll('.grid-cell').forEach(c => {
+    const row = c.dataset.row;
+    const col = parseInt(c.dataset.col);
+    if (gridState[row][col]) c.classList.add('on-' + row);
+  });
+}
+
+// ===== INTERACTIVE 3: TIMER =====
+let timerInterval = null;
+let timerVal = 1500; // 25 min
+
+function startTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    document.getElementById('timerBtn').textContent = '▶ ทำงานต่อ';
+    document.getElementById('timerCircle').classList.remove('running');
+    return;
+  }
+  const circle = document.getElementById('timerCircle');
+  const btn = document.getElementById('timerBtn');
+  if (!circle || !btn) return;
+  circle.classList.add('running');
+  btn.textContent = '⏸ หยุดคราว';
+
+  timerInterval = setInterval(() => {
+    timerVal--;
+    const mins = Math.floor(timerVal / 60);
+    const secs = timerVal % 60;
+    circle.textContent = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+    if (timerVal <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      circle.textContent = '✓';
+      circle.classList.remove('running');
+      circle.style.borderColor = 'var(--green)';
+      circle.style.color = 'var(--green)';
+      btn.textContent = '✅ หมดเวลา!';
+      btn.disabled = true;
+      playFeedbackTone(587.33, 0.4);
+      setTimeout(() => playFeedbackTone(659.25, 0.5), 200);
+    }
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  timerVal = 1500;
+  const circle = document.getElementById('timerCircle');
+  if (circle) {
+    circle.textContent = '25:00';
+    circle.classList.remove('running');
+    circle.style.borderColor = '';
+    circle.style.color = '';
+  }
+  const btn = document.getElementById('timerBtn');
+  if (btn) {
+    btn.textContent = '▶ เริ่มจับเวลา!';
+    btn.disabled = false;
+  }
+}
+
+// ===== FINAL QUIZ =====
+const fqAnswers = { 1: 'b', 2: 'a', 3: 'c', 4: 'b', 5: 'b', 6: 'b', 7: 'b', 8: 'b', 9: 'b', 10: 'b' };
+const fqSelections = {};
+let fqSubmitted = false;
+let fqCurQ = 1;
+
+function fqUpdateUI() {
+  document.querySelectorAll('.fq-item').forEach((item, idx) => {
+    item.classList.toggle('active', (idx + 1) === fqCurQ);
+  });
+  const counter = document.getElementById('fqCounter');
+  if (counter) counter.textContent = 'ข้อ ' + fqCurQ + ' / 10';
+  const prevBtn = document.getElementById('fqPrevBtn');
+  const nextBtn = document.getElementById('fqNextBtn');
+  if (prevBtn) prevBtn.disabled = fqCurQ === 1;
+  if (nextBtn) nextBtn.disabled = fqCurQ === 10;
+}
+
+function fqPrevQ() { if (fqCurQ > 1) { fqCurQ--; fqUpdateUI(); } }
+function fqNextQ() { if (fqCurQ < 10) { fqCurQ++; fqUpdateUI(); } }
+
+function fqSelect(el, qNum, ans) {
+  if (fqSubmitted) return;
+  const item = el.closest('.fq-item');
+  item.querySelectorAll('.fq-opt').forEach(o => o.classList.remove('fq-selected'));
+  el.classList.add('fq-selected');
+  fqSelections[qNum] = ans;
+  const btn = document.getElementById('fqSubmitBtn');
+  if (btn) btn.disabled = Object.keys(fqSelections).length < 10;
+}
+
+function fqSubmit() {
+  if (Object.keys(fqSelections).length < 10 || fqSubmitted) return;
+  fqSubmitted = true;
+  let score = 0;
+  for (let q = 1; q <= 10; q++) {
+    const item = document.querySelector('[data-fq="'+q+'"]');
+    const opts = item.querySelectorAll('.fq-opt');
+    opts.forEach(o => {
+      o.classList.add('fq-disabled');
+      if (o.dataset.ans === fqAnswers[q]) o.classList.add('fq-correct');
+      if (o.classList.contains('fq-selected') && o.dataset.ans !== fqAnswers[q]) o.classList.add('fq-wrong');
+    });
+    if (fqSelections[q] === fqAnswers[q]) score++;
+  }
+  const result = document.getElementById('fqResult');
+  const scoreEl = document.getElementById('fqScore');
+  const msgEl = document.getElementById('fqMsg');
+  if (!result || !scoreEl || !msgEl) return;
+  const color = score >= 8 ? 'var(--green)' : score >= 5 ? 'var(--warm)' : 'var(--red)';
+  scoreEl.style.color = color;
+  scoreEl.textContent = score + '/10';
+  let msg = '';
+  if (score === 10) msg = '🎉 สุดยอดมาก! คุณเข้าใจจังหวะ Beat และ Pattern ได้อย่างสมบูรณ์แบบ!';
+  else if (score >= 8) msg = '👏 ดีเยี่ยมเลยครับ! เข้าใจเนื้อหาได้แม่นยำมาก';
+  else if (score >= 6) msg = '😊 เก่งมาก! เข้าใจแนวคิดหลักแล้ว ลองทบทวนเพิ่มเติมอีกนิด';
+  else if (score >= 4) msg = '💪 พยายามต่อนะครับ! ลองเปิดย้อนดูสไลด์แล้วทำใหม่';
+  else msg = '📖 ค่อยๆ เรียนรู้ไปนะครับ ลองทบทวนสไลด์ทีละหัวข้อ';
+  msgEl.textContent = msg;
+  result.style.display = 'block';
+  document.getElementById('fqSubmitBtn').disabled = true;
+  playFeedbackTone(score >= 7 ? 523.25 : 329.63, 0.4);
+}
+
+function fqReset() {
+  fqSubmitted = false;
+  fqCurQ = 1;
+  for (const k in fqSelections) delete fqSelections[k];
+  document.querySelectorAll('.fq-opt').forEach(o => {
+    o.classList.remove('fq-selected','fq-correct','fq-wrong','fq-disabled');
+  });
+  const result = document.getElementById('fqResult');
+  if (result) result.style.display = 'none';
+  const submitBtn = document.getElementById('fqSubmitBtn');
+  if (submitBtn) submitBtn.disabled = true;
+  fqUpdateUI();
+}
+
+fqUpdateUI();
+</script>
+</body>
+</html>

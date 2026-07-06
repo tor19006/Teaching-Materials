@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เริ่มต้นใช้ DAW สร้างเพลงด้วย BandLab บนมือถือ | สื่อการเรียนรู้แบบ Interactive</title>
+<meta name="description" content="สื่อการเรียนรู้แบบ Interactive Slide สำหรับวิชาคอมพิวเตอร์ดนตรีและเทคโนโลยีดนตรี ม.6 เรื่องการใช้งาน DAW สร้างบีตแรกด้วย BandLab บนมือถือ">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ========== DESIGN SYSTEM ========== */
+:root {
+  --bg-primary: #f6f8f5;
+  --bg-secondary: #e9f0ec;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f9fbf8;
+  --bg-glass: #ffffff;
+  --border-glass: #d7e0da;
+  --purple: #665979;
+  --purple-glow: rgba(102,89,121,0.18);
+  --teal: #3f7974;
+  --teal-glow: rgba(63,121,116,0.16);
+  --gold: #8f7139;
+  --gold-dark: #7c642f;
+  --rose: #9a5f68;
+  --green: #4e8067;
+  --red: #a75f52;
+  --text-primary: #26302d;
+  --text-secondary: #4d5c56;
+  --text-muted: #728078;
+  --shadow-soft: 0 14px 34px rgba(41,55,49,0.09);
+  --font-heading: 'Kanit', sans-serif;
+  --font-body: 'Sarabun', sans-serif;
+  --font-en: 'Inter', sans-serif;
+  --radius: 8px;
+  --radius-sm: 6px;
+  --transition: 0.2s ease;
+}
+
+/* ========== RESET ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; background: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+button { cursor: pointer; border: none; background: none; color: inherit; font-family: inherit; }
+input, textarea { font-family: inherit; }
+
+/* ========== SLIDE ENGINE ========== */
+.presentation { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+.slide { 
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+  display: flex; flex-direction: column; justify-content: flex-start; align-items: center; 
+  padding: 68px 88px 60px; opacity: 0; transform: translateX(32px); 
+  pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; 
+  overflow-y: auto; 
+}
+.slide.active { opacity: 1; transform: translateX(0); pointer-events: auto; z-index: 2; }
+.slide.prev { opacity: 0; transform: translateX(-32px); }
+.slide-inner { max-width: 1120px; width: 100%; margin: auto 0; padding: 16px 0; }
+
+/* ========== NAVIGATION ========== */
+.progress-bar { position: fixed; top: 0; left: 0; width: 100%; height: 5px; background: #e0e7e2; z-index: 100; }
+.progress-fill { height: 100%; background: var(--teal); border-radius: 0 4px 4px 0; transition: width 0.3s ease; }
+.slide-counter { position: fixed; bottom: 18px; right: 28px; font-family: var(--font-en); font-size: 14px; color: var(--text-muted); z-index: 100; letter-spacing: 0; background: rgba(255,255,255,0.86); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 6px 10px; }
+.nav-btn { position: fixed; top: 50%; transform: translateY(-50%); width: 46px; height: 64px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.92); border: 1px solid var(--border-glass); border-radius: var(--radius); z-index: 100; transition: var(--transition); font-size: 22px; box-shadow: 0 8px 22px rgba(41,55,49,0.08); }
+.nav-btn:hover, .nav-btn:focus-visible { background: var(--bg-card-hover); border-color: var(--teal); box-shadow: var(--shadow-soft); outline: none; }
+.nav-btn:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+.nav-prev { left: 20px; }
+.nav-next { right: 20px; }
+.part-indicator { position: fixed; top: 18px; left: 28px; font-family: var(--font-heading); font-size: 13px; letter-spacing: 0; color: var(--text-secondary); z-index: 100; background: rgba(255,255,255,0.9); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 6px 12px; max-width: calc(100vw - 360px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.keyboard-hint { position: fixed; bottom: 18px; left: 28px; font-size: 12px; color: var(--text-muted); z-index: 100; display: flex; gap: 8px; align-items: center; background: rgba(255,255,255,0.86); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); padding: 6px 10px; }
+.kbd { display: inline-block; padding: 1px 7px; background: #eef3ee; border-radius: 4px; font-family: var(--font-en); font-size: 11px; border: 1px solid #d7e0da; color: var(--text-secondary); }
+.teacher-tools { position: fixed; top: 14px; right: 28px; display: flex; gap: 8px; z-index: 120; }
+.tool-btn, .secondary-btn, .primary-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; padding: 8px 14px; border: 1px solid var(--border-glass); border-radius: var(--radius-sm); background: #fff; color: var(--text-primary); font-family: var(--font-heading); font-size: 0.95rem; transition: var(--transition); box-shadow: 0 6px 18px rgba(41,55,49,0.06); }
+.tool-btn:hover, .secondary-btn:hover, .primary-btn:hover, .tool-btn:focus-visible, .secondary-btn:focus-visible, .primary-btn:focus-visible { border-color: var(--teal); background: var(--bg-card-hover); outline: none; }
+.primary-btn { background: var(--teal); color: #fff; border-color: var(--teal); }
+.primary-btn:hover, .primary-btn:focus-visible { background: #356b67; color: #fff; }
+.action-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin-top: 18px; }
+.slide-menu { position: fixed; inset: 0; z-index: 200; background: rgba(38,48,45,0.32); display: none; align-items: center; justify-content: center; padding: 24px; }
+.slide-menu.open { display: flex; }
+.slide-menu-panel { width: min(900px, 100%); max-height: min(720px, 86vh); overflow: auto; background: #fff; border: 1px solid var(--border-glass); border-radius: var(--radius); box-shadow: 0 30px 90px rgba(38,48,45,0.22); padding: 24px; }
+.slide-menu-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
+.slide-menu-head h2 { font-size: 1.4em; margin: 0; }
+.slide-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.slide-jump { text-align: left; padding: 12px 14px; border: 1px solid var(--border-glass); border-radius: var(--radius-sm); background: #f9fbf8; color: var(--text-primary); transition: var(--transition); line-height: 1.45; }
+.slide-jump:hover, .slide-jump:focus-visible, .slide-jump.active { border-color: var(--teal); background: #edf5f2; outline: none; }
+.slide-jump small { display: block; color: var(--text-muted); font-family: var(--font-en); margin-bottom: 2px; }
+.toast { position: fixed; left: 50%; bottom: 68px; transform: translateX(-50%) translateY(20px); z-index: 240; background: #26302d; color: #fff; border-radius: var(--radius-sm); padding: 10px 14px; opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; box-shadow: var(--shadow-soft); }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.footer-credit {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: var(--text-muted);
+  z-index: 100;
+  opacity: 0.75;
+  pointer-events: none;
+  font-family: var(--font-body);
+}
+
+/* ========== TYPOGRAPHY ========== */
+.slide h1 { font-family: var(--font-heading); font-weight: 700; font-size: 2.6em; line-height: 1.25; margin-bottom: 16px; letter-spacing: -0.01em; }
+.slide h2 { font-family: var(--font-heading); font-weight: 600; font-size: 1.8em; line-height: 1.35; margin-bottom: 12px; }
+.slide h3 { font-family: var(--font-heading); font-weight: 500; font-size: 1.25em; line-height: 1.4; margin-bottom: 10px; }
+.slide p { font-size: 1.05em; line-height: 1.75; color: var(--text-secondary); margin-bottom: 12px; }
+.slide ul, .slide ol { padding-left: 24px; margin-bottom: 12px; }
+.slide li { font-size: 1.02em; line-height: 1.7; color: var(--text-secondary); margin-bottom: 6px; }
+.gradient-text { color: var(--teal); background: linear-gradient(135deg, var(--teal), #589f99); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.gold-text { color: var(--gold-dark); }
+.en { font-family: var(--font-en); }
+.badge { display: inline-block; padding: 6px 14px; background: #edf5f2; border: 1px solid #cbded8; border-radius: var(--radius-sm); font-size: 0.88em; color: var(--text-secondary); font-family: var(--font-heading); margin-bottom: 16px; }
+.badge-purple { border-color: var(--purple); color: var(--purple); background: rgba(102,89,121,0.05); }
+.badge-teal { border-color: var(--teal); color: var(--teal); background: rgba(63,121,116,0.05); }
+.badge-gold { border-color: var(--gold-dark); color: var(--gold-dark); background: rgba(143,113,57,0.05); }
+.section-num { font-family: var(--font-en); font-size: 0.72em; font-weight: 700; color: var(--teal); display: block; margin-bottom: 6px; letter-spacing: 0.04em; }
+
+/* ========== CARDS ========== */
+.glass-card { 
+  background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius); 
+  padding: 24px; transition: var(--transition); box-shadow: 0 10px 28px rgba(41,55,49,0.05); 
+  height: 100%; display: flex; flex-direction: column; 
+}
+.glass-card:hover { background: var(--bg-card-hover); border-color: #c5d4cd; }
+.card-grid { display: grid; gap: 20px; }
+.card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ========== TITLE & END SLIDES ========== */
+.title-slide, .end-slide { text-align: center; background: var(--bg-primary); }
+.end-slide .slide-inner { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.title-slide h1, .end-slide h1 { font-size: 3.0em; margin-bottom: 8px; }
+.title-slide .subtitle, .end-slide .subtitle { font-size: 1.5em; color: var(--gold); font-family: var(--font-heading); font-weight: 400; margin-bottom: 24px; }
+.title-notes { display: inline-flex; gap: 32px; margin-top: 16px; }
+.title-notes span { display: flex; align-items: center; gap: 8px; font-size: 0.95em; color: var(--text-muted); }
+.music-icon { font-size: 4em; margin-bottom: 16px; display: block; animation: float 4s ease-in-out infinite; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+.fade-in-up { animation: fadeInUp 0.6s ease both; }
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.3s; }
+.delay-3 { animation-delay: 0.45s; }
+.delay-4 { animation-delay: 0.6s; }
+
+/* ========== INTERACTIVE POLL ========== */
+.poll-container { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; }
+.poll-btn { 
+  position: relative; width: 100%; padding: 16px 20px; text-align: left; 
+  background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius); 
+  overflow: hidden; transition: var(--transition); display: flex; justify-content: space-between; 
+  align-items: center; gap: 12px; min-height: 58px; 
+}
+.poll-btn:hover { border-color: var(--teal); background: var(--bg-card-hover); }
+.poll-btn.selected { border-color: var(--teal); box-shadow: 0 0 10px var(--teal-glow); }
+.poll-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 0%; background: var(--teal-glow); transition: width 0.4s cubic-bezier(0.1, 0.8, 0.3, 1); z-index: 1; }
+.poll-text { position: relative; z-index: 2; font-weight: 500; flex: 1; margin-right: 12px; }
+.poll-pct { position: relative; z-index: 2; font-family: var(--font-en); font-weight: 600; color: var(--teal); white-space: nowrap; font-size: 0.95em; flex-shrink: 0; text-align: right; min-width: 80px; }
+
+/* ========== DRAG & DROP ========== */
+.dnd-container { display: grid; grid-template-columns: 220px 1fr; gap: 24px; margin-top: 15px; min-height: 240px; align-items: start; }
+.dnd-terms { display: flex; flex-direction: column; gap: 10px; }
+.dnd-item { padding: 12px 14px; background: #fff; border: 1px solid var(--border-glass); border-radius: var(--radius-sm); font-family: var(--font-heading); font-weight: 500; cursor: grab; text-align: center; transition: var(--transition); user-select: none; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+.dnd-item:hover, .dnd-item.selected { border-color: var(--teal); background: #f0f7f5; }
+.dnd-item.correct { background: rgba(78,128,103,0.1); border-color: var(--green); color: var(--green); cursor: not-allowed; opacity: 0.6; }
+.dnd-item.wrong { background: rgba(167,95,82,0.1); border-color: var(--red); color: var(--red); animation: shake 0.4s ease; }
+.dnd-targets { display: flex; flex-direction: column; gap: 10px; }
+.dnd-target { 
+  padding: 12px 16px; background: rgba(255,255,255,0.6); border: 2px dashed var(--border-glass); 
+  border-radius: var(--radius); min-height: 56px; display: flex; flex-direction: row; 
+  justify-content: space-between; align-items: center; gap: 12px; font-size: 0.95em; 
+  line-height: 1.5; color: var(--text-secondary); transition: var(--transition); 
+}
+.dnd-target.over { border-color: var(--teal); background: #edf5f2; }
+.dnd-target.matched { border-style: solid; border-color: var(--teal); background: #fff; color: var(--text-primary); }
+.dnd-target.wrong { border-color: var(--red); background: rgba(167,95,82,0.05); animation: shake 0.4s ease; }
+.dnd-answer-chip { 
+  display: inline-flex; align-items: center; justify-content: center; padding: 4px 10px; 
+  background: var(--teal); color: #fff; border-radius: 4px; font-size: 0.85em; 
+  font-family: var(--font-heading); flex-shrink: 0; white-space: nowrap; margin-top: 0; 
+}
+.dnd-score { font-family: var(--font-heading); font-weight: 500; text-align: center; font-size: 1.1em; color: var(--text-secondary); margin-top: 15px; }
+
+/* ========== TABS ========== */
+.tab-btns { display: flex; gap: 8px; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 16px; overflow-x: auto; }
+.tab-btn { padding: 8px 16px; border-radius: var(--radius-sm); border: 1px solid transparent; font-family: var(--font-heading); font-weight: 500; font-size: 0.95em; color: var(--text-secondary); transition: var(--transition); }
+.tab-btn:hover { background: var(--bg-secondary); }
+.tab-btn.active { border-color: var(--border-glass); background: #fff; color: var(--teal); font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: fadeInUp 0.4s ease; }
+
+/* ========== STEPS ========== */
+.steps-container { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-glass); padding-bottom: 12px; overflow-x: auto; }
+.step-dot { padding: 8px 14px; border-radius: 20px; border: 1px solid var(--border-glass); font-family: var(--font-heading); font-size: 0.9em; font-weight: 500; color: var(--text-secondary); background: #fff; cursor: pointer; transition: var(--transition); white-space: nowrap; }
+.step-dot.active { background: var(--teal); border-color: var(--teal); color: #fff; }
+#stepsContent { min-height: 210px; }
+.step-content { display: none; }
+.step-content.active { display: block; animation: fadeInUp 0.4s ease; }
+
+/* ========== FLIP CARD ========== */
+.flip-card { height: 180px; perspective: 1000px; cursor: pointer; }
+.flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
+.flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+.flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; border: 1px solid var(--border-glass); border-radius: var(--radius); background: #fff; box-shadow: 0 8px 24px rgba(41,55,49,0.04); }
+.flip-card-back { transform: rotateY(180deg); }
+.flip-hint { font-size: 0.8em; color: var(--text-muted); margin-top: 10px; }
+
+/* ========== BOLD METAPHORS & LABELS ========== */
+.metaphor-badge { padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 0.85em; text-transform: uppercase; color: #fff; margin-bottom: 8px; width: fit-content; }
+.metaphor-drums { background: var(--purple); }
+.metaphor-bass { background: var(--teal); }
+.metaphor-chords { background: var(--gold); }
+.metaphor-melody { background: var(--rose); }
+
+/* ========== BROWSER MOCKUP / DAW VISUALS ========== */
+.mobile-mockup {
+  width: 290px;
+  height: 430px;
+  background: #121216;
+  border: 10px solid #282830;
+  border-radius: 28px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  margin: 0 auto;
+}
+.mobile-header {
+  height: 36px;
+  background: #09090c;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  font-size: 10px;
+  border-bottom: 1px solid #1a1a24;
+  color: #8e8e9a;
+}
+.project-title { color: var(--rose); font-weight: bold; }
+.mobile-screen { flex: 1; display: flex; flex-direction: column; position: relative; }
+.timeline-ruler {
+  height: 22px;
+  background: #171721;
+  display: flex;
+  font-size: 9px;
+  border-bottom: 1px solid #232330;
+  color: #7d7d8a;
+  position: relative;
+}
+.timeline-bar-num {
+  flex: 1;
+  text-align: left;
+  padding-left: 4px;
+  line-height: 22px;
+  border-right: 1px dashed rgba(255,255,255,0.06);
+}
+.tracks-container { flex: 1; display: flex; flex-direction: column; padding: 4px 0; gap: 6px; background: #0b0b0e; position: relative; }
+.track-row { height: 48px; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.02); }
+.track-info {
+  width: 58px;
+  height: 100%;
+  background: #14141c;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 8px;
+  border-right: 1px solid #232330;
+  color: #92929e;
+  gap: 2px;
+}
+.track-info span { font-size: 12px; }
+.track-timeline-area { flex: 1; height: 100%; position: relative; background: #0c0c10; }
+.audio-clip {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  font-size: 8px;
+  font-weight: bold;
+  color: #fff;
+}
+.audio-clip.drum-clip {
+  left: 0%;
+  width: 100%;
+  background: linear-gradient(90deg, #665979, #7a6b91);
+  border-left: 3px solid #bda8db;
+}
+.audio-clip.bass-clip {
+  left: 0%;
+  width: 100%;
+  background: linear-gradient(90deg, #3f7974, #4c8f89);
+  border-left: 3px solid #8fe0d8;
+}
+.audio-clip.melody-clip {
+  left: 0%;
+  width: 100%;
+  background: linear-gradient(90deg, #8f7139, #ad8945);
+  border-left: 3px solid #ffd480;
+}
+.playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ff4d4d;
+  left: 0%;
+  pointer-events: none;
+  z-index: 20;
+  box-shadow: 0 0 6px #ff4d4d;
+}
+.playhead.playing {
+  animation: playheadMove 4s linear infinite;
+}
+@keyframes playheadMove {
+  from { left: 0%; }
+  to { left: 100%; }
+}
+.mobile-controls {
+  height: 42px;
+  background: #09090c;
+  border-top: 1px solid #1a1a24;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 10px;
+}
+.ctrl-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #202028;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  transition: var(--transition);
+}
+.ctrl-btn.play-btn {
+  background: #ff4d4d;
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+}
+.ctrl-btn.play-btn.playing {
+  background: var(--green);
+}
+
+/* ========== MIXER INTERFACE ========== */
+.mixer-board { background: #f0f3f1; border: 1px solid var(--border-glass); border-radius: var(--radius); padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.mixer-master { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-glass); }
+.mixer-bpm { font-family: var(--font-en); font-weight: bold; color: var(--teal); font-size: 1.1em; }
+.mixer-channels { display: flex; gap: 12px; }
+.mixer-channel {
+  flex: 1;
+  background: #fff;
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.channel-title { font-family: var(--font-heading); font-size: 0.85em; font-weight: bold; text-align: center; }
+.vu-meter-wrap { height: 100px; width: 14px; background: #e9f0ec; border-radius: 3px; overflow: hidden; position: relative; }
+.vu-meter-canvas { width: 100%; height: 100%; display: block; }
+.fader-wrap { height: 110px; display: flex; align-items: center; justify-content: center; }
+.fader { 
+  -webkit-appearance: slider-vertical; 
+  appearance: slider-vertical; 
+  writing-mode: vertical-lr; 
+  direction: rtl; 
+  width: 18px; 
+  height: 100px; 
+  cursor: pointer; 
+  accent-color: var(--teal); 
+}
+.chan-btn-row { display: flex; gap: 4px; width: 100%; justify-content: center; }
+.chan-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  font-family: var(--font-en);
+  font-size: 9px;
+  font-weight: 700;
+  border: 1px solid var(--border-glass);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chan-btn.mute-btn.active { background: var(--red); color: #fff; border-color: var(--red); }
+.chan-btn.solo-btn.active { background: var(--gold); color: #fff; border-color: var(--gold-dark); }
+
+/* ========== RUBRICS & SCORE TABLE ========== */
+.score-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; box-shadow: 0 4px 14px rgba(41,55,49,0.03); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border-glass); }
+.score-table th, .score-table td { padding: 12px 14px; text-align: left; font-size: 0.95em; border-bottom: 1px solid #edf2ef; }
+.score-table th { background: #f2f6f3; font-family: var(--font-heading); font-weight: 600; color: var(--text-primary); }
+.score-col { text-align: center !important; font-family: var(--font-en); font-weight: 600; }
+
+/* ========== REFLECTION FORMS ========== */
+.reflection-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius); padding: 20px; box-shadow: 0 8px 24px rgba(41,55,49,0.04); }
+.form-group { 
+  display: flex; flex-direction: column; justify-content: flex-start; 
+  height: 100%; gap: 6px; margin-bottom: 12px; 
+}
+.form-group label { 
+  font-family: var(--font-heading); font-size: 0.95em; font-weight: 500; 
+  color: var(--text-primary); min-height: 48px; display: flex; align-items: flex-end; 
+  line-height: 1.4; margin-bottom: 2px; 
+}
+.reflection-textarea { 
+  width: 100%; flex: 1; min-height: 80px; padding: 10px 12px; 
+  border: 1px solid var(--border-glass); border-radius: var(--radius-sm); 
+  font-family: var(--font-body); font-size: 0.95em; line-height: 1.6; 
+  resize: vertical; outline: none; transition: var(--transition); background: #fbfdfc; 
+}
+.reflection-textarea:focus { border-color: var(--teal); background: #fff; box-shadow: 0 0 6px var(--teal-glow); }
+
+/* ========== MISSION CARD ========== */
+.mission-card { background: #fff; border: 1px solid var(--border-glass); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-soft); border-top: 4px solid var(--gold); }
+.mission-icon { font-size: 2.5em; margin-bottom: 10px; }
+.mission-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; }
+.mission-step { display: flex; gap: 12px; }
+.step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--gold-dark); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-en); font-weight: 700; font-size: 0.9em; flex-shrink: 0; }
+.mission-step p { font-size: 0.92em; line-height: 1.5; color: var(--text-secondary); margin-bottom: 0; }
+
+/* ========== SHAKE ANIMATION (Wrong Answer) ========== */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 1024px) {
+  .slide { padding: 50px 60px 50px; }
+  .card-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .card-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .dnd-container { grid-template-columns: 1fr; }
+  .dnd-terms { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+  .mission-steps { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .slide { padding: 40px 24px 70px; }
+  .slide h1 { font-size: 2.0em; }
+  .slide h2 { font-size: 1.5em; }
+  .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns: 1fr; }
+  .nav-btn { width: 38px; height: 50px; font-size: 18px; }
+  .nav-prev { left: 4px; }
+  .nav-next { right: 4px; }
+  .part-indicator { top: 8px; left: 10px; font-size: 11px; padding: 4px 8px; max-width: 150px; }
+  .keyboard-hint, .slide-counter { display: none; }
+  .teacher-tools { top: 6px; right: 10px; }
+  .tool-btn { min-height: 30px; padding: 4px 10px; font-size: 0.8em; }
+  .slide-list { grid-template-columns: 1fr; }
+  .mixer-channels { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div class="presentation">
+  <!-- Progress Bar -->
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <!-- Slide Counter -->
+  <div class="slide-counter" id="slideCounter"></div>
+
+  <!-- Part Indicator -->
+  <div class="part-indicator" id="partIndicator"></div>
+
+  <!-- Teacher Tools -->
+  <div class="teacher-tools">
+    <button class="tool-btn" onclick="toggleSlideMenu(true)">☰ สารบัญ</button>
+    <button class="tool-btn" onclick="toggleFullscreen()">⛶ เต็มจอ</button>
+    <button class="tool-btn" onclick="resetAllActivities()">↺ รีเซ็ต</button>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <button class="nav-btn nav-prev" id="prevBtn" onclick="prevSlide()" aria-label="สไลด์ก่อนหน้า">‹</button>
+  <button class="nav-btn nav-next" id="nextBtn" onclick="nextSlide()" aria-label="สไลด์ถัดไป">›</button>
+
+  <!-- Keyboard Hint -->
+  <div class="keyboard-hint">
+    <span class="kbd">←</span><span class="kbd">→</span> เลื่อนสไลด์
+  </div>
+
+  <!-- Footer Credit -->
+  <div class="footer-credit">ผู้สอน: นายเอกณัฐ ลุผลแท้</div>
+
+  <!-- Slide Menu Modal -->
+  <div class="slide-menu" id="slideMenu">
+    <div class="slide-menu-panel">
+      <div class="slide-menu-head">
+        <h2>สารบัญบทเรียนสไลด์</h2>
+        <button class="secondary-btn" onclick="toggleSlideMenu(false)">ปิด</button>
+      </div>
+      <div class="slide-list" id="slideList"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ==================== SLIDES ==================== -->
+
+  <!-- Slide 1: Cover -->
+  <section class="slide title-slide" data-part="เปิดบทเรียน">
+    <div class="slide-inner">
+      <span class="music-icon" aria-hidden="true">📱</span>
+      <div class="badge badge-teal fade-in-up">วิชาเทคโนโลยีดนตรี / คอมพิวเตอร์ดนตรี — ม.6</div>
+      <h1 class="fade-in-up delay-1">เริ่มต้นใช้ DAW สร้างเพลงด้วย<br><span class="gradient-text">BandLab บนมือถือ</span></h1>
+      <p class="subtitle fade-in-up delay-2">การลงมือสร้างบีตดนตรี 8 ห้องเพลงแรกรวม 2 Tracks บนโทรศัพท์ส่วนตัว</p>
+      
+      <div class="title-notes fade-in-up delay-3">
+        <span>📅 คาบที่ 3-4 (100 นาที)</span>
+        <span>🎯 เน้นฝึกปฏิบัติจริง (Hands-on)</span>
+      </div>
+      <div class="fade-in-up delay-4" style="margin-top:24px; font-size:1.0em; color:var(--text-secondary);">
+        ครูผู้สอน: <strong>นายเอกณัฐ ลุผลแท้</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 2: Hook (Warm-up Poll) -->
+  <section class="slide" data-part="เปิดบทเรียน">
+    <div class="slide-inner">
+      <span class="section-num">PART 01 · WARM UP</span>
+      <h2>🎧 คำถามชวนคิดเปิดประเด็น</h2>
+      <p style="margin-bottom:18px;">เพลงโปรดที่นักเรียนฟังบ่อย ๆ มีเสียงของอะไรบ้าง? และมี **"เสียงชั้นไหน"** ที่กระแทกใจและดึงดูดหูมากที่สุดเวลาเพลงบรรเลงขึ้นมา?</p>
+      
+      <div class="poll-container" id="hookPoll" data-votes-drums="0" data-votes-bass="0" data-votes-chords="0" data-votes-melody="0">
+        <button class="poll-btn" onclick="vote(this, 'drums')">
+          <div class="poll-bar"></div>
+          <span class="poll-text">🥁 จังหวะกลอง (Beat / Groove) — หนักแน่น กระตุ้นให้ขยับร่างกาย</span>
+          <span class="poll-pct"></span>
+        </button>
+        <button class="poll-btn" onclick="vote(this, 'bass')">
+          <div class="poll-bar"></div>
+          <span class="poll-text">🎸 ไลน์เบสทุ้มต่ำ (Sub Bassline) — ทุ้มลึกมีน้ำหนัก ตบเบสสร้างมิติ</span>
+          <span class="poll-pct"></span>
+        </button>
+        <button class="poll-btn" onclick="vote(this, 'chords')">
+          <div class="poll-bar"></div>
+          <span class="poll-text">🎹 คอร์ดและเสียงประสาน (Harmony) — เติมเต็มอารมณ์ หวาน เศร้า หรืออบอุ่น</span>
+          <span class="poll-pct"></span>
+        </button>
+        <button class="poll-btn" onclick="vote(this, 'melody')">
+          <div class="poll-bar"></div>
+          <span class="poll-text">🎤 ทำนองหลักหรือเสียงร้อง (Melody / Vocal) — เด่นที่สุด ร้องตามง่าย ติดหูทันที</span>
+          <span class="poll-pct"></span>
+        </button>
+      </div>
+      <div class="action-row">
+        <button class="secondary-btn" onclick="resetPoll('hookPoll')">↺ ล้างผลโหวต</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 3: Learning Objectives -->
+  <section class="slide" data-part="เปิดบทเรียน">
+    <div class="slide-inner">
+      <span class="section-num">PART 01 · OBJECTIVES</span>
+      <h2>🎯 เป้าหมายการเรียนรู้ประจำคาบ</h2>
+      <p style="margin-bottom:20px;">หลังจากจบบทเรียนนี้ นักเรียนทุกคนจะมีความรู้และสามารถลงมือปฏิบัติดังต่อไปนี้ได้จริง:</p>
+      
+      <div class="card-grid card-grid-2">
+        <div class="glass-card" style="border-left: 4px solid var(--teal);">
+          <h3 style="color:var(--teal);">📖 ด้านความรู้และทฤษฎี</h3>
+          <ul style="margin-bottom:0;">
+            <li>อธิบายความหมายและขอบข่ายหน้าที่การทำงานของ <strong>DAW</strong> ได้</li>
+            <li>เข้าใจแนวคิดว่าดนตรีเกิดจากการซ้อนทับกันของ <strong>หลายชั้นเสียง (Layers)</strong></li>
+            <li>อธิบายคำศัพท์ทางดนตรีดิจิทัลพื้นฐานได้ (เช่น Track, Loop, Timeline)</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-left: 4px solid var(--purple);">
+          <h3 style="color:var(--purple);">🛠️ ด้านทักษะการปฏิบัติจริง</h3>
+          <ul style="margin-bottom:0;">
+            <li>เปิดและเซ็ตอัปโปรเจกต์ใหม่ในแอป <strong>BandLab บนมือถือ</strong> ได้</li>
+            <li>เพิ่มเสียงดนตรีลงบนไทม์ไลน์ได้อย่างน้อย <strong>2 Tracks</strong> ขึ้นไป</li>
+            <li>สร้างบีตเพลงสั้น ๆ ความยาวประมาณ <strong>4–8 Bars (ห้องเพลง)</strong> ได้</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-left: 4px solid var(--gold-dark);">
+          <h3 style="color:var(--gold-dark);">🎛️ ด้านการขัดเกลาและผลงาน</h3>
+          <ul style="margin-bottom:0;">
+            <li>ฟัง ตรวจเช็ก และมิกซ์ปรับระดับความดัง (Volume) เบื้องต้นได้</li>
+            <li>ตั้งชื่อผลงานตามระบบ และทำการส่งลิงก์/ภาพหลักฐานได้อย่างถูกต้อง</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-left: 4px solid var(--rose);">
+          <h3 style="color:var(--rose);">🏆 ภารกิจสูงสุดของวันนี้</h3>
+          <p style="font-weight: 500; color: var(--rose); margin-bottom: 6px;">"My First 8-Bar Beat"</p>
+          <p style="font-size:0.9em; margin-bottom:0;">สร้างเพลงสั้น 8 ห้องดนตรีที่มีบีตกลอง 1 ชิ้น และเครื่องดนตรีอื่น 1 ชิ้น เพื่อมิกซ์และตั้งชื่อส่งคุณครูท้ายคาบเรียน!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 4: Definition of DAW -->
+  <section class="slide" data-part="รู้จักกับ DAW">
+    <div class="slide-inner">
+      <span class="section-num">PART 02 · DAW CONCEPT</span>
+      <h2>💻 DAW คืออะไร? พื้นที่สร้างสรรค์เสียงดิจิทัล</h2>
+      
+      <div class="card-grid card-grid-2">
+        <div class="glass-card" style="border-top: 4px solid var(--teal); background:rgba(63,121,116,0.03);">
+          <h3 style="color:var(--teal); margin-bottom:10px;">💡 คำอธิบายเชิงแนวคิด</h3>
+          <p style="font-size:0.98em; line-height:1.6; margin-bottom:10px;"><strong>DAW</strong> ย่อมาจาก <strong>Digital Audio Workstation</strong> แปลว่า <em>"สถานีเครื่องมือทำงานเสียงดิจิทัล"</em></p>
+          <div style="background:#fff; border:1px solid var(--border-glass); border-radius:var(--radius-sm); padding:14px; margin-bottom:12px;">
+            <p style="font-size:0.95em; color:var(--teal); font-weight:600; margin-bottom:4px;">🎯 คำอธิบายเข้าใจง่าย:</p>
+            <p style="font-size:0.92em; line-height:1.6; margin-bottom:0; color:var(--text-secondary);">เปรียบเสมือน <strong>"โต๊ะทำงานดนตรี"</strong> หรือ <strong>"สมุดวาดภาพดนตรี"</strong> ที่ทำหน้าที่เป็นเสมือนสตูดิโอขนาดใหญ่ย่อส่วนลงมาอยู่ในคอมพิวเตอร์หรือโทรศัพท์มือถือ เพื่อให้เราปั้นไอเดียเสียงทั้งหมดออกมาเป็นเพลงสำเร็จรูปได้</p>
+          </div>
+          <p style="font-size:0.9em; line-height:1.5; color:var(--text-muted); margin-bottom:0;">ในชีวิตจริง นักร้องและโปรดิวเซอร์ระดับโลกใช้ซอฟต์แวร์ประเภท DAW ในการบันทึกจัดเรียงดนตรีและออกอัลบั้มจำหน่ายทั้งสิ้น</p>
+        </div>
+        
+        <div class="glass-card" style="border-top: 4px solid var(--purple); background:rgba(102,89,121,0.03);">
+          <h3 style="color:var(--purple); margin-bottom:15px;">🔧 หน้าที่หลัก 5 ประการของ DAW:</h3>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; gap:12px;">
+              <span style="font-size:1.5em;">🎤</span>
+              <p style="margin:0; font-size:0.95em;"><strong>บันทึกเสียง (Record):</strong> อัดเสียงร้อง เสียงพูด หรือเครื่องดนตรีภายนอกผ่านไมโครโฟน</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <span style="font-size:1.5em;">🎹</span>
+              <p style="margin:0; font-size:0.95em;"><strong>ป้อนโน้ต (Sequence/MIDI):</strong> พิมพ์หรือกดลิ่มคีย์บอร์ดจำลองเพื่อเขียนโน้ตให้เครื่องดนตรีเล่น</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <span style="font-size:1.5em;">✂️</span>
+              <p style="margin:0; font-size:0.95em;"><strong>ตัดต่อจัดระเบียบ (Edit/Arrange):</strong> หั่น ยืด ลาก วาง ย้ายตำแหน่งคลิปเสียงบนแผ่นเวลา</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <span style="font-size:1.5em;">🎛️</span>
+              <p style="margin:0; font-size:0.95em;"><strong>มิกซ์เสียง (Mix):</strong> ปรับระดับความดัง เบา แพน ซ้าย ขวา และใส่เอฟเฟกต์ (Reverb, EQ) ให้เสียงเข้ากัน</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <span style="font-size:1.5em;">📦</span>
+              <p style="margin:0; font-size:0.95em;"><strong>ส่งออกผลงาน (Export):</strong> รวมเสียงทุกช่องออกมาเป็นไฟล์เสียงสำเร็จรูป เช่น MP3, WAV</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 5: Real-world DAW Comparison -->
+  <section class="slide" data-part="รู้จักกับ DAW">
+    <div class="slide-inner">
+      <span class="section-num">PART 02 · DAW SOFTWARE</span>
+      <h2>🎛️ ซอฟต์แวร์ DAW ยุคใหม่</h2>
+      <p style="margin-bottom:18px;">แอปพลิเคชัน DAW มีหลากหลายประเภทตามความต้องการของผู้ใช้งาน อุปกรณ์ที่รองรับ และงบประมาณในการเลือกใช้:</p>
+      
+      <div class="card-grid card-grid-3">
+        <div class="glass-card" style="border-top: 3px solid var(--purple);">
+          <h3 style="color:var(--purple);">💻 ซอฟต์แวร์ระดับโปร (PC/Mac)</h3>
+          <p style="font-size:0.92em; line-height:1.6;">เป็น DAW สตูดิโอระดับอุตสาหกรรม มีฟังก์ชันการมิกซ์และการอัดขั้นสูง:</p>
+          <ul style="font-size:0.9em; padding-left:16px;">
+            <li><strong>Logic Pro</strong> (เฉพาะ Mac เท่านั้น)</li>
+            <li><strong>Ableton Live</strong> (เน้นเพลงอิเล็กทรอนิกส์)</li>
+            <li><strong>FL Studio</strong> (เน้นทำบีตฮิปฮอป/EDM)</li>
+            <li><strong>Cubase / Pro Tools</strong> (เน้นบันทึกเสียง)</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-top: 3px solid var(--teal);">
+          <h3 style="color:var(--teal);">📱 แอปพกพาบนมือถือ (Mobile DAW)</h3>
+          <p style="font-size:0.92em; line-height:1.6;">ออกแบบมาสำหรับจอสัมผัส สะดวกในการปั้นไอเดียตอนอยู่นอกบ้าน:</p>
+          <ul style="font-size:0.9em; padding-left:16px;">
+            <li><strong>GarageBand</strong> (ฟรี บน iOS)</li>
+            <li><strong>FL Studio Mobile</strong> (เสียเงิน ทุกระบบ)</li>
+            <li><strong>Cubasis</strong> (แอปย่อส่วนจาก Cubase)</li>
+            <li><strong>BandLab</strong> (ฟรี 100% เล่นได้ทุกระบบผ่าน Cloud)</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-top: 3px solid var(--gold-dark); background: rgba(143,113,57,0.03);">
+          <h3 style="color:var(--gold-dark);">🔥 ทำไมต้องเลือก BandLab?</h3>
+          <p style="font-size:0.92em; line-height:1.6;">เพราะเป็น DAW ยุคใหม่ที่เป็นมิตรกับนักเรียนมัธยมมากที่สุด:</p>
+          <ul style="font-size:0.9em; padding-left:16px;">
+            <li><strong>ฟรีไม่มีโฆษณาคั่น</strong> ดาวน์โหลดเล่นได้ทันที</li>
+            <li>ใช้ระบบคลาวด์ ทำงานสลับเครื่องและส่งงานง่าย</li>
+            <li>มีห้องสมุดเสียง (Loops) ขนาดใหญ่อัปเดตฟรีตลอดเวลา</li>
+            <li>มีฟังก์ชันการมิกซ์ปรับแต่งครบตามวิชาเรียน</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 6: Layers of Sound Concept -->
+  <section class="slide" data-part="โครงสร้างของบทเพลง">
+    <div class="slide-inner">
+      <span class="section-num">PART 03 · LAYERS OF SOUND</span>
+      <h2>🥪 แนวคิดดนตรี: เพลงประกอบด้วยหลายชั้นเสียง</h2>
+      <p>จินตนาการว่าบทเพลง 1 เพลง มีองค์ประกอบคล้าย <strong>"แซนด์วิชแสนอร่อย"</strong> หรือ <strong>"โครงสร้างตึกคอนโด"</strong> ที่ต้องการส่วนประกอบหลาย ๆ ชิ้นมาซ้อนทับกัน</p>
+      
+      <div class="card-grid card-grid-4" style="margin-top:20px;">
+        <div class="glass-card" style="border-top:4px solid var(--purple); background:rgba(102,89,121,0.03);">
+          <div class="metaphor-badge metaphor-drums">ชั้นฐานล่างสุด (Bottom)</div>
+          <h3>🥁 บีต & กลอง (Drums/Beat)</h3>
+          <p style="font-size:0.9em; line-height:1.6; margin-bottom:0;">เสมือนฐานรากตึกหรือขนมปังแผ่นล่าง เป็นกระดูกสันหลังที่คอยกำหนดจังหวะ ความหนักเบา (Tempo/Pulse) ทำให้เพลงเดินไปข้างหน้าได้อย่างไม่หลงทาง</p>
+        </div>
+        <div class="glass-card" style="border-top:4px solid var(--teal); background:rgba(63,121,116,0.03);">
+          <div class="metaphor-badge metaphor-bass">ชั้นโครงสร้างหลัก (Structure)</div>
+          <h3>🎸 ไลน์เบส (Bassline)</h3>
+          <p style="font-size:0.9em; line-height:1.6; margin-bottom:0;">เปรียบเหมือนเสาเข็มทำหน้าที่ประสานช่องว่างระหว่างจังหวะกลองและคอร์ดดนตรี ตัวโน้ตต่ำ ๆ ของเบสจะสร้างแรงสั่นสะเทือนและความอบอุ่นของความถี่เสียง</p>
+        </div>
+        <div class="glass-card" style="border-top:4px solid var(--gold-dark); background:rgba(143,113,57,0.03);">
+          <div class="metaphor-badge metaphor-chords">ชั้นตกแต่งผนัง (Body)</div>
+          <h3>🎹 คอร์ด (Chords/Harmony)</h3>
+          <p style="font-size:0.9em; line-height:1.6; margin-bottom:0;">เสมือนเนื้อและไส้แซนด์วิชที่รวมรสชาติคอร์ดจากเปียโนหรือกีตาร์ คอยบอกทิศทางอารมณ์ความรู้สึกของเพลงว่าเพลงนี้กำลังเศร้า ซึ้ง หรือตื่นเต้นสะใจ</p>
+        </div>
+        <div class="glass-card" style="border-top:4px solid var(--rose); background:rgba(154,95,104,0.03);">
+          <div class="metaphor-badge metaphor-melody">ชั้นยอดบนสุด (Top/Crown)</div>
+          <h3>🎤 ทำนองหลัก (Melody/Vocal)</h3>
+          <p style="font-size:0.9em; line-height:1.6; margin-bottom:0;">เปรียบดั่งหลังคาตึกยอดแหลมที่ทุกคนเห็นเด่นชัดที่สุด เป็นไลน์ร้องนำ เสียงขลุ่ย หรือเสียงร้องหลักที่เล่าเรื่องราวความหมาย เป็นส่วนที่คนจดจำร้องตามได้ง่ายที่สุด</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 7: Interactive Audio Layers Toggle -->
+  <section class="slide" data-part="โครงสร้างของบทเพลง">
+    <div class="slide-inner">
+      <span class="section-num">PART 03 · INTERACTIVE SEQUENCER</span>
+      <h2>🎛️ เครื่องจำลองการมิกซ์เสียงหลายชั้น (Multi-track Simulator)</h2>
+      <p style="margin-bottom:12px;">ในแอป DAW ทุกเสียงจะแยกออกจากกันเป็น <strong>Track</strong> ลองกดปุ่มเล่นบีต แล้วทดลองกด <strong>Mute (ปิดเสียง)</strong> หรือ <strong>Solo (ฟังเดี่ยว)</strong> และปรับสไลเดอร์ความดังเพื่อสังเกตการเปลี่ยนแปลง!</p>
+      
+      <div class="card-grid card-grid-2">
+        <!-- CSS Phone Mockup showing timeline -->
+        <div>
+          <div class="mobile-mockup">
+            <div class="mobile-header">
+              <span class="en">13:00 📱</span>
+              <span class="project-title en">My_FirstBeat_Loop</span>
+              <span class="en" id="mockupStepText">Step 0/16</span>
+            </div>
+            <div class="mobile-screen">
+              <div class="playhead" id="playhead"></div>
+              <div class="timeline-ruler">
+                <div class="timeline-bar-num">1</div>
+                <div class="timeline-bar-num">2</div>
+                <div class="timeline-bar-num">3</div>
+                <div class="timeline-bar-num">4</div>
+              </div>
+              <div class="tracks-container">
+                <div class="track-row" id="mockDrumsRow">
+                  <div class="track-info"><span>🥁</span><strong>Drums</strong></div>
+                  <div class="track-timeline-area">
+                    <div class="audio-clip drum-clip">HipHop_Beat_Loop.wav</div>
+                  </div>
+                </div>
+                <div class="track-row" id="mockBassRow">
+                  <div class="track-info"><span>🎸</span><strong>Bass</strong></div>
+                  <div class="track-timeline-area">
+                    <div class="audio-clip bass-clip">Smooth_Bass_8Bar.wav</div>
+                  </div>
+                </div>
+                <div class="track-row" id="mockMelodyRow">
+                  <div class="track-info"><span>🎹</span><strong>Melody</strong></div>
+                  <div class="track-timeline-area">
+                    <div class="audio-clip melody-clip">Lead_Synth_Loop.wav</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mobile-controls">
+              <div class="ctrl-btn">◀</div>
+              <button class="ctrl-btn play-btn" id="phonePlayBtn" onclick="toggleAudioLoop()">▶</button>
+              <div class="ctrl-btn">➕</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mixer Board controllers -->
+        <div class="mixer-board">
+          <div class="mixer-master">
+            <div>
+              <strong>เครื่องจำลองมิกเซอร์หลัก</strong>
+              <div style="font-size:0.8em; color:var(--text-muted);">สร้างเสียงสังเคราะห์สดด้วย Web Audio API</div>
+            </div>
+            <button class="primary-btn" id="mixerPlayBtn" onclick="toggleAudioLoop()">▶ เล่นบีตจำลอง</button>
+            <div class="mixer-bpm">120 <span style="font-size:0.7em; color:var(--text-muted);">BPM</span></div>
+          </div>
+          
+          <div class="mixer-channels">
+            <!-- Channel 1: Drums -->
+            <div class="mixer-channel" id="chanDrums">
+              <div class="channel-title">🥁 Drums<br><small>บีตหลัก</small></div>
+              <div class="vu-meter-wrap">
+                <canvas class="vu-meter-canvas" id="drumsCanvas" height="100" width="14"></canvas>
+              </div>
+              <div class="fader-wrap">
+                <input type="range" class="fader" id="volDrums" min="0" max="1" step="0.05" value="0.8" oninput="updateMixVolume('drums', this.value)">
+              </div>
+              <div class="chan-btn-row">
+                <button class="chan-btn mute-btn" id="muteDrums" onclick="toggleMute('drums')">M</button>
+                <button class="chan-btn solo-btn" id="soloDrums" onclick="toggleSolo('drums')">S</button>
+              </div>
+            </div>
+            <!-- Channel 2: Bass -->
+            <div class="mixer-channel" id="chanBass">
+              <div class="channel-title">🎸 Bass<br><small>เบสทุ้ม</small></div>
+              <div class="vu-meter-wrap">
+                <canvas class="vu-meter-canvas" id="bassCanvas" height="100" width="14"></canvas>
+              </div>
+              <div class="fader-wrap">
+                <input type="range" class="fader" id="volBass" min="0" max="1" step="0.05" value="0.7" oninput="updateMixVolume('bass', this.value)">
+              </div>
+              <div class="chan-btn-row">
+                <button class="chan-btn mute-btn" id="muteBass" onclick="toggleMute('bass')">M</button>
+                <button class="chan-btn solo-btn" id="soloBass" onclick="toggleSolo('bass')">S</button>
+              </div>
+            </div>
+            <!-- Channel 3: Melody -->
+            <div class="mixer-channel" id="chanMelody">
+              <div class="channel-title">🎹 Melody<br><small>ทำนอง</small></div>
+              <div class="vu-meter-wrap">
+                <canvas class="vu-meter-canvas" id="melodyCanvas" height="100" width="14"></canvas>
+              </div>
+              <div class="fader-wrap">
+                <input type="range" class="fader" id="volMelody" min="0" max="1" step="0.05" value="0.6" oninput="updateMixVolume('melody', this.value)">
+              </div>
+              <div class="chan-btn-row">
+                <button class="chan-btn mute-btn" id="muteMelody" onclick="toggleMute('melody')">M</button>
+                <button class="chan-btn solo-btn" id="soloMelody" onclick="toggleSolo('melody')">S</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 8: Basic Terms Explanation -->
+  <section class="slide" data-part="คำศัพท์พื้นฐาน DAW">
+    <div class="slide-inner">
+      <span class="section-num">PART 04 · DAW GLOSSARY</span>
+      <h2>📖 8 คำศัพท์พื้นฐานที่คนทำเพลงต้องรู้จัก</h2>
+      <p style="margin-bottom:14px;">ลองกดทีละแท็บด้านล่าง เพื่อทำความเข้าใจคำศัพท์พื้นฐานสำหรับนำไปใช้บนหน้าจอแอป BandLab:</p>
+      
+      <div class="tab-btns">
+        <button class="tab-btn active" onclick="showTab(event, 'tab-glossary-1')">📁 Track & Timeline</button>
+        <button class="tab-btn" onclick="showTab(event, 'tab-glossary-2')">🎵 Loop & Clip</button>
+        <button class="tab-btn" onclick="showTab(event, 'tab-glossary-3')">📊 Bar & Play/Stop</button>
+        <button class="tab-btn" onclick="showTab(event, 'tab-glossary-4')">🎛️ Volume & Save/Share</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-glossary-1">
+        <div class="card-grid card-grid-2">
+          <div class="glass-card" style="border-top:3px solid var(--purple);">
+            <h3 style="color:var(--purple);">1. Track (แทร็ก)</h3>
+            <p style="font-size:0.95em; line-height:1.6; margin-bottom:0;">เลนเสียงแนวขวาง แต่ละแทร็กบรรจุเสียงเครื่องดนตรีชิ้นเดียว เช่น แทร็กสำหรับบันทึกเสียงร้อง แทร็กสำหรับเสียงกลอง แทร็กสำหรับกีตาร์ เพื่อไม่ให้เสียงปนกันและสะดวกในการแต่งเสียงเป็นชิ้นๆ</p>
+          </div>
+          <div class="glass-card" style="border-top:3px solid var(--teal);">
+            <h3 style="color:var(--teal);">2. Timeline (เส้นเวลา)</h3>
+            <p style="font-size:0.95em; line-height:1.6; margin-bottom:0;">แถบวัดแนวนอนจากซ้ายไปขวา ใช้จัดตำแหน่งของห้องเพลงในแนวกว้าง เพื่อให้เรารู้ว่าเสียงเครื่องดนตรีชิ้นไหนจะให้เข้ามาเล่นในนาทีที่เท่าไหร่ หรือเริ่มตรงวินาทีไหน</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab-panel" id="tab-glossary-2">
+        <div class="card-grid card-grid-2">
+          <div class="glass-card" style="border-top:3px solid var(--gold-dark);">
+            <h3 style="color:var(--gold-dark);">3. Loop (ลูป)</h3>
+            <p style="font-size:0.95em; line-height:1.6; margin-bottom:0;">ชิ้นเสียงสั้น ๆ หรือท่อนดนตรีสำเร็จรูปที่บันทึกไว้แล้ว (เช่น บีตกลอง 2 ห้องดนตรี) ซึ่งถูกโปรแกรมให้วนซ้ำต่อไปได้เรื่อย ๆ เมื่อนำมาประกบต่อกันโดยไม่มีรอยต่อของจังหวะ</p>
+          </div>
+          <div class="glass-card" style="border-top:3px solid var(--rose);">
+            <h3 style="color:var(--rose);">4. Clip / Region (คลิป หรือ รีเจียน)</h3>
+            <p style="font-size:0.95em; line-height:1.6; margin-bottom:0;">"ก้อนคลิปเสียง" หรือกล่องข้อมูลเสียงที่ปรากฏเป็นบล็อกสี่เหลี่ยมสีสันต่าง ๆ บน Timeline เราสามารถจิ้มเพื่อคัดลอก (Copy), ขยาย (Loop), ย่อขนาด (Trim), หรือลบมันทิ้งได้ตามชอบ</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-glossary-3">
+        <div class="card-grid card-grid-2">
+          <div class="glass-card" style="border-top:3px solid var(--purple);">
+            <h3 style="color:var(--purple);">5. Bar / Measure (ห้องเพลง)</h3>
+            <p style="font-size:0.95em; line-height:1.6; margin-bottom:0;">หน่วยบอกขอบเขตจังหวะเวลาในดนตรี ปกติเพลงฮิตทั่วไป 1 ห้องเพลง (Bar) จะมีจังหวะตบเฉลี่ย 4 จังหวะ (นับ 1 - 2 - 3 - 4) เป็นช่องตารางบน Timeline ช่วยให้เราจัดวางคลิปเสียงได้ตรงห้อง</p>
+          </div>
+          <div class="glass-card" style="border-top:3px solid var(--teal);">
+            <h3 style="color:var(--teal);">6. Play / Stop (ปุ่มเล่นและหยุด)</h3>
+            <p style="font-size:0.95em; line-height:1.6; margin-bottom:0;">ปุ่มฟังก์ชันควบคุมการเคลื่อนตัวของหน้าจอ (Transport Controls) เพื่อทดลองฟังท่อนเพลงปัจจุบัน หรือสั่งให้ระบบประมวลผลเสียงหยุดนิ่งสนิทเพื่อทำการจัดเรียงแก้ไขต่อ</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-glossary-4">
+        <div class="card-grid card-grid-2">
+          <div class="glass-card" style="border-top:3px solid var(--gold-dark);">
+            <h3 style="color:var(--gold-dark);">7. Volume & Mix (ระดับเสียงและการผสม)</h3>
+            <p style="font-size:0.95em; line-height:1.6; margin-bottom:0;">การปรับอัตราขยายของกระแสสัญญาณไฟฟ้าในแต่ละ Track เพื่อให้ระดับความดัง-เบามีความสมดุล โดยที่ไม่มีเสียงดนตรีชิ้นใดดังกวนกลืนกลบไลน์เด่น หรือเสียงดังล้นขีดแดงจนแตกพร่า (Clipping)</p>
+          </div>
+          <div class="glass-card" style="border-top:3px solid var(--rose);">
+            <h3 style="color:var(--rose);">8. Save / Share (บันทึกและส่งผลงาน)</h3>
+            <p style="font-size:0.95em; line-height:1.6; margin-bottom:0;">การสั่งให้แอปประมวลผลทำการเก็บข้อมูลเซสชันงานปัจจุบันขึ้นระบบคลาวด์ พร้อมทั้งฟังก์ชันการคัดลอกที่อยู่อิเล็กทรอนิกส์ (Link) หรือเรนเดอร์ภาพผลงานส่งต่อให้คุณครูตรวจคะแนน</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 9: Vocabulary Match (Drag & Drop) -->
+  <section class="slide" data-part="คำศัพท์พื้นฐาน DAW">
+    <div class="slide-inner">
+      <span class="section-num">PART 04 · QUIZ GAME</span>
+      <h2>🧩 กิจกรรม: ท้าทายจับคู่คำศัพท์ DAW</h2>
+      <p style="margin-bottom:8px;"><strong>วิธีเล่น:</strong> ลากคำศัพท์สีสันทางซ้ายไปวางในช่องคำอธิบายความหมายขวาให้ถูกต้อง (หรือหากเล่นผ่านหน้าจอมือถือ ให้แตะที่คำศัพท์ 1 ครั้ง แล้วแตะช่องเป้าหมายทางขวา)</p>
+      
+      <div class="dnd-container">
+        <!-- Terms -->
+        <div class="dnd-terms" id="vocabTerms">
+          <div class="dnd-item" draggable="true" data-answer="term-track" id="term-track">Track (แทร็ก)</div>
+          <div class="dnd-item" draggable="true" data-answer="term-timeline" id="term-timeline">Timeline (ไทม์ไลน์)</div>
+          <div class="dnd-item" draggable="true" data-answer="term-loop" id="term-loop">Loop (ลูป)</div>
+          <div class="dnd-item" draggable="true" data-answer="term-clip" id="term-clip">Clip/Region (คลิป)</div>
+          <div class="dnd-item" draggable="true" data-answer="term-bar" id="term-bar">Bar (ห้องเพลง)</div>
+        </div>
+        
+        <!-- Targets -->
+        <div class="dnd-targets" id="vocabTargets">
+          <div class="dnd-target" data-accept="term-track">เลนแถบแนวนอนสำหรับแยกวางแหล่งกำเนิดเสียงหรือเครื่องดนตรีแต่ละชิ้นไม่ให้ปนกัน</div>
+          <div class="dnd-target" data-accept="term-timeline">แถบไม้บรรทัดบอกเส้นจังหวะเวลาแนวนอน เพื่อจัดระเบียบว่าอะไรเล่นก่อนหรือหลัง</div>
+          <div class="dnd-target" data-accept="term-loop">ก้อนชิ้นส่วนไฟล์เสียงหรือท่อนดนตรีสั้น ๆ สำเร็จรูปที่นำมาจัดวางวนซ้ำต่อกันได้แนบเนียน</div>
+          <div class="dnd-target" data-accept="term-clip">กล่องหรือบล็อกสี่เหลี่ยมระบุข้อมูลเสียงที่วางอยู่บนไทม์ไลน์ สามารถหั่นหรือลากย้ายได้</div>
+          <div class="dnd-target" data-accept="term-bar">ห้องของจังหวะดนตรีที่ใช้บอกอัตราความยาว เฉลี่ยเพลงทั่วไปนับตบเป็น 4 จังหวะต่อหนึ่งห้อง</div>
+        </div>
+      </div>
+      
+      <div class="dnd-score" id="dndScore">ถูก 0/5</div>
+      <div class="action-row">
+        <button class="secondary-btn" onclick="resetDnd()">↺ เริ่มจับคู่ใหม่</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 10: BandLab Interface on Mobile -->
+  <section class="slide" data-part="BandLab บนมือถือ">
+    <div class="slide-inner">
+      <span class="section-num">PART 05 · APP INTERFACE</span>
+      <h2>📱 โครงสร้างหน้าจอหลักในแอป BandLab Mobile</h2>
+      <p style="margin-bottom:16px;">วันนี้เราจะเข้าแอปทำผลงานครั้งแรก จึงเรียนรู้เฉพาะปุ่มควบคุมหลักที่จำเป็นต่อการบรรลุเป้าหมายเท่านั้น:</p>
+      
+      <div class="card-grid card-grid-3">
+        <div class="glass-card" style="border-top:3px solid var(--purple);">
+          <h3 style="color:var(--purple);">➕ ปุ่มเพิ่มแทร็กใหม่ (Add Track)</h3>
+          <p style="font-size:0.92em; line-height:1.6; margin-bottom:0;">กดปุ่ม <strong>[+]</strong> ตัวเล็กเพื่อสร้าง Track ใหม่ โดยในคาบนี้เราจะเน้นใช้งาน <strong>"BandLab Sounds / Loops"</strong> เพื่อเปิดคลังดนตรีพร้อมใช้นับแสนชิ้นดึงเข้ามาเล่นใน Timeline ทันที</p>
+        </div>
+        <div class="glass-card" style="border-top:3px solid var(--teal);">
+          <h3 style="color:var(--teal);">📂 หน้าโครงสร้างห้อง (Studio Grid)</h3>
+          <p style="font-size:0.92em; line-height:1.6; margin-bottom:0;">เป็นหน้ากระดาษทำงานหลัก (Timeline Screen) เมื่อเราดึงเสียงลูปเข้ามา บล็อกสี่เหลี่ยมสีๆ จะมาวางเรียงกัน เราสามารถใช้สองนิ้วจีบย่อ-ขยายหน้าจอเพื่อดูท่อนเพลงภาพรวมได้สะดวก</p>
+        </div>
+        <div class="glass-card" style="border-top:3px solid var(--gold-dark);">
+          <h3 style="color:var(--gold-dark);">🎛️ แผงควบคุมเสียง (Track Mixer)</h3>
+          <p style="font-size:0.92em; line-height:1.6; margin-bottom:0;">แตะปุ่มสัญลักษณ์สไลเดอร์ขนาดเล็กด้านซ้ายล่าง เพื่อสไลด์หน้าบานพับสำหรับปรับความดัง-เบา (Volume) ของแต่ละเครื่องดนตรี และคอยเปิด/ปิด Mute สังเกตความกลมกลืน</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 11: 6 Steps to Create First Song -->
+  <section class="slide" data-part="ขั้นตอนการทำงาน">
+    <div class="slide-inner">
+      <span class="section-num">PART 05 · HANDS-ON TUTORIAL</span>
+      <h2>🛠️ 6 ขั้นตอนลงมือสร้างเพลงบีตแรกด้วยมือถือ</h2>
+      <p style="margin-bottom:14px;">แตะดูรายละเอียดที่ละข้อแล้วใช้นิ้วเลื่อนทำไปพร้อมกันบนสมาร์ทโฟนของตัวเอง:</p>
+      
+      <div class="steps-container" id="stepsNav">
+        <div class="step-dot active" onclick="showStep(0)">1. เปิดและสร้าง</div>
+        <div class="step-dot" onclick="showStep(1)">2. เพิ่มบีตกลอง</div>
+        <div class="step-dot" onclick="showStep(2)">3. ใส่ดนตรีชั้นที่ 2</div>
+        <div class="step-dot" onclick="showStep(3)">4. จัดเรียง Timeline</div>
+        <div class="step-dot" onclick="showStep(4)">5. มิกซ์ปรับระดับเสียง</div>
+        <div class="step-dot" onclick="showStep(5)">6. บันทึก & ส่งลิงก์</div>
+      </div>
+      
+      <div id="stepsContent">
+        <!-- Step 1 -->
+        <div class="step-content active glass-card" style="border-left:4px solid var(--purple);">
+          <h3 style="color:var(--purple);">ขั้นตอนที่ 1: เปิดแอปและสร้างโปรเจกต์ใหม่</h3>
+          <p>เปิดแอปพลิเคชัน <strong>BandLab</strong> บนมือถือ (โหลดได้ฟรีจาก App Store หรือ Play Store)</p>
+          <ul style="padding-left:20px; font-size:0.95em;">
+            <li>จิ้มปุ่ม <strong>[+] (สีส้มแดง)</strong> บนขอบล่างหน้าต่าง เพื่อทำการเลือกเครื่องมือ</li>
+            <li>เลือกหมวดหมู่ <strong>Studio</strong> เพื่อเปิดหน้าพื้นที่การทำเพลงเปล่า</li>
+            <li>จะมีหน้าต่างป๊อปอัปเด้งถามประเภทแทร็ก ให้เลือกเป็น <strong>BandLab Sounds</strong> หรือ <strong>Loops</strong></li>
+          </ul>
+        </div>
+        <!-- Step 2 -->
+        <div class="step-content glass-card" style="border-left:4px solid var(--teal);">
+          <h3 style="color:var(--teal);">ขั้นตอนที่ 2: ดึงเสียงบีตกลอง (Drum Track 1)</h3>
+          <p>กลองเป็นกระดูกสันหลังคุมจังหวะของเพลง เราจะต้องวางเป็นฐานก่อน:</p>
+          <ul style="padding-left:20px; font-size:0.95em;">
+            <li>ในหน้าต่าง BandLab Sounds หรือ Loops ให้เลือกลองค้นหาสไตล์ เช่น <em>"Hip Hop Beats"</em>, <em>"Lo-Fi Drums"</em>, หรือ <em>"Pop Beat"</em></li>
+            <li>จิ้มปุ่มรูปคลื่นเสียงเพื่อลองเปิดฟังตัวอย่างเสียงลูปกลองที่ชอบ</li>
+            <li>แตะลากจูงลูปกลองชิ้นที่ถูกใจที่สุดเข้ามาวางปล่อยที่ <strong>Track 1</strong> บน Timeline</li>
+          </ul>
+        </div>
+        <!-- Step 3 -->
+        <div class="step-content glass-card" style="border-left:4px solid var(--gold-dark);">
+          <h3 style="color:var(--gold-dark);">ขั้นตอนที่ 3: ใส่เครื่องดนตรีชิ้นที่ 2 (Track 2)</h3>
+          <p>เติมเต็มแซนด์วิชเสียงด้วยวัตถุดิบชั้นถัดไป:</p>
+          <ul style="padding-left:20px; font-size:0.95em;">
+            <li>กดปุ่ม <strong>[+]</strong> ตัวเล็กใต้แทร็กแรก เพื่อเพิ่มเลนเสียงใหม่</li>
+            <li>เลือกหมวดเสียงอื่น ๆ เข้ามาเสริม เช่น ไลน์เบส (Bass) ทุ้มลึก, พาร์ทเปียโน/คอร์ดคีย์บอร์ด (Chords/Synth), หรือเสียงทำนองกีตาร์ (Melody)</li>
+            <li><strong>เงื่อนไข:</strong> จะเลือกเครื่องดนตรีประเภทใดก็ได้ ขอให้เข้ากับจังหวะกลองแทร็กที่ 1 แล้วลากก้อนเสียงมาใส่ในแทร็กใหม่นี้</li>
+          </ul>
+        </div>
+        <!-- Step 4 -->
+        <div class="step-content glass-card" style="border-left:4px solid var(--rose);">
+          <h3 style="color:var(--rose);">ขั้นตอนที่ 4: จัดระเบียบความยาว 4–8 ห้องเพลง (Bars)</h3>
+          <p>ก้อนคลิปเสียงจะต้องอยู่ในสัดส่วนจังหวะที่ลงตัวต่อเนื่อง:</p>
+          <ul style="padding-left:20px; font-size:0.95em;">
+            <li>มองที่ไม้บรรทัดบอกแถบเวลา (Timeline Grid Ruler) สังเกตตัวเลขห้องเพลง `1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9`</li>
+            <li>แตะที่หัวขอบกล่องคลิปเสียง ลากขยายออกขวาเพื่อให้ก้อนคลิปเล่นวนไปเรื่อย ๆ</li>
+            <li>ตรวจสอบให้บล็อกเสียงกลองและเบสขยายยาวพาดตั้งแต่ <strong>ห้องที่ 1 สิ้นสุดที่ห้องที่ 8 หรือ 9</strong> เพื่อจบบล็อกจังหวะ</li>
+          </ul>
+        </div>
+        <!-- Step 5 -->
+        <div class="step-content glass-card" style="border-left:4px solid var(--purple);">
+          <h3 style="color:var(--purple);">ขั้นตอนที่ 5: ตรวจมิกซ์ระดับระดับเสียง (Mix Volume)</h3>
+          <p>การผสมรวมตัวกันของคลื่นเสียงที่ดีต้องไม่มีอะไรกลบหรือดังเกินขีด:</p>
+          <ul style="padding-left:20px; font-size:0.95em;">
+            <li>กดปุ่ม <strong>Play (▶)</strong> เพื่อเริ่มเปิดบรรเลงเสียงในระบบวนซ้ำ</li>
+            <li>กดปุ่ม Mixer เพื่อดึงระดับความดังแต่ละช่องขึ้นมาเปรียบเทียบ</li>
+            <li>ปัดระดับเสียงลง เช่น ก้อนกลองดังเกินไปให้สไลด์ลดลง, ไลน์ประสานเบสเบาจนกลบให้เลื่อนเพิ่ม เพื่อจัดระเบียบให้เสียงสมดุล</li>
+          </ul>
+        </div>
+        <!-- Step 6 -->
+        <div class="step-content glass-card" style="border-left:4px solid var(--teal);">
+          <h3 style="color:var(--teal);">ขั้นตอนที่ 6: การบันทึกโครงการและคัดลอกลิงก์ผลงาน</h3>
+          <p>จัดระบบข้อมูลและส่งหลักฐานความสำเร็จให้ครูตรวจประเมินผล:</p>
+          <ul style="padding-left:20px; font-size:0.95em;">
+            <li>จิ้มปุ่ม <strong>เมนูเมฆ / บันทึก (Cloud/Save)</strong> บนขวา เลือกหัวข้อ <strong>Save</strong></li>
+            <li>ทำการตั้งชื่อโครงการดนตรีตามฟอร์แมตบังคับ: <code>เลขที่_ชื่อ_FirstBeat</code> (เช่น <code>24_สมชาย_FirstBeat</code>)</li>
+            <li>ไปที่แผงบัญชีหน้าแรกของตัวเอง จิ้มที่เพลงแล้วเลือก <strong>Share -> Copy Link</strong> หรือถ่ายภาพ Screenshot หน้าจอไทม์ไลน์แบบเห็นขอบ 8 Bars แล้วนำมาส่งคุณครูผ่านช่องทางแชร์คลาส</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 12: Mission Card (My First 8-Bar Beat) -->
+  <section class="slide" data-part="ภารกิจและเกณฑ์ประเมิน">
+    <div class="slide-inner">
+      <span class="section-num">PART 06 · CLASS MISSION</span>
+      
+      <div class="mission-card">
+        <div class="mission-icon">🏆</div>
+        <h2>ภารกิจเดี่ยว: My First 8-Bar Beat</h2>
+        <p style="color:var(--gold-dark); font-weight:600; margin-bottom:8px;">“สร้างบีตดนตรี 8 ห้องเพลงชิ้นแรกบน BandLab”</p>
+        <p style="font-size:0.95em; line-height:1.6; margin-bottom:12px;">ให้นักเรียนใช้อุปกรณ์เคลื่อนที่ส่วนตัว ดาวน์โหลดใช้งานแอป BandLab แล้วเนรมิตผลงานดนตรีขึ้นมาอย่างน้อย 1 ชิ้นตามกฎเกณฑ์ข้อกำหนดด้านล่าง เพื่อเปิดโอกาสให้ได้ทดลองปฏิบัติงานกับ DAW เป็นครั้งแรกในชีวิต:</p>
+        
+        <div class="mission-steps">
+          <div class="mission-step">
+            <div class="step-num">1</div>
+            <p><strong>จำนวน Tracks 2 ช่องขึ้นไป</strong><br>ประกอบด้วยแทร็กบีตกลองอย่างน้อย 1 ไลน์ และเสียงเครื่องดนตรีอื่น 1 ไลน์ (เบส, คอร์ด, เมโลดี้ หรือท่อนร้อง)</p>
+          </div>
+          <div class="mission-step">
+            <div class="step-num">2</div>
+            <p><strong>ขนาดความยาว 4–8 Bars</strong><br>ตัวคลิปดนตรีต้องจัดวางลากครอบจังหวะเริ่มตั้งแต่ห้องที่ 1 ต่อเนื่องไปจนจบห้องที่ 8 บนเส้นขอบไม้บรรทัด</p>
+          </div>
+          <div class="mission-step">
+            <div class="step-num">3</div>
+            <p><strong>ตั้งชื่อระบบและจัดส่งไฟล์</strong><br>เซฟส่งโดยแก้ชื่อโปรเจกต์ดนตรีเป็น: <code>เลขที่_ชื่อ_FirstBeat</code> จากนั้นแชร์ลิงก์หรือถ่ายภาพจอส่งครู</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 13: Grading Rubric -->
+  <section class="slide" data-part="ภารกิจและเกณฑ์ประเมิน">
+    <div class="slide-inner">
+      <span class="section-num">PART 06 · ASSESSMENTS</span>
+      <h2>📋 เกณฑ์ประเมินและรูบริกให้คะแนน</h2>
+      <p style="margin-bottom:12px;">ตรวจสอบความเรียบร้อยของชิ้นงานดนตรีก่อนทำการจัดเก็บส่งเพื่อรับคะแนนเต็ม 100 คะแนน:</p>
+      
+      <table class="score-table">
+        <thead>
+          <tr>
+            <th>ประเด็นประเมิน</th>
+            <th>เงื่อนไขรับคะแนนเต็ม (100 คะแนน)</th>
+            <th class="score-col" style="width:110px;">คะแนนเต็ม</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>🎼 โครงสร้างและจำนวน Track</strong><br><small style="color:var(--text-muted);">การแยกแยะเสียงเครื่องดนตรี</small></td>
+            <td>เพิ่มชิ้นงานแยกเป็น 2 Tracks ได้จริง (บีตกลอง 1 ชิ้น และไลน์เสียงอื่น 1 ชิ้น) คอนเซปต์ Multi-track ถูกต้อง</td>
+            <td class="score-col" style="color:var(--purple);">25</td>
+          </tr>
+          <tr>
+            <td><strong>⏱️ การจัดเรียงและจังหวะเวลา</strong><br><small style="color:var(--text-muted);">ความยาวบีตและการวางตาราง</small></td>
+            <td>ลากวางคลิปเสียงใน Timeline ตรงห้อง มีจังหวะสอดประสานกันดี ความยาว 4–8 ห้องดนตรีต่อเนื่องกัน</td>
+            <td class="score-col" style="color:var(--teal);">25</td>
+          </tr>
+          <tr>
+            <td><strong>🎛️ ความสมดุลของระดับเสียง (Mix)</strong><br><small style="color:var(--text-muted);">ระดับความดัง-เบาไม่ล้นขีดแดง</small></td>
+            <td>ระดับเสียงเฉลี่ยสมดุล ไม่มีแทร็กไหนหนวกหูเกินไปจนแตกพร่า (Clip) หรือเบาจนเครื่องมือกลืนหายไปหมด</td>
+            <td class="score-col" style="color:var(--gold-dark);">25</td>
+          </tr>
+          <tr>
+            <td><strong>📋 การตั้งชื่อและการจัดส่งงาน</strong><br><small style="color:var(--text-muted);">ความถูกต้องของรูปแบบส่งงาน</small></td>
+            <td>ตั้งชื่อโปรเจกต์ถูกต้องตามฟอร์แมต <code>เลขที่_ชื่อ_FirstBeat</code> และนำลิงก์หรือรูปจอมาวางส่งสำเร็จตามเวลา</td>
+            <td class="score-col" style="color:var(--rose);">25</td>
+          </tr>
+          <tr style="background:#f9fbf8; font-weight:bold;">
+            <td colspan="2" style="text-align:right;">คะแนนรวมทั้งสิ้น</td>
+            <td class="score-col" style="font-size:1.1em; color:var(--teal);">100</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Slide 14: Takeaway Summary -->
+  <section class="slide" data-part="สรุปท้ายคาบ">
+    <div class="slide-inner">
+      <span class="section-num">PART 07 · TAKEAWAY SUMMARY</span>
+      <h2>📋 สรุปเนื้อหาสำคัญและแนวทางต่อไป</h2>
+      <p style="margin-bottom:15px;">สรุปองค์ความรู้เรื่องการใช้เครื่องมือทำดนตรีดิจิทัลที่เราได้ร่วมลงมือปฏิบัติในวันนี้:</p>
+      
+      <div class="card-grid card-grid-3">
+        <div class="glass-card" style="border-top:3px solid var(--purple);">
+          <h3 style="color:var(--purple);">1. DAW & Multi-track</h3>
+          <p style="font-size:0.92em; line-height:1.6; margin-bottom:0;">DAW เปรียบเหมือนโต๊ะทำงานเพลง เสียงเพลงประกอบขึ้นจากเสียงแยกช่องเรียกว่า <strong>Track</strong> ที่มีทั้งจังหวะกลอง (ฐาน), เบส (โครงสร้าง), คอร์ด (อารมณ์) และทำนองหลัก (การสื่อสาร)</p>
+        </div>
+        <div class="glass-card" style="border-top:3px solid var(--teal);">
+          <h3 style="color:var(--teal);">2. Core Terminology</h3>
+          <p style="font-size:0.92em; line-height:1.6; margin-bottom:0;">ต้องตอบได้ขึ้นใจว่า <strong>Timeline</strong> คือเวลาหลัก, <strong>Loop</strong> คือลูปดนตรีสั้นวนซ้ำได้, <strong>Clip</strong> คือกล่องคลิปสี่เหลี่ยมบนแผ่นงาน และ <strong>Bar</strong> คือห้องแบ่งสัดส่วนจังหวะดนตรี</p>
+        </div>
+        <div class="glass-card" style="border-top:3px solid var(--gold-dark); background: rgba(143,113,57,0.03);">
+          <h3 style="color:var(--gold-dark);">🚀 คาบต่อไปเรียนรู้อะไร?</h3>
+          <p style="font-size:0.92em; line-height:1.6; margin-bottom:0;">เราได้เรียนรู้วิธีลากวางลูปสำเร็จรูปแล้ว คาบถัดไปเราจะมาเจาะลึก <strong>Arrangement</strong> (การแบ่งโครงสร้างเพลง Intro -> Verse -> Hook) รวมถึงหัดป้อนโน้ตทำนองแบบเมโลดี้ด้วยเครื่องดนตรีสดด้วยตัวเอง!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 15: Exit Ticket (Reflection Card) -->
+  <section class="slide" data-part="สรุปท้ายคาบ">
+    <div class="slide-inner">
+      <span class="section-num">PART 07 · EXIT TICKET</span>
+      <h2>📋 กิจกรรมสะท้อนคิดหลังเรียน (Exit Ticket)</h2>
+      <p style="margin-bottom:12px;">ให้นักเรียนกรอกคำตอบสั้นๆ ลงในแบบฟอร์มด้านล่าง จากนั้นกดปุ่มส่งออกข้อมูลเพื่อส่งให้คุณครูตรวจประเมินก่อนออกจากคาบเรียน:</p>
+      
+      <div class="reflection-card" id="exitTicketActivity">
+        <div class="card-grid card-grid-2">
+          <div class="form-group">
+            <label for="q1">1. ในคำจำกัดความของนักเรียน DAW คืออะไร และนำมาประยุกต์ทำประโยชน์อะไรได้บ้าง?</label>
+            <textarea class="reflection-textarea" id="q1" placeholder="เขียนคำตอบที่นี่..." data-storage-key="bandlab-exit-q1"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="q2">2. คำศัพท์คำว่า Track, Loop และ Timeline มีบทบาทสำคัญและแตกต่างกันอย่างไรในการทำเพลง?</label>
+            <textarea class="reflection-textarea" id="q2" placeholder="เขียนคำตอบที่นี่..." data-storage-key="bandlab-exit-q2"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="q3">3. ผลงานบีต 'My First 8-Bar Beat' ของนักเรียนใช้เสียงและเครื่องดนตรีอะไรบ้าง และทำไมถึงเลือกสไตล์นี้?</label>
+            <textarea class="reflection-textarea" id="q3" placeholder="เขียนคำตอบที่นี่..." data-storage-key="bandlab-exit-q3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="q4">4. ปัญหาที่ใหญ่ที่สุดที่พบในการทำเพลงบนจอโทรศัพท์มือถือวันนี้คืออะไร และแก้ปัญหานั้นอย่างไร?</label>
+            <textarea class="reflection-textarea" id="q4" placeholder="เขียนคำตอบที่นี่..." data-storage-key="bandlab-exit-q4"></textarea>
+          </div>
+        </div>
+        
+        <div class="action-row" style="margin-top:16px;">
+          <button class="primary-btn" onclick="exportExitTicket()">⇩ ส่งออก/ดาวน์โหลดบันทึกคำตอบ (.txt)</button>
+          <button class="secondary-btn" onclick="clearExitTicket()">↺ ล้างคำตอบเพื่อเริ่มใหม่</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 16: End Slide -->
+  <section class="slide end-slide" data-part="จบบทเรียน">
+    <div class="slide-inner">
+      <span class="music-icon" aria-hidden="true">🎶</span>
+      <h1 class="gradient-text">สร้างสรรค์บีตแรกสำเร็จแล้ว!</h1>
+      <p style="font-size:1.35em; color:var(--purple); font-weight: 500; max-width:800px; margin: 0 auto 24px;">"ดนตรีไม่มีถูกผิด มีเพียงเสียงที่ชอบ ในเวลาที่ใช่"</p>
+      
+      <div style="max-width:600px; margin:0 auto; padding:20px 28px; background:#fff; border:1px solid var(--border-glass); border-radius:var(--radius); box-shadow:var(--shadow-soft);">
+        <p style="font-size:0.95em; margin-bottom:6px; color:var(--text-secondary); font-weight:500;">📚 แหล่งเรียนรู้เพิ่มเติมเพื่อพัฒนาฝีมือต่อ:</p>
+        <p style="font-size:0.92em; margin-bottom:0; font-family:var(--font-en);"><a href="https://help.bandlab.com/" target="_blank" style="color:var(--teal); font-weight:600;">help.bandlab.com</a> &nbsp;|&nbsp; <a href="https://www.youtube.com/@BandLab" target="_blank" style="color:var(--teal); font-weight:600;">youtube.com/@BandLab</a></p>
+      </div>
+
+      <div style="margin-top:28px; font-size:0.95em; color:var(--text-secondary); text-align:center;">
+        ครูผู้สอน: <strong>นายเอกณัฐ ลุผลแท้</strong><br>
+        <small style="color:var(--text-muted); font-size:0.88em;">วิชาเทคโนโลยีดนตรี ม.6 · กลุ่มสาระการเรียนรู้ศิลปะ (ดนตรีสากล)</small>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+/* ========== SLIDE ENGINE ========== */
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+let currentSlide = 0;
+let toastTimer = null;
+
+function showSlide(n) {
+  if (n < 0 || n >= totalSlides) return;
+  
+  // Pause Web Audio sequencer if active when moving away from sequencer slide
+  if (currentSlide === 6 && n !== 6) {
+    if (isPlaying) {
+      toggleAudioLoop();
+    }
+  }
+
+  slides.forEach((s, i) => {
+    s.classList.remove('active', 'prev');
+    if (i < n) s.classList.add('prev');
+  });
+  slides[n].classList.add('active');
+  currentSlide = n;
+  
+  // Progress bar
+  document.getElementById('progressFill').style.width = ((n + 1) / totalSlides * 100) + '%';
+  // Counter
+  document.getElementById('slideCounter').textContent = (n + 1) + ' / ' + totalSlides;
+  // Part indicator
+  const part = slides[n].getAttribute('data-part');
+  document.getElementById('partIndicator').textContent = part || '';
+  document.getElementById('prevBtn').disabled = n === 0;
+  document.getElementById('nextBtn').disabled = n === totalSlides - 1;
+  
+  document.querySelectorAll('.slide-jump').forEach((btn, i) => btn.classList.toggle('active', i === n));
+  
+  // Scroll to top
+  slides[n].scrollTop = 0;
+  history.replaceState(null, '', '#slide-' + (n + 1));
+}
+
+function nextSlide() { showSlide(currentSlide + 1); }
+function prevSlide() { showSlide(currentSlide - 1); }
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+  const menuOpen = document.getElementById('slideMenu').classList.contains('open');
+  if (e.key === 'Escape') {
+    toggleSlideMenu(false);
+    return;
+  }
+  if (menuOpen) return;
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+  if (e.key === 'Home') { e.preventDefault(); showSlide(0); }
+  if (e.key === 'End') { e.preventDefault(); showSlide(totalSlides - 1); }
+});
+
+// Touch swipe support
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', e => {
+  // Ignore swipe if touching inside slider range inputs or canvas elements to allow sliders and canvas to function
+  if (e.target.closest('input[type="range"]') || e.target.closest('canvas')) return;
+  const diff = touchStartX - e.changedTouches[0].screenX;
+  if (Math.abs(diff) > 50) { diff > 0 ? nextSlide() : prevSlide(); }
+});
+
+function getSlideTitle(slide, index) {
+  const titleEl = slide.querySelector('h1, h2');
+  const part = slide.getAttribute('data-part') || 'บทเรียน';
+  const title = titleEl ? titleEl.textContent.replace(/\s+/g, ' ').trim() : part;
+  return { part, title: title.slice(0, 96), number: index + 1 };
+}
+
+function buildSlideMenu() {
+  const list = document.getElementById('slideList');
+  list.innerHTML = '';
+  slides.forEach((slide, index) => {
+    const info = getSlideTitle(slide, index);
+    const btn = document.createElement('button');
+    btn.className = 'slide-jump';
+    btn.type = 'button';
+    btn.innerHTML = '<small>สไลด์ ' + info.number + ' · ' + info.part + '</small>' + info.title;
+    btn.addEventListener('click', () => {
+      showSlide(index);
+      toggleSlideMenu(false);
+    });
+    list.appendChild(btn);
+  });
+}
+
+function toggleSlideMenu(force) {
+  const menu = document.getElementById('slideMenu');
+  const shouldOpen = typeof force === 'boolean' ? force : !menu.classList.contains('open');
+  menu.classList.toggle('open', shouldOpen);
+  if (shouldOpen) {
+    const active = menu.querySelector('.slide-jump.active') || menu.querySelector('.slide-jump');
+    if (active) active.focus();
+  }
+}
+
+document.getElementById('slideMenu').addEventListener('click', e => {
+  if (e.target.id === 'slideMenu') toggleSlideMenu(false);
+});
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+// Global Toast helper
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+function getInitialSlide() {
+  const match = window.location.hash.match(/slide-(\d+)/);
+  if (!match) return 0;
+  const index = Number(match[1]) - 1;
+  return Number.isInteger(index) && index >= 0 && index < totalSlides ? index : 0;
+}
+
+/* ========== INTERACTIVE POLL ========== */
+function vote(btn, choice) {
+  const container = btn.closest('.poll-container');
+  if (!container) return;
+  const btns = container.querySelectorAll('.poll-btn');
+  const key = 'votes' + choice.charAt(0).toUpperCase() + choice.slice(1);
+  container.dataset[key] = String((Number(container.dataset[key]) || 0) + 1);
+  btns.forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  updatePoll(container);
+  showToast('ขอบคุณสำหรับคะแนนร่วมแสดงความเห็นครับ!');
+}
+
+function updatePoll(container) {
+  const btns = [...container.querySelectorAll('.poll-btn')];
+  const keys = ['Drums', 'Bass', 'Chords', 'Melody'];
+  const total = keys.reduce((sum, key) => sum + (Number(container.dataset['votes' + key]) || 0), 0);
+  
+  btns.forEach((b, index) => {
+    const key = 'votes' + keys[index];
+    const count = Number(container.dataset[key]) || 0;
+    const pct = total ? Math.round((count / total) * 100) : 0;
+    b.querySelector('.poll-bar').style.width = pct + '%';
+    b.querySelector('.poll-pct').textContent = total ? count + ' คน · ' + pct + '%' : '';
+    b.classList.toggle('voted', total > 0);
+  });
+}
+
+function resetPoll(id) {
+  const container = document.getElementById(id);
+  if (!container) return;
+  const keys = ['Drums', 'Bass', 'Chords', 'Melody'];
+  keys.forEach(key => {
+    container.dataset['votes' + key] = '0';
+  });
+  container.querySelectorAll('.poll-btn').forEach(btn => {
+    btn.classList.remove('selected', 'voted');
+    btn.querySelector('.poll-bar').style.width = '0%';
+    btn.querySelector('.poll-pct').textContent = '';
+  });
+  showToast('เริ่มโหวตใหม่แล้ว');
+}
+
+/* ========== FLIP CARD (handled via click) ========== */
+document.querySelectorAll('.flip-card').forEach(card => {
+  card.tabIndex = 0;
+  card.setAttribute('role', 'button');
+  card.addEventListener('click', () => card.classList.toggle('flipped'));
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      card.classList.toggle('flipped');
+    }
+  });
+});
+
+/* ========== TABS ========== */
+function showTab(e, id) {
+  const btn = e.currentTarget || e.target;
+  const parent = btn.closest('.slide-inner');
+  parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  parent.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+/* ========== STEPS ========== */
+function showStep(n) {
+  const dots = document.querySelectorAll('#stepsNav .step-dot');
+  const contents = document.querySelectorAll('#stepsContent .step-content');
+  dots.forEach((d, i) => d.classList.toggle('active', i === n));
+  contents.forEach((c, i) => c.classList.toggle('active', i === n));
+}
+
+/* ========== WEB AUDIO SEQUENCER SIMULATOR ========== */
+let audioCtx = null;
+let isPlaying = false;
+let currentStep = 0;
+let nextNoteTime = 0.0;
+let timerId = null;
+const tempo = 120.0; // BPM
+const lookahead = 25.0; // milliseconds
+const scheduleAheadTime = 0.1; // seconds
+
+// Channels State
+const drumsState = { volume: 0.8, muted: false, soloed: false };
+const bassState = { volume: 0.7, muted: false, soloed: false };
+const melodyState = { volume: 0.6, muted: false, soloed: false };
+
+let drumsMaster = null, bassMaster = null, melodyMaster = null;
+let drumsAnalyser = null, bassAnalyser = null, melodyAnalyser = null;
+let animationFrameId = null;
+
+function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  
+  // Setup Master Track gains
+  drumsMaster = audioCtx.createGain();
+  bassMaster = audioCtx.createGain();
+  melodyMaster = audioCtx.createGain();
+  
+  // Setup AnalyserNodes for level meters
+  drumsAnalyser = audioCtx.createAnalyser();
+  bassAnalyser = audioCtx.createAnalyser();
+  melodyAnalyser = audioCtx.createAnalyser();
+  
+  drumsAnalyser.fftSize = 64;
+  bassAnalyser.fftSize = 64;
+  melodyAnalyser.fftSize = 64;
+  
+  // Route audio: Source -> MasterGain -> Analyser -> Output
+  drumsMaster.connect(drumsAnalyser);
+  bassMaster.connect(bassAnalyser);
+  melodyMaster.connect(melodyAnalyser);
+  
+  drumsAnalyser.connect(audioCtx.destination);
+  bassAnalyser.connect(audioCtx.destination);
+  melodyAnalyser.connect(audioCtx.destination);
+  
+  updateMixerGains();
+}
+
+function updateMixerGains() {
+  if (!audioCtx) return;
+  
+  // Solo logic checks
+  const isAnySoloed = drumsState.soloed || bassState.soloed || melodyState.soloed;
+  
+  const calculateVolume = (state, trackName) => {
+    if (state.muted) return 0;
+    if (isAnySoloed && !state.soloed) return 0;
+    return state.volume;
+  };
+  
+  drumsMaster.gain.setValueAtTime(calculateVolume(drumsState, 'drums'), audioCtx.currentTime);
+  bassMaster.gain.setValueAtTime(calculateVolume(bassState, 'bass'), audioCtx.currentTime);
+  melodyMaster.gain.setValueAtTime(calculateVolume(melodyState, 'melody'), audioCtx.currentTime);
+}
+
+// Sound Generators
+function playKick(time) {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(drumsMaster);
+  
+  osc.frequency.setValueAtTime(150, time);
+  osc.frequency.exponentialRampToValueAtTime(45, time + 0.15);
+  
+  gain.gain.setValueAtTime(1.0, time);
+  gain.gain.exponentialRampToValueAtTime(0.01, time + 0.15);
+  
+  osc.start(time);
+  osc.stop(time + 0.16);
+}
+
+function playSnare(time) {
+  // Tone oscillator
+  const osc1 = audioCtx.createOscillator();
+  const gain1 = audioCtx.createGain();
+  osc1.type = 'triangle';
+  osc1.frequency.setValueAtTime(180, time);
+  osc1.frequency.linearRampToValueAtTime(90, time + 0.1);
+  gain1.gain.setValueAtTime(0.7, time);
+  gain1.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
+  osc1.connect(gain1);
+  gain1.connect(drumsMaster);
+  osc1.start(time);
+  osc1.stop(time + 0.1);
+  
+  // Noise-like snappy oscillator (retro chiptune style snare)
+  const osc2 = audioCtx.createOscillator();
+  const gain2 = audioCtx.createGain();
+  osc2.type = 'sawtooth';
+  osc2.frequency.setValueAtTime(950, time);
+  gain2.gain.setValueAtTime(0.4, time);
+  gain2.gain.exponentialRampToValueAtTime(0.01, time + 0.14);
+  osc2.connect(gain2);
+  gain2.connect(drumsMaster);
+  osc2.start(time);
+  osc2.stop(time + 0.14);
+}
+
+function playHihat(time) {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(9000, time);
+  
+  gain.gain.setValueAtTime(0.25, time);
+  gain.gain.exponentialRampToValueAtTime(0.01, time + 0.04);
+  
+  osc.connect(gain);
+  gain.connect(drumsMaster);
+  osc.start(time);
+  osc.stop(time + 0.04);
+}
+
+function playBass(time, freq) {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(freq, time);
+  osc.frequency.linearRampToValueAtTime(freq - 4, time + 0.22);
+  
+  gain.gain.setValueAtTime(0.8, time);
+  gain.gain.exponentialRampToValueAtTime(0.01, time + 0.22);
+  
+  osc.connect(gain);
+  gain.connect(bassMaster);
+  osc.start(time);
+  osc.stop(time + 0.23);
+}
+
+function playMelody(time, freq) {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  const filter = audioCtx.createBiquadFilter();
+  
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(1200, time);
+  filter.frequency.exponentialRampToValueAtTime(400, time + 0.3);
+  
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq, time);
+  
+  gain.gain.setValueAtTime(0.55, time);
+  gain.gain.exponentialRampToValueAtTime(0.01, time + 0.32);
+  
+  osc.connect(filter);
+  filter.connect(gain);
+  gain.connect(melodyMaster);
+  osc.start(time);
+  osc.stop(time + 0.35);
+}
+
+// Melody notes array (E4, -, D4, -, C4, -, D4, -, E4, -, E4, -, E4, -, -, -)
+const melodyNotes = [
+  329.63, 0, 293.66, 0, 261.63, 0, 293.66, 0,
+  329.63, 0, 329.63, 0, 329.63, 0, 0, 0
+];
+
+function scheduleNote(step, time) {
+  // Drums Channel (Track 1)
+  if (step === 0 || step === 8) playKick(time);
+  if (step === 4 || step === 12) playSnare(time);
+  if (step === 2 || step === 6 || step === 10 || step === 14) playHihat(time);
+  
+  // Bass Channel (Track 2)
+  if (step % 2 === 0) {
+    let freq = 65.41; // C2 default (beats 1-2)
+    if (step >= 8 && step < 12) {
+      freq = 49.00; // G1 (beats 3)
+    } else if (step >= 12) {
+      freq = 43.65; // F1 (beat 4)
+    }
+    playBass(time, freq);
+  }
+  
+  // Melody Channel (Track 3)
+  const melFreq = melodyNotes[step];
+  if (melFreq > 0) {
+    playMelody(time, melFreq);
+  }
+}
+
+function nextStep() {
+  const secondsPerBeat = 60.0 / tempo;
+  const secondsPerStep = secondsPerBeat / 2; // eighth notes (0.25 sec per step)
+  nextNoteTime += secondsPerStep;
+  currentStep = (currentStep + 1) % 16;
+}
+
+function scheduler() {
+  while (nextNoteTime < audioCtx.currentTime + scheduleAheadTime) {
+    scheduleNote(currentStep, nextNoteTime);
+    
+    // UI Update callback for steps sync
+    const stepVal = currentStep;
+    const timeVal = nextNoteTime;
+    setTimeout(() => {
+      document.getElementById('mockupStepText').textContent = 'Step ' + (stepVal + 1) + '/16';
+    }, (timeVal - audioCtx.currentTime) * 1000);
+    
+    nextStep();
+  }
+  timerId = setTimeout(scheduler, lookahead);
+}
+
+function toggleAudioLoop() {
+  initAudio();
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  
+  const playBtnMixer = document.getElementById('mixerPlayBtn');
+  const playBtnPhone = document.getElementById('phonePlayBtn');
+  const playhead = document.getElementById('playhead');
+  
+  if (!isPlaying) {
+    isPlaying = true;
+    currentStep = 0;
+    nextNoteTime = audioCtx.currentTime + 0.05;
+    scheduler();
+    
+    playBtnMixer.textContent = '⏸ หยุด Loop';
+    playBtnMixer.style.background = 'var(--red)';
+    playBtnPhone.textContent = '⏸';
+    playBtnPhone.classList.add('playing');
+    playhead.classList.add('playing');
+    
+    // Start canvas animation meters
+    drawMeters();
+  } else {
+    isPlaying = false;
+    clearTimeout(timerId);
+    
+    playBtnMixer.textContent = '▶ เล่นบีตจำลอง';
+    playBtnMixer.style.background = 'var(--teal)';
+    playBtnPhone.textContent = '▶';
+    playBtnPhone.classList.remove('playing');
+    playhead.classList.remove('playing');
+    
+    cancelAnimationFrame(animationFrameId);
+  }
+}
+
+// Mixer Adjusters
+function updateMixVolume(track, val) {
+  const value = parseFloat(val);
+  if (track === 'drums') drumsState.volume = value;
+  if (track === 'bass') bassState.volume = value;
+  if (track === 'melody') melodyState.volume = value;
+  updateMixerGains();
+}
+
+function toggleMute(track) {
+  const btn = document.getElementById('mute' + track.charAt(0).toUpperCase() + track.slice(1));
+  const row = document.getElementById('mock' + track.charAt(0).toUpperCase() + track.slice(1) + 'Row');
+  let muted = false;
+  
+  if (track === 'drums') {
+    drumsState.muted = !drumsState.muted;
+    muted = drumsState.muted;
+  }
+  if (track === 'bass') {
+    bassState.muted = !bassState.muted;
+    muted = bassState.muted;
+  }
+  if (track === 'melody') {
+    melodyState.muted = !melodyState.muted;
+    muted = melodyState.muted;
+  }
+  
+  btn.classList.toggle('active', muted);
+  if (row) row.style.opacity = muted ? '0.3' : '1.0';
+  updateMixerGains();
+  showToast((muted ? 'ปิดเสียง (Mute) ' : 'เปิดเสียง ') + track);
+}
+
+function toggleSolo(track) {
+  const drumsBtn = document.getElementById('soloDrums');
+  const bassBtn = document.getElementById('soloBass');
+  const melodyBtn = document.getElementById('soloMelody');
+  
+  let targetState = false;
+  if (track === 'drums') {
+    drumsState.soloed = !drumsState.soloed;
+    targetState = drumsState.soloed;
+    bassState.soloed = false;
+    melodyState.soloed = false;
+  } else if (track === 'bass') {
+    bassState.soloed = !bassState.soloed;
+    targetState = bassState.soloed;
+    drumsState.soloed = false;
+    melodyState.soloed = false;
+  } else if (track === 'melody') {
+    melodyState.soloed = !melodyState.soloed;
+    targetState = melodyState.soloed;
+    drumsState.soloed = false;
+    bassState.soloed = false;
+  }
+  
+  drumsBtn.classList.toggle('active', drumsState.soloed);
+  bassBtn.classList.toggle('active', bassState.soloed);
+  melodyBtn.classList.toggle('active', melodyState.soloed);
+  
+  updateMixerGains();
+  
+  if (targetState) {
+    showToast('ฟังเฉพาะ (Solo) ' + track);
+  } else {
+    showToast('ปิดโหมด Solo');
+  }
+}
+
+// VU LED Meter Drawer
+function drawLEDMeter(canvasId, analyser) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+  
+  analyser.getByteFrequencyData(dataArray);
+  let sum = 0;
+  for (let i = 0; i < bufferLength; i++) {
+    sum += dataArray[i];
+  }
+  const average = sum / bufferLength;
+  const volumeValue = Math.min(1.0, average / 90.0); // normalize
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  const segments = 12;
+  const gap = 1;
+  const segHeight = (canvas.height - (segments - 1) * gap) / segments;
+  const litCount = Math.round(volumeValue * segments);
+  
+  for (let i = 0; i < segments; i++) {
+    const isLit = (segments - 1 - i) < litCount;
+    
+    if (isLit) {
+      if (i < 2) ctx.fillStyle = 'var(--red)';
+      else if (i < 5) ctx.fillStyle = 'var(--gold)';
+      else ctx.fillStyle = 'var(--green)';
+    } else {
+      ctx.fillStyle = '#e9f0ec';
+    }
+    
+    const y = i * (segHeight + gap);
+    ctx.fillRect(0, y, canvas.width, segHeight);
+  }
+}
+
+function drawMeters() {
+  if (!isPlaying) return;
+  drawLEDMeter('drumsCanvas', drumsAnalyser);
+  drawLEDMeter('bassCanvas', bassAnalyser);
+  drawLEDMeter('melodyCanvas', melodyAnalyser);
+  animationFrameId = requestAnimationFrame(drawMeters);
+}
+
+function resetSequencer() {
+  if (isPlaying) toggleAudioLoop();
+  
+  drumsState.volume = 0.8; drumsState.muted = false; drumsState.soloed = false;
+  bassState.volume = 0.7; bassState.muted = false; bassState.soloed = false;
+  melodyState.volume = 0.6; melodyState.muted = false; melodyState.soloed = false;
+  
+  document.getElementById('volDrums').value = 0.8;
+  document.getElementById('volBass').value = 0.7;
+  document.getElementById('volMelody').value = 0.6;
+  
+  document.querySelectorAll('.mute-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.solo-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.track-row').forEach(row => row.style.opacity = '1.0');
+  
+  // Reset LED meters
+  const clearCanvas = (id) => {
+    const c = document.getElementById(id);
+    if (c) c.getContext('2d').clearRect(0,0,c.width,c.height);
+  };
+  clearCanvas('drumsCanvas');
+  clearCanvas('bassCanvas');
+  clearCanvas('melodyCanvas');
+  
+  updateMixerGains();
+}
+
+/* ========== DRAG & DROP GAME ========== */
+let dndCorrect = 0;
+const dndTotal = 5;
+let selectedDndAnswer = null;
+
+function setupDndListeners() {
+  document.querySelectorAll('.dnd-item').forEach(item => {
+    item.tabIndex = 0;
+    item.setAttribute('role', 'button');
+    item.setAttribute('aria-label', 'เลือกคำศัพท์ ' + item.textContent.trim());
+    item.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', item.dataset.answer);
+      item.style.opacity = '0.5';
+    });
+    item.addEventListener('dragend', e => { item.style.opacity = '1'; });
+    item.addEventListener('click', () => selectDndItem(item));
+    item.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectDndItem(item);
+      }
+    });
+  });
+
+  document.querySelectorAll('.dnd-target').forEach(target => {
+    target.tabIndex = 0;
+    target.setAttribute('role', 'button');
+    target.setAttribute('aria-label', 'ช่องความหมายของคำศัพท์');
+    target.dataset.originalText = target.textContent.trim();
+    target.addEventListener('dragover', e => { e.preventDefault(); target.classList.add('over'); });
+    target.addEventListener('dragleave', () => { target.classList.remove('over'); });
+    target.addEventListener('drop', e => {
+      e.preventDefault();
+      target.classList.remove('over');
+      const answer = e.dataTransfer.getData('text/plain');
+      tryDndMatch(answer, target);
+    });
+    target.addEventListener('click', () => {
+      if (selectedDndAnswer) tryDndMatch(selectedDndAnswer, target);
+    });
+    target.addEventListener('keydown', e => {
+      if ((e.key === 'Enter' || e.key === ' ') && selectedDndAnswer) {
+        e.preventDefault();
+        tryDndMatch(selectedDndAnswer, target);
+      }
+    });
+  });
+}
+
+function selectDndItem(item) {
+  if (item.classList.contains('correct')) return;
+  selectedDndAnswer = item.dataset.answer;
+  document.querySelectorAll('.dnd-item').forEach(el => el.classList.toggle('selected', el === item));
+  document.getElementById('dndScore').textContent = 'เลือก "' + item.textContent.trim() + '" แล้ว จิ้มเลือกช่องเป้าหมาย!';
+}
+
+function tryDndMatch(answer, target) {
+  if (!answer || target.classList.contains('matched')) return;
+  
+  // The accepts match logic
+  const targetMatchesTerm = (answer === 'term-track' && target.dataset.accept === 'term-track') ||
+                            (answer === 'term-timeline' && target.dataset.accept === 'term-timeline') ||
+                            (answer === 'term-loop' && target.dataset.accept === 'term-loop') ||
+                            (answer === 'term-clip' && target.dataset.accept === 'term-clip') ||
+                            (answer === 'term-bar' && target.dataset.accept === 'term-bar');
+                            
+  if (targetMatchesTerm) {
+    completeDndMatch(answer, target);
+  } else {
+    const item = document.getElementById(answer);
+    target.classList.add('wrong');
+    item?.classList.add('wrong');
+    setTimeout(() => {
+      target.classList.remove('wrong');
+      item?.classList.remove('wrong');
+    }, 420);
+    showToast('ยังไม่ถูกต้อง! ลองจับคู่อีกครั้งนะครับ');
+  }
+}
+
+function completeDndMatch(answer, target) {
+  target.classList.add('matched');
+  const item = document.getElementById(answer);
+  if (item) item.classList.add('correct');
+  
+  const chip = document.createElement('span');
+  chip.className = 'dnd-answer-chip';
+  chip.textContent = item ? item.textContent.trim() : answer.replace('term-', '');
+  target.appendChild(chip);
+  
+  selectedDndAnswer = null;
+  document.querySelectorAll('.dnd-item').forEach(el => el.classList.remove('selected'));
+  dndCorrect++;
+  updateDndScore();
+}
+
+function updateDndScore() {
+  const score = document.getElementById('dndScore');
+  if (dndCorrect === dndTotal) {
+    score.innerHTML = '<span style="color:var(--green);">เก่งมาก! จับคู่คำศัพท์ DAW ถูกทั้งหมดครบถ้วน</span>';
+  } else {
+    score.textContent = 'จับคู่ถูกต้อง: ' + dndCorrect + ' / ' + dndTotal;
+  }
+}
+
+function resetDnd() {
+  dndCorrect = 0;
+  selectedDndAnswer = null;
+  document.querySelectorAll('.dnd-item').forEach(item => {
+    item.classList.remove('correct', 'wrong', 'selected');
+    item.style.opacity = '1';
+  });
+  document.querySelectorAll('.dnd-target').forEach(target => {
+    target.classList.remove('matched', 'wrong', 'over');
+    target.innerHTML = target.dataset.originalText;
+  });
+  updateDndScore();
+  showToast('เริ่มทำกิจกรรมเกมคำศัพท์ใหม่แล้ว');
+}
+
+/* ========== WRITING WORKSHEETS & LOCALSTORAGE ========== */
+function initExitTicketTextareas() {
+  document.querySelectorAll('textarea').forEach((textarea, index) => {
+    const key = textarea.dataset.storageKey || 'bandlab-exit-q' + (index + 1);
+    textarea.dataset.storageKey = key;
+    textarea.value = localStorage.getItem(key) || '';
+    textarea.addEventListener('input', () => {
+      localStorage.setItem(key, textarea.value);
+    });
+  });
+}
+
+function downloadTextFile(filename, content) {
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function formatTextExport(title, fields) {
+  const lines = [
+    '==================================================',
+    title,
+    'วิชาเทคโนโลยีดนตรี ม.6 · กิจกรรมสร้างบีต BandLab',
+    'วันที่ส่งงาน: ' + new Date().toLocaleString('th-TH'),
+    '==================================================',
+    ''
+  ];
+  fields.forEach((field, index) => {
+    lines.push((index + 1) + '. ' + field.label);
+    lines.push('>> คำตอบ: ' + (field.value || '(ว่าง/ไม่ได้กรอก)'));
+    lines.push('');
+  });
+  lines.push('==================================================');
+  return lines.join('\n');
+}
+
+function getFieldLabel(textarea) {
+  const label = textarea.closest('.form-group')?.querySelector('label');
+  return label ? label.textContent.trim() : 'คำถาม';
+}
+
+function collectTextareas(selector) {
+  const root = document.querySelector(selector);
+  if (!root) return [];
+  return [...root.querySelectorAll('textarea')].map(textarea => ({
+    label: getFieldLabel(textarea),
+    value: textarea.value.trim()
+  }));
+}
+
+function exportExitTicket() {
+  const fields = collectTextareas('#exitTicketActivity');
+  const emptyCount = fields.filter(f => !f.value).length;
+  
+  if (emptyCount === fields.length) {
+    showToast('กรุณากรอกข้อมูลลงคำถามก่อนส่งออกงานครับ!');
+    return;
+  }
+  
+  const textContent = formatTextExport('Exit Ticket: แบบสะท้อนคิดหลังทำบีตบนมือถือ', fields);
+  downloadTextFile('bandlab-exit-ticket.txt', textContent);
+  showToast('ดาวน์โหลดบันทึกคำตอบสำเร็จ! นำไฟล์ส่งให้ครูตามที่กําหนด');
+}
+
+function clearExitTicket() {
+  if (confirm('คุณต้องการล้างคำตอบและเริ่มบันทึกใหม่ทั้งหมดใช่หรือไม่?')) {
+    document.querySelectorAll('#exitTicketActivity textarea').forEach(textarea => {
+      textarea.value = '';
+      if (textarea.dataset.storageKey) {
+        localStorage.removeItem(textarea.dataset.storageKey);
+      }
+    });
+    showToast('ล้างคำตอบเก่าทั้งหมดเรียบร้อยแล้ว');
+  }
+}
+
+function resetAllActivities() {
+  resetPoll('hookPoll');
+  resetSequencer();
+  resetDnd();
+  // Clear exit ticket without confirm for teacher-tools reset
+  document.querySelectorAll('#exitTicketActivity textarea').forEach(textarea => {
+    textarea.value = '';
+    if (textarea.dataset.storageKey) localStorage.removeItem(textarea.dataset.storageKey);
+  });
+  showToast('รีเซ็ตแบบโต้ตอบทั้งหมดแล้ว');
+}
+
+// Initialize Everything
+buildSlideMenu();
+initExitTicketTextareas();
+setupDndListeners();
+showSlide(getInitialSlide());
+</script>
+</body>
+</html>

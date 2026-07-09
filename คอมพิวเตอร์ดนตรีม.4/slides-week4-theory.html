@@ -108,6 +108,8 @@
     .dots { display: flex; gap: 4px; } .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); cursor: pointer; transition: all 0.25s; } .dot.on { background: var(--warm); width: 18px; border-radius: 3px; }
     .kbd-hint { position: fixed; bottom: 72px; right: 36px; font-size: 11px; color: var(--text-muted); z-index: 100; display: flex; align-items: center; gap: 5px; }
     .kbd { padding: 2px 6px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; font-family: var(--font-en); font-size: 11px; }
+    .home-btn { position: fixed; top: 14px; right: 52px; height: 30px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--white); color: var(--accent); font-size: 13px; font-weight: 600; text-decoration: none; z-index: 200; display: flex; align-items: center; justify-content: center; }
+    .home-btn:hover { background: var(--accent-light); }
     .fs-btn { position: fixed; top: 14px; right: 14px; width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--border); background: var(--white); color: var(--text-muted); font-size: 13px; cursor: pointer; z-index: 200; display: flex; align-items: center; justify-content: center; }
 
     /* ====== INTERACTIVE 1: BPM Tapper ====== */
@@ -222,6 +224,7 @@
 </head>
 <body>
 <div class="progress"><div class="progress-fill" id="pbar"></div></div>
+<a class="home-btn" href="index.html" aria-label="กลับหน้าหลัก">หน้าหลัก</a>
 <button class="fs-btn" onclick="toggleFS()" title="เต็มจอ">⛶</button>
 
 <!-- ====== 0: TITLE ====== -->

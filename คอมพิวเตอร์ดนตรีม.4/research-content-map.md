@@ -28,6 +28,12 @@
 14. [U.S. Copyright Office - Fair Use Index](https://www.copyright.gov/fair-use/) — อิงหลัก teaching/research อาจเข้าข่าย fair use แต่ต้องพิจารณาปัจจัยหลายด้าน
 15. [NAfME - Copyright Law Guide for Music Educators](https://nafme.org/resource/united-states-copyright-law-a-guide-for-music-educators/) — อิงสมดุลระหว่างความจำเป็นทางการสอนกับสิทธิ์ของผู้สร้างงานดนตรี
 
+## สถานะปรับปรุงสไลด์ล่าสุด
+
+- ปรับจากชุด 32 หน้าแบบบาง เป็นชุด 20 หน้า/คาบที่ใช้พื้นที่คุ้มกว่า
+- แต่ละคาบมีแผน 100 นาที, ตัวอย่างในห้อง, คำอธิบายศัพท์แบบง่าย, teacher demo, mini lab, workshop, role plan, checklist, studio timer, feedback, troubleshooting, ethics, summary, sources และ quiz 10 ข้อ
+- ลดการใช้หน้าสไลด์ที่มีข้อความน้อยเกินไป และเพิ่มเนื้อหาเชิงสอนจริงต่อหน้าให้ครูใช้คุมคาบคู่ได้
+
 ## โครงเนื้อหารายสัปดาห์
 
 ### คาบที่ 1: เสียง ดนตรี และเทคโนโลยีดนตรีคืออะไร

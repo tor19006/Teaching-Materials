@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>คาบที่ 9 — Human Demo กลางภาค</title>
+  <meta name="description" content="รวมเสียงที่อัดเองอย่างน้อย 3 ประเภทให้เป็นเดโม 45-60 วินาที โดยยังไม่ใช้ Suno">
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--white:#fff;--bg:#fafaf9;--surface:#f5f5f4;--border:#e7e5e4;--text:#1c1917;--text-secondary:#57534e;--text-muted:#78716c;--accent:#2563eb;--accent-light:#eff6ff;--warm:#ea580c;--warm-light:#fff7ed;--green:#16a34a;--green-light:#f0fdf4;--red:#dc2626;--red-light:#fef2f2;--purple:#7c3aed;--purple-light:#f5f3ff;--radius:8px;--font:'IBM Plex Sans Thai',system-ui,sans-serif;--font-en:'Inter',system-ui,sans-serif}
+    html,body{width:100%;height:100%;overflow:hidden;background:var(--white);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
+    button,textarea,input{font-family:inherit}.progress{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--border);z-index:300}.progress-fill{height:100%;width:0;background:var(--accent);transition:width .2s ease}
+    .slide{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:58px 90px 88px;overflow-y:auto}.slide.active{display:flex}.slide-inner{width:100%;max-width:1120px}
+    h1{font-size:44px;line-height:1.28;font-weight:700;letter-spacing:0}h2{font-size:32px;line-height:1.35;font-weight:700;letter-spacing:0;margin-top:4px}h3{font-size:18px;line-height:1.45;font-weight:600}p{line-height:1.75}.sub{color:var(--text-secondary);font-size:18px;max-width:800px;margin-top:12px}.small{color:var(--text-muted);font-size:13px}.course-label{margin-bottom:24px}.credit{margin-top:30px}.center{text-align:center}.center .sub{margin-left:auto;margin-right:auto}
+    .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px;justify-content:center}.badge,.tag{display:inline-flex;align-items:center;padding:5px 13px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text-secondary);font-size:13px;font-weight:500}.tag{margin-bottom:12px;background:var(--accent-light);color:var(--accent);border-color:#bfdbfe}.tag-warm{background:var(--warm-light);color:var(--warm);border-color:#fed7aa}.tag-green{background:var(--green-light);color:var(--green);border-color:#bbf7d0}.tag-purple{background:var(--purple-light);color:var(--purple);border-color:#ddd6fe}
+    .split{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:34px;align-items:center}.visual{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px}.visual img{width:100%;display:block;border-radius:6px;object-fit:cover;max-height:280px}
+    .grid{display:grid;gap:14px;margin-top:22px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px;min-width:0}.card.tone-warm{border-top:3px solid var(--warm);background:var(--warm-light)}.card.tone-green{border-top:3px solid var(--green);background:var(--green-light)}.card-icon{display:block;font-size:25px;margin-bottom:8px}.card p,.muted{color:var(--text-secondary);font-size:14px;margin-top:6px}
+    .lst{list-style:none;margin-top:10px;display:grid;gap:6px}.lst li{display:flex;gap:9px;color:var(--text-secondary);font-size:14px;line-height:1.62}.bullet{color:var(--accent);font-weight:700}.callout{margin-top:22px;background:var(--accent-light);border:1px solid #bfdbfe;border-radius:var(--radius);padding:18px}.callout strong{display:block;color:var(--accent);margin-bottom:4px}.big-num{font-family:var(--font-en);font-size:118px;font-weight:700;color:var(--border);line-height:1}.section-slide{background:var(--bg)}
+    .tbl{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px}.tbl th{text-align:left;background:var(--bg);border-bottom:2px solid var(--border);padding:10px 12px;color:var(--text-secondary)}.tbl td{border-bottom:1px solid var(--border);padding:10px 12px;color:var(--text-secondary);line-height:1.55}.en{font-family:var(--font-en)}
+    .steps{display:grid;gap:10px;margin-top:18px}.step{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:start;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px}.step-num{width:32px;height:32px;border-radius:999px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-en);font-weight:700}
+    .reveal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:20px}.reveal-card{min-height:146px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);padding:17px;text-align:left;cursor:pointer;color:var(--text)}.reveal-card:hover{border-color:var(--accent);background:var(--accent-light)}.reveal-front{display:block;font-size:17px;font-weight:700;line-height:1.45}.reveal-back{display:none;color:var(--text-secondary);line-height:1.62;margin-top:10px;font-size:14px}.reveal-card.open .reveal-back{display:block}
+    .mini-quiz,.fq-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-top:18px}.quiz-options,.fq-opts{display:grid;gap:9px;margin-top:15px}.quiz-opt,.fq-opt,.btn,.chip,.role-card{border:1px solid var(--border);background:var(--white);border-radius:var(--radius);padding:10px 13px;cursor:pointer;color:var(--text);font-size:14px;text-align:left}.quiz-opt:hover,.fq-opt:hover,.chip:hover,.role-card:hover{border-color:var(--accent);background:var(--accent-light)}.quiz-opt.correct,.fq-opt.correct{border-color:var(--green);background:var(--green-light)}.quiz-opt.wrong,.fq-opt.wrong{border-color:var(--red);background:var(--red-light)}.quiz-feedback{min-height:24px;margin-top:12px;color:var(--text-secondary)}
+    .sound-pad{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:20px}.pad-btn{border:1px solid var(--border);background:var(--bg);border-radius:var(--radius);padding:20px;cursor:pointer;text-align:center}.pad-btn strong{display:block;font-family:var(--font-en);color:var(--accent);font-size:18px}.pad-btn span{color:var(--text-secondary);font-size:13px}.hint{color:var(--text-muted);font-size:13px;margin-top:14px}
+    .mix-board,.prompt-builder,.planner,.reflection-grid{display:grid;gap:12px;margin-top:20px}.slider-row{display:grid;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px;color:var(--text-secondary)}input[type=range]{accent-color:var(--accent)}.mix-status{margin-top:14px;color:var(--text-secondary);background:var(--accent-light);border:1px solid #bfdbfe;border-radius:var(--radius);padding:14px}
+    .chip-group{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.chip-group b{min-width:82px;color:var(--text)}.chip.selected,.role-card.selected{border-color:var(--accent);background:var(--accent-light);color:var(--accent);font-weight:600}.textarea{width:100%;min-height:86px;resize:vertical;border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;line-height:1.62;color:var(--text);background:var(--white)}
+    .role-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}.mission-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:16px}.timer-circle{width:122px;height:122px;border-radius:999px;border:4px solid var(--border);display:flex;align-items:center;justify-content:center;margin:16px auto;color:var(--accent);font-family:var(--font-en);font-size:28px;font-weight:700}.timer-circle.running{border-color:var(--accent)}.action-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:16px}.btn{background:var(--accent);color:white;border-color:var(--accent);border-radius:999px;font-weight:600;text-align:center;padding:10px 20px}.btn.secondary{background:var(--white);color:var(--accent)}
+    .checklist{list-style:none;display:grid;gap:9px;margin-top:12px}.checklist li{display:flex;gap:10px;align-items:flex-start;cursor:pointer;color:var(--text-secondary);line-height:1.55}.box{width:20px;height:20px;border:1px solid var(--border);border-radius:5px;background:var(--white);flex:0 0 auto;margin-top:2px}.checklist li.done .box{background:var(--green);border-color:var(--green)}.checklist li.done .box::after{content:"✓";color:white;display:block;text-align:center;line-height:18px;font-size:13px}.score{margin-top:16px;font-family:var(--font-en);font-size:42px;font-weight:700;color:var(--green)}
+    .form-group{display:grid;gap:6px;color:var(--text-secondary);font-size:14px}.fq-wrap{margin-top:12px;min-height:286px}.fq-item{display:none;max-width:800px;margin-left:auto;margin-right:auto}.fq-item.active{display:block}.fq-q{display:flex;gap:10px;font-weight:700;line-height:1.55}.fq-q span{color:var(--accent);font-family:var(--font-en)}.fq-opt{display:flex;gap:10px;align-items:flex-start}.fq-opt span{width:24px;height:24px;border-radius:999px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-family:var(--font-en);font-weight:700;font-size:12px}.fq-opt.selected{border-color:var(--accent);background:var(--accent-light);font-weight:600}.fq-opt.correct span{background:var(--green);color:white;border-color:var(--green)}.fq-opt.wrong span{background:var(--red);color:white;border-color:var(--red)}.fq-nav-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:14px}.fq-counter{font-family:var(--font-en);color:var(--text-secondary);font-weight:700;min-width:92px;text-align:center}.fq-result{display:none;text-align:center;margin-top:14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px}.fq-score{font-family:var(--font-en);font-size:48px;font-weight:700}
+    .sn{position:absolute;bottom:28px;right:42px;color:var(--text-muted);font-family:var(--font-en);font-size:13px}.nav{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--border);border-radius:999px;padding:7px 12px;z-index:260;box-shadow:0 2px 12px rgba(0,0,0,.06)}.nav-btn{width:34px;height:34px;border-radius:999px;border:1px solid var(--border);background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center}.nav-btn:disabled{opacity:.3;cursor:default}.dots{display:flex;gap:4px}.dot{width:6px;height:6px;border-radius:999px;background:var(--border);cursor:pointer;border:0}.dot.on{width:20px;background:var(--accent)}
+    .toolbox{position:fixed;top:14px;right:14px;display:flex;gap:8px;z-index:270}.tool-btn{border:1px solid var(--border);background:var(--white);color:var(--text-secondary);border-radius:6px;padding:7px 10px;cursor:pointer;font-size:12px}.part-indicator{position:fixed;top:16px;left:16px;z-index:270;color:var(--text-muted);font-size:12px;background:var(--white);border:1px solid var(--border);border-radius:999px;padding:6px 10px}.menu{position:fixed;inset:0;background:rgba(28,25,23,.35);z-index:500;display:none;align-items:center;justify-content:center;padding:24px}.menu.open{display:flex}.menu-panel{width:min(760px,100%);max-height:82vh;overflow:auto;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px}.menu-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.slide-list{display:grid;gap:8px}.slide-link{border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);padding:10px 12px;cursor:pointer;text-align:left}.slide-link:hover{border-color:var(--accent);background:var(--accent-light)}
+    @media(max-width:900px){.slide{padding:58px 22px 92px}h1{font-size:31px}h2{font-size:24px}.sub{font-size:16px}.split,.g2,.g3,.reveal-grid,.role-grid,.sound-pad{grid-template-columns:1fr}.visual{max-width:280px;margin:0 auto}.part-indicator{display:none}.toolbox{right:8px}.tool-btn{padding:7px 8px}.sn{display:none}.fq-wrap{min-height:360px}.big-num{font-size:88px}}
+  </style>
+</head>
+<body>
+  <div class="progress"><div class="progress-fill" id="pbar"></div></div>
+  <div class="part-indicator" id="partIndicator"></div>
+  <div class="toolbox"><button class="tool-btn" type="button" onclick="toggleMenu()">สารบัญ</button><button class="tool-btn" type="button" onclick="resetAll()">รีเซ็ต</button><button class="tool-btn" type="button" onclick="toggleFS()">เต็มจอ</button></div>
+  <section class="slide center active" data-part="เปิดคาบ">
+    <div class="slide-inner">
+      <p class="small course-label">คาบที่ 9 · หน่วยที่ 3 · Human Demo กลางภาค</p>
+      <h1>Human Demo กลางภาค</h1>
+      <p class="sub">รวมเสียงที่อัดเองอย่างน้อย 3 ประเภทให้เป็นเดโม 45-60 วินาที โดยยังไม่ใช้ Suno</p>
+      <div class="badges"><span class="badge">คาบคู่ 100 นาที</span><span class="badge">Human Demo</span><span class="badge">No Suno Yet</span><span class="badge">3 Sound Types</span></div>
+      <p class="small credit">โรงเรียนสุรศักดิ์มนตรี · ครูเอกณัฐ ลุผลแท้ · ม.4</p>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="เปิดคาบ">
+    <div class="slide-inner">
+      <span class="tag tag-green">Warm-up</span>
+      <h2>🔁 เชื่อมจากคาบก่อน</h2>
+      <div class="split"><div><p class="sub">หลังจากฝึกอัดเสียง ตัดต่อ จัด track และปรับ balance แล้ว วันนี้จะผลิต Human Demo กลางภาค</p><div class="callout"><strong>คำถามนำ</strong><p>ถ้า AI ยังไม่เข้ามาช่วย งานของกลุ่มเราเล่าอะไรได้ด้วยเสียงที่เราทำเอง?</p></div></div><figure class="visual"><img src="img/human_first_ai.png" alt=""></figure></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="แผนคาบ">
+    <div class="slide-inner">
+      <span class="tag ">100-Minute Roadmap</span>
+      <h2>🕒 โครงคาบคู่ 100 นาที</h2>
+      <table class="tbl"><thead><tr><th>เวลา</th><th>ช่วง</th><th>สิ่งที่เกิดขึ้น</th></tr></thead><tbody><tr><td class="en">0-10 นาที</td><td><strong>เปิดคาบ / Recap</strong></td><td>เชื่อมจากงานคาบก่อนและตั้งคำถามนำ</td></tr><tr><td class="en">10-30 นาที</td><td><strong>สอนแนวคิด</strong></td><td>ทำความเข้าใจคำสำคัญ ตัวอย่าง และข้อเข้าใจผิด</td></tr><tr><td class="en">30-45 นาที</td><td><strong>ครูสาธิต</strong></td><td>ดูขั้นตอนจริงผ่านจอกลางหรือ workflow</td></tr><tr><td class="en">45-75 นาที</td><td><strong>Workshop</strong></td><td>ลงมือทำงานกลุ่มพร้อมบทบาทและใบงาน</td></tr><tr><td class="en">75-90 นาที</td><td><strong>Feedback / Revision</strong></td><td>ฟังงานบางกลุ่มและปรับแก้</td></tr><tr><td class="en">90-100 นาที</td><td><strong>ส่งงาน / Reflection / Quiz</strong></td><td>ตรวจหลักฐาน สรุป และทบทวนท้ายคาบ</td></tr></tbody></table>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="เป้าหมาย">
+    <div class="slide-inner">
+      <span class="tag ">Learning Targets</span>
+      <h2>🎯 เป้าหมายและชิ้นงาน</h2>
+      <div class="grid g2"><article class="card"><span class="card-icon">🎯</span><h3>เมื่อจบคาบ นักเรียนทำได้</h3><ul class="lst"><li><span class="bullet">•</span><span>ออกแบบโครงเดโมสั้นที่มี intro, development และ ending</span></li><li><span class="bullet">•</span><span>ใช้เสียงอัดเองอย่างน้อย 3 ประเภท</span></li><li><span class="bullet">•</span><span>Export ผลงานและอธิบายบทบาทของแต่ละเสียงได้</span></li></ul></article><article class="card tone-green"><span class="card-icon">📦</span><h3>หลักฐานท้ายคาบ</h3><p>Human Demo 45-60 วินาที + Human Demo Checklist</p><p class="muted">ใบงานที่ 6: Human Demo Checklist</p></article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide center section-slide" data-part="แนวคิด">
+    <div class="slide-inner">
+      
+      
+      <div class="big-num">01</div><h1>แนวคิดหลัก</h1><p class="sub">ค่อย ๆ สร้างความเข้าใจ ก่อนลงมือกับเครื่องมือจริง</p>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="แนวคิด">
+    <div class="slide-inner">
+      <span class="tag ">Concept 01</span>
+      <h2>🧑 Human Demo</h2>
+      <p class="sub">เดโมที่มนุษย์เป็นผู้ฟัง เลือก อัด ตัดต่อ จัดวาง และตัดสินใจก่อน AI</p><div class="callout"><strong>คำถามชวนคิด</strong><p>งานสื่อ mood อะไร</p></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="แนวคิด">
+    <div class="slide-inner">
+      <span class="tag ">Concept 02</span>
+      <h2>🧭 Structure</h2>
+      <p class="sub">โครงของงาน เช่น เปิดฉาก สร้างพลัง จุดจำ และปิดท้าย</p><div class="callout"><strong>คำถามชวนคิด</strong><p>hook หรือจุดจำอยู่ตรงไหน</p></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="แนวคิด">
+    <div class="slide-inner">
+      <span class="tag ">Concept 03</span>
+      <h2>📦 Evidence</h2>
+      <p class="sub">Project, ไฟล์เสียง, checklist และ reflection คือหลักฐานกระบวนการ</p><div class="callout"><strong>คำถามชวนคิด</strong><p>เสียงไหนคือของกลุ่มเองอย่างชัดเจน</p></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="แนวคิด">
+    <div class="slide-inner">
+      <span class="tag ">Concept 04</span>
+      <h2>🚫 No Suno Yet</h2>
+      <p class="sub">ยังไม่ใช้ Suno เพื่อให้เห็นไอเดียและเสียงตั้งต้นของกลุ่มจริง ๆ</p><div class="callout"><strong>คำถามชวนคิด</strong><p>ถ้าต้องแก้ 1 อย่างก่อนส่ง ควรแก้อะไร</p></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="แนวคิด">
+    <div class="slide-inner">
+      <span class="tag ">Examples</span>
+      <h2>📌 ตัวอย่างที่ใช้ในห้องเรียน</h2>
+      <div class="grid g2">
+    <article class="card ">
+      <span class="card-icon">🎧</span>
+      <h3>ตัวอย่าง 1</h3>
+      <p>0-10 วิ: ambience เปิดฉาก</p>
+    </article>
+    <article class="card tone-warm">
+      <span class="card-icon">🧩</span>
+      <h3>ตัวอย่าง 2</h3>
+      <p>10-25 วิ: object beat เข้ามาสร้างจังหวะ</p>
+    </article>
+    <article class="card tone-green">
+      <span class="card-icon">💬</span>
+      <h3>ตัวอย่าง 3</h3>
+      <p>25-45 วิ: voice/hum เป็น hook</p>
+    </article>
+    <article class="card ">
+      <span class="card-icon">🛠️</span>
+      <h3>ตัวอย่าง 4</h3>
+      <p>45-60 วิ: fade out เพื่อปิดงาน</p>
+    </article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="แนวคิด">
+    <div class="slide-inner">
+      <span class="tag tag-warm">กดเปิดดู</span>
+      <h2>🧠 เข้าใจผิดบ่อย</h2>
+      <div class="reveal-grid"><button class="reveal-card" type="button" onclick="toggleReveal(this)"><span class="reveal-front">Human Demo ต้องเพราะเหมือนเพลงสำเร็จรูป</span><span class="reveal-back">เดโมควรสื่อไอเดียชัด ไม่จำเป็นต้องสมบูรณ์แบบ</span></button><button class="reveal-card" type="button" onclick="toggleReveal(this)"><span class="reveal-front">ใช้ AI นิดเดียวคงไม่เป็นไร</span><span class="reveal-back">คาบนี้ต้องยังไม่ใช้ Suno เพราะเป็นหลักฐาน Human-first</span></button><button class="reveal-card" type="button" onclick="toggleReveal(this)"><span class="reveal-front">ยาวกว่ายิ่งดี</span><span class="reveal-back">45-60 วินาทีพอ ถ้าเลือกเสียงและจัดโครงชัด</span></button></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="ตรวจความเข้าใจ">
+    <div class="slide-inner">
+      <span class="tag tag-purple">ตอบเร็ว 1 ข้อ</span>
+      <h2>⚡ Quick Check</h2>
+      <div class="mini-quiz"><p>Human Demo กลางภาคควรพิสูจน์อะไร</p><div class="quiz-options"><button class="quiz-opt" type="button" onclick="answerMiniQuiz(this,true)">กลุ่มมีเสียงและการตัดสินใจของตนเองก่อนใช้ AI</button><button class="quiz-opt" type="button" onclick="answerMiniQuiz(this,false)">AI สามารถทำเพลงแทนกลุ่มได้ทั้งหมด</button></div><div class="quiz-feedback" id="miniQuizFeedback"></div></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide center section-slide" data-part="ครูสาธิต">
+    <div class="slide-inner">
+      
+      
+      <div class="big-num">02</div><h1>ครูสาธิต</h1><p class="sub">ดูขั้นตอนจริงก่อน แล้วค่อยลงมือแบบมีแผน</p>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="ครูสาธิต">
+    <div class="slide-inner">
+      <span class="tag ">Teacher Demo</span>
+      <h2>🧭 ภาพรวมการสาธิต</h2>
+      <div class="steps"><div class="step"><span class="step-num">1</span><p>ครูวาดโครง 4 ช่วงบนกระดาน: Intro, Build, Hook, Ending</p></div><div class="step"><span class="step-num">2</span><p>ครูเปิด Project ตัวอย่างและวาง track ตามโครง</p></div><div class="step"><span class="step-num">3</span><p>ครู export ไฟล์สั้นและตั้งชื่อไฟล์ส่งงาน</p></div><div class="step"><span class="step-num">4</span><p>ครูชี้ให้เห็นหลักฐานที่ต้องส่งคู่กับไฟล์เสียง</p></div></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="ครูสาธิต">
+    <div class="slide-inner">
+      <span class="tag ">Key Terms</span>
+      <h2>🔤 คำศัพท์/เครื่องมือที่ต้องรู้</h2>
+      <div class="grid g3">
+    <article class="card ">
+      <span class="card-icon">🚪</span>
+      <h3>Intro</h3>
+      <p>ช่วงเปิดที่บอกบรรยากาศหรือหัวข้อของงาน</p>
+    </article>
+    <article class="card tone-warm">
+      <span class="card-icon">📈</span>
+      <h3>Build</h3>
+      <p>ช่วงเพิ่มเสียงหรือพลังให้งานเดินหน้า</p>
+    </article>
+    <article class="card tone-green">
+      <span class="card-icon">🧲</span>
+      <h3>Hook</h3>
+      <p>จุดจำที่ทำให้คนฟังรู้ว่างานนี้มีเอกลักษณ์อะไร</p>
+    </article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="ครูสาธิต">
+    <div class="slide-inner">
+      <span class="tag tag-warm">Common Mistakes</span>
+      <h2>⚠️ จุดพลาดที่ต้องระวัง</h2>
+      <div class="grid g2">
+    <article class="card ">
+      <span class="card-icon">⚠️</span>
+      <h3>ระวัง 1</h3>
+      <p>เอาทุกไฟล์ที่มีใส่ลงไปจนงานรก</p>
+    </article>
+    <article class="card tone-warm">
+      <span class="card-icon">⚠️</span>
+      <h3>ระวัง 2</h3>
+      <p>ไม่มีช่วงเด่น ทำให้ฟังแล้วจำอะไรไม่ได้</p>
+    </article>
+    <article class="card tone-green">
+      <span class="card-icon">⚠️</span>
+      <h3>ระวัง 3</h3>
+      <p>ลืม export หรือส่งเฉพาะ screenshot</p>
+    </article>
+    <article class="card ">
+      <span class="card-icon">⚠️</span>
+      <h3>ระวัง 4</h3>
+      <p>ใช้ Suno ก่อน Human Demo เสร็จ</p>
+    </article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="ฝึกนำ">
+    <div class="slide-inner">
+      <span class="tag ">ครูพาทำทีละขั้น</span>
+      <h2>👣 Guided Practice</h2>
+      <div class="steps"><div class="step"><span class="step-num">1</span><p>เขียนโครง 4 ช่วงของงานใน 5 นาที</p></div><div class="step"><span class="step-num">2</span><p>เลือกเสียง 3 ประเภทที่จำเป็นที่สุด</p></div><div class="step"><span class="step-num">3</span><p>จัดวางแบบหยาบก่อน แล้วค่อยปรับ volume/fade</p></div><div class="step"><span class="step-num">4</span><p>ฟังรอบสุดท้ายและตัดสินว่า hook ชัดพอไหม</p></div></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="Interactive Lab">
+    <div class="slide-inner">
+      <span class="tag tag-green">กิจกรรมย่อย</span>
+      <h2>🧩 Interactive Lab</h2>
+      <div class="planner"><textarea class="textarea" data-store="plan1" placeholder="แผนงานของกลุ่ม..."></textarea><textarea class="textarea" data-store="plan2" placeholder="ปัญหาที่พบ / คำถามที่ต้องถามครู..."></textarea></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="ฝึกนำ">
+    <div class="slide-inner">
+      <span class="tag ">Pause &amp; Check</span>
+      <h2>🛑 Checkpoint กลางคาบ</h2>
+      <div class="grid g2"><article class="card"><h3>ครูเดินตรวจ</h3><ul class="lst"><li><span class="bullet">•</span><span>มีหลักฐานเริ่มต้นแล้วหรือยัง</span></li><li><span class="bullet">•</span><span>กลุ่มเข้าใจบทบาทของตนเองไหม</span></li><li><span class="bullet">•</span><span>ติดปัญหาเครื่องมือหรือแนวคิดตรงไหน</span></li></ul></article><article class="card tone-green"><h3>นักเรียนตอบได้</h3><ul class="lst"><li><span class="bullet">•</span><span>เสียงใดสำคัญที่สุดต่อ Human Demo</span></li><li><span class="bullet">•</span><span>กลุ่มตัดสินใจอะไรเองบ้าง</span></li><li><span class="bullet">•</span><span>ถ้า AI จะช่วยภายหลัง อยากให้ช่วยจุดไหน</span></li></ul></article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide center section-slide" data-part="Workshop">
+    <div class="slide-inner">
+      
+      
+      <div class="big-num">03</div><h1>Workshop</h1><p class="sub">ช่วงลงมือทำจริงของคาบคู่ ใช้เวลาให้คุ้มและเก็บหลักฐานครบ</p>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="Workshop">
+    <div class="slide-inner">
+      <span class="tag tag-warm">Mission</span>
+      <h2>🏆 ภารกิจหลัก</h2>
+      <div class="mission-card"><h2>ผลิต Human Demo 45-60 วินาทีจากเสียงที่กลุ่มอัดเอง</h2><div class="steps"><div class="step"><span class="step-num">1</span><p>เลือก mood และหัวข้อ</p></div><div class="step"><span class="step-num">2</span><p>วางโครง intro-build-hook-ending</p></div><div class="step"><span class="step-num">3</span><p>ใช้ ambience, percussion/object และ voice/hum</p></div><div class="step"><span class="step-num">4</span><p>export และกรอก checklist</p></div></div></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="Workshop">
+    <div class="slide-inner">
+      <span class="tag ">Group Roles</span>
+      <h2>👥 แบ่งบทบาทในกลุ่ม</h2>
+      <div class="grid g3">
+    <article class="card ">
+      <span class="card-icon">👤</span>
+      <h3>บทบาท 1</h3>
+      <p>Producer: คุมภาพรวมและเวลา</p>
+    </article>
+    <article class="card tone-warm">
+      <span class="card-icon">👤</span>
+      <h3>บทบาท 2</h3>
+      <p>BandLab Operator: จัด Project</p>
+    </article>
+    <article class="card tone-green">
+      <span class="card-icon">👤</span>
+      <h3>บทบาท 3</h3>
+      <p>Sound Designer: เลือกเสียงและ mood</p>
+    </article>
+    <article class="card ">
+      <span class="card-icon">👤</span>
+      <h3>บทบาท 4</h3>
+      <p>Exporter: ส่งออกและตรวจไฟล์</p>
+    </article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="ใบงาน">
+    <div class="slide-inner">
+      <span class="tag ">Worksheet Walkthrough</span>
+      <h2>📄 ใบงานที่ 6: Human Demo Checklist</h2>
+      <div class="grid g2"><article class="card"><h3>ช่องที่ต้องกรอก</h3><ul class="lst"><li><span class="bullet">•</span><span>มีเสียงอัดเองอย่างน้อย 3 ประเภท</span></li><li><span class="bullet">•</span><span>มีอย่างน้อย 3 track/layer</span></li><li><span class="bullet">•</span><span>มีการตัดต่อเสียง</span></li><li><span class="bullet">•</span><span>มี volume หรือ fade อย่างน้อย 2 จุด</span></li><li><span class="bullet">•</span><span>ความยาวตรงโจทย์</span></li><li><span class="bullet">•</span><span>ยังไม่ใช้ Suno</span></li></ul></article><article class="card tone-warm"><h3>วิธีกรอกให้ตรวจง่าย</h3><ul class="lst"><li><span class="bullet">•</span><span>เขียนสั้นแต่มีหลักฐาน</span></li><li><span class="bullet">•</span><span>ใช้ชื่อไฟล์หรือช่วงเวลาให้ชัด</span></li><li><span class="bullet">•</span><span>อธิบายเหตุผล ไม่ใช่ตอบคำเดียว</span></li><li><span class="bullet">•</span><span>เก็บ screenshot/link เมื่อเกี่ยวข้อง</span></li></ul></article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="คุณภาพงาน">
+    <div class="slide-inner">
+      <span class="tag ">Quality Criteria</span>
+      <h2>📏 เกณฑ์คุณภาพก่อนส่ง</h2>
+      <div class="grid g2">
+    <article class="card ">
+      <span class="card-icon">✅</span>
+      <h3>เกณฑ์ 1</h3>
+      <p>45-60 วินาที</p>
+    </article>
+    <article class="card tone-warm">
+      <span class="card-icon">✅</span>
+      <h3>เกณฑ์ 2</h3>
+      <p>มี ambience + percussion/object + voice/hum</p>
+    </article>
+    <article class="card tone-green">
+      <span class="card-icon">✅</span>
+      <h3>เกณฑ์ 3</h3>
+      <p>ฟังเห็นโครงสร้าง</p>
+    </article>
+    <article class="card ">
+      <span class="card-icon">✅</span>
+      <h3>เกณฑ์ 4</h3>
+      <p>Export เปิดฟังได้</p>
+    </article>
+    <article class="card tone-warm">
+      <span class="card-icon">✅</span>
+      <h3>เกณฑ์ 5</h3>
+      <p>ยังไม่ใช้ Suno</p>
+    </article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="Workshop">
+    <div class="slide-inner">
+      <span class="tag ">ลงมือทำ</span>
+      <h2>⏱️ Studio Time</h2>
+      <div class="grid g2"><article class="card"><span class="card-icon">🏁</span><h3>ทำงานกลุ่ม</h3><ul class="lst"><li><span class="bullet">•</span><span>เลือก mood และหัวข้อ</span></li><li><span class="bullet">•</span><span>วางโครง intro-build-hook-ending</span></li><li><span class="bullet">•</span><span>ใช้ ambience, percussion/object และ voice/hum</span></li><li><span class="bullet">•</span><span>export และกรอก checklist</span></li></ul></article><article class="card tone-green"><span class="card-icon">⏱️</span><h3>จับเวลา Workshop</h3><div class="timer-circle" id="timerCircle">30:00</div><div class="action-row"><button class="btn" id="timerBtn" type="button" onclick="toggleTimer()">เริ่ม</button><button class="btn secondary" type="button" onclick="resetTimer()">รีเซ็ต</button></div></article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="Feedback">
+    <div class="slide-inner">
+      <span class="tag ">Peer Feedback</span>
+      <h2>🎧 วิธีให้ Feedback</h2>
+      <div class="grid g2"><article class="card"><h3>ใช้คำถามเหล่านี้</h3><ul class="lst"><li><span class="bullet">•</span><span>งานสื่อ mood อะไร</span></li><li><span class="bullet">•</span><span>hook หรือจุดจำอยู่ตรงไหน</span></li><li><span class="bullet">•</span><span>เสียงไหนคือของกลุ่มเองอย่างชัดเจน</span></li><li><span class="bullet">•</span><span>ถ้าต้องแก้ 1 อย่างก่อนส่ง ควรแก้อะไร</span></li></ul></article><article class="card tone-green"><h3>กติกาการฟัง</h3><ul class="lst"><li><span class="bullet">•</span><span>ฟังก่อนพูด</span></li><li><span class="bullet">•</span><span>พูดถึงงาน ไม่โจมตีคน</span></li><li><span class="bullet">•</span><span>เสนอสิ่งที่แก้ได้จริง</span></li><li><span class="bullet">•</span><span>ให้เจ้าของงานตัดสินใจสุดท้าย</span></li></ul></article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="Revision">
+    <div class="slide-inner">
+      <span class="tag ">Revision Time</span>
+      <h2>🛠️ เวลาแก้รอบสุดท้าย</h2>
+      <div class="grid g2"><article class="card"><h3>เลือกแก้ 1-2 จุดพอ</h3><ul class="lst"><li><span class="bullet">•</span><span>จุดที่ส่งผลต่อการฟังมากที่สุด</span></li><li><span class="bullet">•</span><span>จุดที่ทำทันในเวลาที่เหลือ</span></li><li><span class="bullet">•</span><span>จุดที่เชื่อมกับหลักฐานใบงาน</span></li></ul></article><article class="card tone-warm"><h3>อย่าแก้แบบหลุดเป้าหมาย</h3><ul class="lst"><li><span class="bullet">•</span><span>ไม่เปลี่ยนหัวข้อทั้งงานตอนท้ายคาบ</span></li><li><span class="bullet">•</span><span>ไม่ลบหลักฐานเดิม</span></li><li><span class="bullet">•</span><span>ไม่ให้คนเดียวตัดสินใจแทนกลุ่มทั้งหมด</span></li></ul></article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="ส่งงาน">
+    <div class="slide-inner">
+      <span class="tag ">หลักฐานท้ายคาบ</span>
+      <h2>✅ Checklist ก่อนส่ง</h2>
+      <div class="grid g2"><article class="card"><h3>ตรวจงานของกลุ่ม</h3><ul class="checklist" id="checklist"><li onclick="toggleCheck(this)"><span class="box"></span>45-60 วินาที</li><li onclick="toggleCheck(this)"><span class="box"></span>มี ambience + percussion/object + voice/hum</li><li onclick="toggleCheck(this)"><span class="box"></span>ฟังเห็นโครงสร้าง</li><li onclick="toggleCheck(this)"><span class="box"></span>Export เปิดฟังได้</li><li onclick="toggleCheck(this)"><span class="box"></span>ยังไม่ใช้ Suno</li></ul></article><article class="card tone-warm"><h3>ใบงานที่ 6: Human Demo Checklist</h3><ul class="lst"><li><span class="bullet">•</span><span>มีเสียงอัดเองอย่างน้อย 3 ประเภท</span></li><li><span class="bullet">•</span><span>มีอย่างน้อย 3 track/layer</span></li><li><span class="bullet">•</span><span>มีการตัดต่อเสียง</span></li><li><span class="bullet">•</span><span>มี volume หรือ fade อย่างน้อย 2 จุด</span></li><li><span class="bullet">•</span><span>ความยาวตรงโจทย์</span></li><li><span class="bullet">•</span><span>ยังไม่ใช้ Suno</span></li></ul><div class="score" id="checkScore">0/5</div></article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="Reflection">
+    <div class="slide-inner">
+      <span class="tag ">เขียนก่อนออกจากห้อง</span>
+      <h2>📝 Reflection ท้ายคาบ</h2>
+      <div class="reflection-grid"><label class="form-group">1. เสียงใดสำคัญที่สุดต่อ Human Demo<textarea class="textarea" data-store="reflection-0" placeholder="เขียนคำตอบสั้น ๆ..."></textarea></label><label class="form-group">2. กลุ่มตัดสินใจอะไรเองบ้าง<textarea class="textarea" data-store="reflection-1" placeholder="เขียนคำตอบสั้น ๆ..."></textarea></label><label class="form-group">3. ถ้า AI จะช่วยภายหลัง อยากให้ช่วยจุดไหน<textarea class="textarea" data-store="reflection-2" placeholder="เขียนคำตอบสั้น ๆ..."></textarea></label></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="สรุป">
+    <div class="slide-inner">
+      <span class="tag tag-green">Wrap-up</span>
+      <h2>📌 สรุปสิ่งที่ต้องจำ</h2>
+      <div class="grid g2"><article class="card"><h3>สิ่งที่เรียนวันนี้</h3><ul class="lst"><li><span class="bullet">•</span><span>Human Demo คือหลักฐานของกระบวนการมนุษย์</span></li><li><span class="bullet">•</span><span>โครงสร้างช่วยให้เดโมสั้นฟังเข้าใจ</span></li><li><span class="bullet">•</span><span>เดโมนี้จะเป็นฐานของ Reflection และ Prompt ในหน่วยถัดไป</span></li></ul></article><article class="card tone-green"><h3>คาบหน้า</h3><p>คาบที่ 10 จะฟัง Human Demo อย่างละเอียด วิเคราะห์จุดแข็ง จุดอ่อน และสิ่งที่อยากให้ AI ช่วย</p></article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="จบคาบ">
+    <div class="slide-inner">
+      <span class="tag ">Exit Check</span>
+      <h2>🎒 ก่อนออกจากห้อง</h2>
+      <div class="grid g2"><article class="card"><h3>นักเรียนต้องมี</h3><ul class="lst"><li><span class="bullet">•</span><span>Human Demo 45-60 วินาที + Human Demo Checklist</span></li><li><span class="bullet">•</span><span>ใบงานที่ 6: Human Demo Checklist</span></li><li><span class="bullet">•</span><span>บันทึกหรือหลักฐานที่เปิดตรวจได้</span></li></ul></article><article class="card tone-warm"><h3>ครูเก็บข้อมูล</h3><ul class="lst"><li><span class="bullet">•</span><span>กลุ่มที่ต้องช่วยเรื่องเทคนิค</span></li><li><span class="bullet">•</span><span>กลุ่มที่ต้องปรับแนวคิด</span></li><li><span class="bullet">•</span><span>ตัวอย่างงานที่ควรเปิดคาบหน้า</span></li></ul></article></div>
+    </div>
+    <span class="sn"></span>
+  </section>
+<section class="slide" data-part="Quiz สรุป">
+    <div class="slide-inner">
+      <span class="tag tag-purple">ทบทวนทั้งคาบ</span>
+      <h2>🧠 Quiz สรุปท้ายคาบ 10 ข้อ</h2>
+      <div class="fq-wrap"><article class="fq-item active" data-fq="0"><div class="fq-q"><span>1.</span>เป้าหมายหลักของคาบที่ 9 คืออะไร</div><div class="fq-opts"><button type="button" class="fq-opt" data-ans="0" onclick="fqSelect(this,0,0)"><span>A</span>ทำกิจกรรมโดยไม่ต้องมีหลักฐาน</button><button type="button" class="fq-opt" data-ans="1" onclick="fqSelect(this,0,1)"><span>B</span>Human Demo 45-60 วินาที + Human Demo Checklist</button><button type="button" class="fq-opt" data-ans="2" onclick="fqSelect(this,0,2)"><span>C</span>ใช้ AI ทำแทนนักเรียนทั้งหมด</button><button type="button" class="fq-opt" data-ans="3" onclick="fqSelect(this,0,3)"><span>D</span>เลือกเพลงสำเร็จรูปมาเปิดแทน</button></div></article><article class="fq-item " data-fq="1"><div class="fq-q"><span>2.</span>สิ่งใดเป็นหลักฐานสำคัญท้ายคาบ</div><div class="fq-opts"><button type="button" class="fq-opt" data-ans="0" onclick="fqSelect(this,1,0)"><span>A</span>ชื่อเพลงที่ชอบ</button><button type="button" class="fq-opt" data-ans="1" onclick="fqSelect(this,1,1)"><span>B</span>คะแนนร้องเพลงเดี่ยว</button><button type="button" class="fq-opt" data-ans="2" onclick="fqSelect(this,1,2)"><span>C</span>ใบงานที่ 6: Human Demo Checklist</button><button type="button" class="fq-opt" data-ans="3" onclick="fqSelect(this,1,3)"><span>D</span>รูปที่ไม่เกี่ยวกับงาน</button></div></article><article class="fq-item " data-fq="2"><div class="fq-q"><span>3.</span>ข้อใดสอดคล้องกับ Human-first, AI-assisted</div><div class="fq-opts"><button type="button" class="fq-opt" data-ans="0" onclick="fqSelect(this,2,0)"><span>A</span>เริ่มจากเสียง/การตัดสินใจของนักเรียน แล้วใช้เทคโนโลยีช่วยต่อยอด</button><button type="button" class="fq-opt" data-ans="1" onclick="fqSelect(this,2,1)"><span>B</span>ให้ AI คิดแทนทุกขั้น</button><button type="button" class="fq-opt" data-ans="2" onclick="fqSelect(this,2,2)"><span>C</span>ข้าม Human Demo</button><button type="button" class="fq-opt" data-ans="3" onclick="fqSelect(this,2,3)"><span>D</span>ไม่บันทึกการใช้ AI</button></div></article><article class="fq-item " data-fq="3"><div class="fq-q"><span>4.</span>คำสำคัญของคาบนี้ข้อใดเกี่ยวข้องที่สุดกับ &quot;Human Demo&quot;</div><div class="fq-opts"><button type="button" class="fq-opt" data-ans="0" onclick="fqSelect(this,3,0)"><span>A</span>ไม่เกี่ยวกับงานเสียง</button><button type="button" class="fq-opt" data-ans="1" onclick="fqSelect(this,3,1)"><span>B</span>ใช้แทนการส่งงาน</button><button type="button" class="fq-opt" data-ans="2" onclick="fqSelect(this,3,2)"><span>C</span>เป็นชื่อไฟล์เท่านั้น</button><button type="button" class="fq-opt" data-ans="3" onclick="fqSelect(this,3,3)"><span>D</span>เดโมที่มนุษย์เป็นผู้ฟัง เลือก อัด ตัดต่อ จัดวาง และตัดสินใจก่อน AI</button></div></article><article class="fq-item " data-fq="4"><div class="fq-q"><span>5.</span>ก่อนลงมือทำ Workshop ควรทำสิ่งใด</div><div class="fq-opts"><button type="button" class="fq-opt" data-ans="0" onclick="fqSelect(this,4,0)"><span>A</span>ส่งงานก่อนวางแผน</button><button type="button" class="fq-opt" data-ans="1" onclick="fqSelect(this,4,1)"><span>B</span>เขียนโครง 4 ช่วงของงานใน 5 นาที</button><button type="button" class="fq-opt" data-ans="2" onclick="fqSelect(this,4,2)"><span>C</span>ลบไฟล์เดิมทั้งหมด</button><button type="button" class="fq-opt" data-ans="3" onclick="fqSelect(this,4,3)"><span>D</span>เปิดเสียงดังสุดเสมอ</button></div></article><article class="fq-item " data-fq="5"><div class="fq-q"><span>6.</span>ข้อใดควรหลีกเลี่ยง</div><div class="fq-opts"><button type="button" class="fq-opt" data-ans="0" onclick="fqSelect(this,5,0)"><span>A</span>เอาทุกไฟล์ที่มีใส่ลงไปจนงานรก</button><button type="button" class="fq-opt" data-ans="1" onclick="fqSelect(this,5,1)"><span>B</span>ตั้งชื่อไฟล์ให้ชัด</button><button type="button" class="fq-opt" data-ans="2" onclick="fqSelect(this,5,2)"><span>C</span>ฟังก่อนตัดสินใจ</button><button type="button" class="fq-opt" data-ans="3" onclick="fqSelect(this,5,3)"><span>D</span>บันทึกเหตุผลการทำงาน</button></div></article><article class="fq-item " data-fq="6"><div class="fq-q"><span>7.</span>บทบาทของเครื่องมือในคาบนี้คืออะไร</div><div class="fq-opts"><button type="button" class="fq-opt" data-ans="0" onclick="fqSelect(this,6,0)"><span>A</span>แทนการคิดของผู้เรียนทั้งหมด</button><button type="button" class="fq-opt" data-ans="1" onclick="fqSelect(this,6,1)"><span>B</span>ใช้เล่นเพลงรอเวลา</button><button type="button" class="fq-opt" data-ans="2" onclick="fqSelect(this,6,2)"><span>C</span>ครูวาดโครง 4 ช่วงบนกระดาน: Intro, Build, Hook, Ending</button><button type="button" class="fq-opt" data-ans="3" onclick="fqSelect(this,6,3)"><span>D</span>ใช้เพื่อข้ามใบงาน</button></div></article><article class="fq-item " data-fq="7"><div class="fq-q"><span>8.</span>เกณฑ์คุณภาพข้อใดสำคัญ</div><div class="fq-opts"><button type="button" class="fq-opt" data-ans="0" onclick="fqSelect(this,7,0)"><span>A</span>ส่งอะไรก็ได้</button><button type="button" class="fq-opt" data-ans="1" onclick="fqSelect(this,7,1)"><span>B</span>ไม่ต้องเปิดไฟล์ตรวจ</button><button type="button" class="fq-opt" data-ans="2" onclick="fqSelect(this,7,2)"><span>C</span>ไม่มีหลักฐานก็พอ</button><button type="button" class="fq-opt" data-ans="3" onclick="fqSelect(this,7,3)"><span>D</span>45-60 วินาที</button></div></article><article class="fq-item " data-fq="8"><div class="fq-q"><span>9.</span>Feedback ที่ดีควรถามอะไร</div><div class="fq-opts"><button type="button" class="fq-opt" data-ans="0" onclick="fqSelect(this,8,0)"><span>A</span>ใครทำผิด</button><button type="button" class="fq-opt" data-ans="1" onclick="fqSelect(this,8,1)"><span>B</span>งานสื่อ mood อะไร</button><button type="button" class="fq-opt" data-ans="2" onclick="fqSelect(this,8,2)"><span>C</span>ทำไมไม่ให้ AI ทำทั้งหมด</button><button type="button" class="fq-opt" data-ans="3" onclick="fqSelect(this,8,3)"><span>D</span>ชอบหรือไม่ชอบอย่างเดียว</button></div></article><article class="fq-item " data-fq="9"><div class="fq-q"><span>10.</span>หลังจบคาบนี้ควรเตรียมอะไรต่อ</div><div class="fq-opts"><button type="button" class="fq-opt" data-ans="0" onclick="fqSelect(this,9,0)"><span>A</span>หยุดเก็บหลักฐาน</button><button type="button" class="fq-opt" data-ans="1" onclick="fqSelect(this,9,1)"><span>B</span>รอครูทำไฟล์ให้</button><button type="button" class="fq-opt" data-ans="2" onclick="fqSelect(this,9,2)"><span>C</span>คาบที่ 10 จะฟัง Human Demo อย่างละเอียด วิเคราะห์จุดแข็ง จุดอ่อน และสิ่งที่อยากให้ AI ช่วย</button><button type="button" class="fq-opt" data-ans="3" onclick="fqSelect(this,9,3)"><span>D</span>เปลี่ยนหัวข้อโดยไม่แจ้งกลุ่ม</button></div></article></div><div class="fq-nav-row"><button class="btn secondary" id="fqPrevBtn" type="button" onclick="fqPrev()">← ข้อก่อนหน้า</button><span class="fq-counter" id="fqCounter">ข้อ 1 / 10</span><button class="btn secondary" id="fqNextBtn" type="button" onclick="fqNext()">ข้อต่อไป →</button></div><div class="action-row"><button class="btn" id="fqSubmitBtn" type="button" onclick="fqSubmit()" disabled>ตรวจคำตอบ</button><button class="btn secondary" type="button" onclick="fqReset()">ทำใหม่</button></div><div class="fq-result" id="fqResult"><div class="fq-score" id="fqScore">0/10</div><p id="fqMsg"></p></div><script>window.__FINAL_QUIZ__=[1,2,0,3,1,0,2,3,1,2];</script>
+    </div>
+    <span class="sn"></span>
+  </section>
+  <div class="nav"><button class="nav-btn" id="prevBtn" type="button" onclick="prevSlide()">‹</button><div class="dots" id="dots"></div><button class="nav-btn" id="nextBtn" type="button" onclick="nextSlide()">›</button></div>
+  <div class="menu" id="slideMenu"><div class="menu-panel"><div class="menu-head"><h3>สารบัญสไลด์</h3><button class="btn secondary" type="button" onclick="toggleMenu(false)">ปิด</button></div><div class="slide-list" id="slideList"></div></div></div>
+  <script>
+    const slides=Array.from(document.querySelectorAll(".slide"));let cur=Math.max(0,Math.min(slides.length-1,parseInt((location.hash||"#slide-1").replace("#slide-",""),10)-1||0));const pbar=document.getElementById("pbar"),dots=document.getElementById("dots"),partIndicator=document.getElementById("partIndicator"),slideList=document.getElementById("slideList");let audioCtx=null;
+    function slideTitle(slide,idx){const h=slide.querySelector("h1,h2,h3");return (idx+1)+". "+(h?h.textContent.trim():"Slide")}function buildDots(){dots.innerHTML=slides.map((_,i)=>'<button class="dot" type="button" aria-label="ไปสไลด์ '+(i+1)+'" onclick="showSlide('+i+')"></button>').join("");slideList.innerHTML=slides.map((s,i)=>'<button class="slide-link" type="button" onclick="showSlide('+i+'); toggleMenu(false);">'+slideTitle(s,i)+"</button>").join("")}
+    function showSlide(n){cur=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,i)=>s.classList.toggle("active",i===cur));document.querySelectorAll(".dot").forEach((d,i)=>d.classList.toggle("on",i===cur));document.getElementById("prevBtn").disabled=cur===0;document.getElementById("nextBtn").disabled=cur===slides.length-1;pbar.style.width=((cur+1)/slides.length*100)+"%";partIndicator.textContent=slides[cur].dataset.part||"";slides.forEach((s,i)=>{const sn=s.querySelector(".sn");if(sn)sn.textContent=(i+1)+" / "+slides.length});history.replaceState(null,"","#slide-"+(cur+1))}
+    function nextSlide(){showSlide(cur+1)}function prevSlide(){showSlide(cur-1)}function toggleMenu(force){const menu=document.getElementById("slideMenu");menu.classList.toggle("open",typeof force==="boolean"?force:!menu.classList.contains("open"))}function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()}
+    document.addEventListener("keydown",e=>{if(e.key==="ArrowRight"||e.key===" ")nextSlide();if(e.key==="ArrowLeft")prevSlide();if(e.key.toLowerCase()==="f")toggleFS();if(e.key==="Escape")toggleMenu(false)});let touchStart=0;document.addEventListener("touchstart",e=>{touchStart=e.changedTouches[0].clientX},{passive:true});document.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-touchStart;if(Math.abs(dx)>60)dx<0?nextSlide():prevSlide()},{passive:true});
+    function toggleReveal(el){el.classList.toggle("open")}function answerMiniQuiz(btn,ok){document.querySelectorAll(".quiz-opt").forEach(b=>b.classList.remove("correct","wrong"));btn.classList.add(ok?"correct":"wrong");document.getElementById("miniQuizFeedback").textContent=ok?"ถูกต้อง ใช้แนวคิดนี้ต่อในกิจกรรมได้เลย":"ลองทบทวนอีกครั้ง แล้วเลือกคำตอบที่เหมาะกว่า"}
+    function toggleCheck(li){li.classList.toggle("done");updateCheckScore()}function updateCheckScore(){const total=document.querySelectorAll("#checklist li").length,done=document.querySelectorAll("#checklist li.done").length,score=document.getElementById("checkScore");if(score)score.textContent=done+"/"+total}
+    function getAudio(){audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();return audioCtx}function playTone(freq,dur,type){const ctx=getAudio(),osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=type||"sine";osc.frequency.value=freq;gain.gain.setValueAtTime(.0001,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.22,ctx.currentTime+.02);gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+dur);osc.connect(gain).connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+dur)}function playPad(kind){if(kind==="voice")playTone(220,.22,"sawtooth");if(kind==="hum")playTone(392,.55,"sine");if(kind==="beat")playTone(110,.12,"square");if(kind==="fx")playTone(660,.18,"triangle")}
+    function updateMix(idx,value){const el=document.getElementById("mixVal"+idx);if(el)el.textContent=value;const vals=[0,1,2].map(i=>parseInt((document.getElementById("mixVal"+i)||{textContent:"0"}).textContent,10)),status=document.getElementById("mixStatus");if(!status)return;if(Math.max(...vals)>90)status.textContent="ระวังเสียงแตก ลองลดเสียงที่ดังเกินไป";else if(vals[2]<vals[0])status.textContent="เสียงหลักอาจถูกกลบ ลองเพิ่ม Voice/Hum หรือลด Ambience";else status.textContent="สมดุลกำลังดี ลองฟังรวมและจดเหตุผลการปรับ"}
+    const promptParts={};function selectChip(btn,group,value){document.querySelectorAll('.chip-group[data-group="'+group+'"] .chip').forEach(c=>c.classList.remove("selected"));btn.classList.add("selected");promptParts[group]=value;const output=document.getElementById("promptOutput");if(output){output.value=[promptParts.genre||"[genre]","song with",promptParts.mood||"[mood]","mood, based on our recorded school sounds, Thai lyrics,",promptParts.constraint||"[constraint]"].join(" ");output.dispatchEvent(new Event("input"))}}function toggleRole(btn){btn.classList.toggle("selected")}
+    let timerLeft=1800,timerInterval=null;function formatTime(sec){const m=Math.floor(sec/60),s=sec%60;return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")}function paintTimer(){const circle=document.getElementById("timerCircle");if(circle)circle.textContent=formatTime(timerLeft)}function toggleTimer(){const btn=document.getElementById("timerBtn"),circle=document.getElementById("timerCircle");if(timerInterval){clearInterval(timerInterval);timerInterval=null;if(btn)btn.textContent="ทำต่อ";if(circle)circle.classList.remove("running");return}if(btn)btn.textContent="พัก";if(circle)circle.classList.add("running");timerInterval=setInterval(()=>{timerLeft-=1;paintTimer();if(timerLeft<=0){clearInterval(timerInterval);timerInterval=null;if(btn)btn.textContent="หมดเวลา";if(circle)circle.classList.remove("running")}},1000)}function resetTimer(){clearInterval(timerInterval);timerInterval=null;timerLeft=1800;paintTimer();const btn=document.getElementById("timerBtn"),circle=document.getElementById("timerCircle");if(btn)btn.textContent="เริ่ม";if(circle)circle.classList.remove("running")}
+    let fqCur=0;const fqSelections={};let fqSubmitted=false;function fqPaint(){document.querySelectorAll(".fq-item").forEach((item,i)=>item.classList.toggle("active",i===fqCur));document.getElementById("fqCounter").textContent="ข้อ "+(fqCur+1)+" / 10";document.getElementById("fqPrevBtn").disabled=fqCur===0;document.getElementById("fqNextBtn").disabled=fqCur===9;document.getElementById("fqSubmitBtn").disabled=Object.keys(fqSelections).length<10||fqSubmitted}function fqPrev(){if(fqCur>0){fqCur-=1;fqPaint()}}function fqNext(){if(fqCur<9){fqCur+=1;fqPaint()}}function fqSelect(btn,q,ans){if(fqSubmitted)return;btn.closest(".fq-item").querySelectorAll(".fq-opt").forEach(o=>o.classList.remove("selected"));btn.classList.add("selected");fqSelections[q]=ans;fqPaint()}function fqSubmit(){if(Object.keys(fqSelections).length<10||fqSubmitted)return;fqSubmitted=true;let score=0;document.querySelectorAll(".fq-item").forEach((item,q)=>{item.querySelectorAll(".fq-opt").forEach(opt=>{const ans=parseInt(opt.dataset.ans,10);if(ans===window.__FINAL_QUIZ__[q])opt.classList.add("correct");if(opt.classList.contains("selected")&&ans!==window.__FINAL_QUIZ__[q])opt.classList.add("wrong")});if(fqSelections[q]===window.__FINAL_QUIZ__[q])score+=1});const result=document.getElementById("fqResult"),scoreEl=document.getElementById("fqScore"),msg=document.getElementById("fqMsg");result.style.display="block";scoreEl.textContent=score+"/10";scoreEl.style.color=score>=8?"var(--green)":score>=5?"var(--accent)":"var(--red)";msg.textContent=score>=8?"ยอดเยี่ยม พร้อมไปต่อคาบหน้า":score>=5?"เข้าใจภาพรวมแล้ว ลองทบทวนข้อที่พลาดอีกนิด":"ยังไม่เป็นไร เปิดสไลด์ย้อนดูแล้วลองทำใหม่";fqPaint()}function fqReset(){fqSubmitted=false;fqCur=0;Object.keys(fqSelections).forEach(k=>delete fqSelections[k]);document.querySelectorAll(".fq-opt").forEach(o=>o.classList.remove("selected","correct","wrong"));document.getElementById("fqResult").style.display="none";fqPaint()}
+    function initTextareas(){document.querySelectorAll("[data-store]").forEach(el=>{const key=location.pathname+"::"+el.dataset.store,saved=localStorage.getItem(key);if(saved)el.value=saved;el.addEventListener("input",()=>localStorage.setItem(key,el.value))})}function resetAll(){document.querySelectorAll(".reveal-card").forEach(el=>el.classList.remove("open"));document.querySelectorAll(".quiz-opt").forEach(el=>el.classList.remove("correct","wrong"));const feedback=document.getElementById("miniQuizFeedback");if(feedback)feedback.textContent="";document.querySelectorAll("#checklist li").forEach(el=>el.classList.remove("done"));document.querySelectorAll(".role-card,.chip").forEach(el=>el.classList.remove("selected"));document.querySelectorAll("[data-store]").forEach(el=>{el.value="";localStorage.removeItem(location.pathname+"::"+el.dataset.store)});Object.keys(promptParts).forEach(k=>delete promptParts[k]);resetTimer();fqReset();updateCheckScore()}
+    buildDots();initTextareas();showSlide(cur);fqPaint();updateCheckScore();
+  </script>
+</body>
+</html>

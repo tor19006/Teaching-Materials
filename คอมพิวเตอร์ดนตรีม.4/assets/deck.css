@@ -1,0 +1,295 @@
+/* ============================================================
+   Music Technology & AI · ม.4 — Presentation Deck (v2)
+   สไตล์ Clean Classroom · เวที 16:9 สเกลเต็มจอ ไม่มี scroll
+   ออกแบบในพิกัด 1280 x 720 แล้วสเกลด้วย --k
+   ============================================================ */
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'IBM Plex Sans Thai',system-ui,-apple-system,sans-serif;
+  color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background:#c9c6c0;
+  background-image:radial-gradient(1400px 700px at 50% -10%,#dcd9d3,#c4c1ba);
+}
+
+:root{
+  --paper:#ffffff; --ink:#17171a; --muted:#57534e; --faint:#8a857d;
+  --line:#e7e4df; --line-2:#d7d3cc; --panel:#f7f6f3; --panel-2:#f0eee9;
+  --accent:#2563eb; --accent-ink:#1d4ed8; --accent-wash:#eef4ff; --accent-soft:#dbe7ff;
+  --ok:#16a34a; --ok-wash:#effbf3; --warn:#c2620c; --warn-wash:#fff6ea;
+  --bad:#c02626; --bad-wash:#fdf0f0;
+  --en:'Inter',system-ui,sans-serif;
+  --k:1;
+}
+[data-unit="1"]{--accent:#2563eb;--accent-ink:#1d4ed8;--accent-wash:#eef4ff;--accent-soft:#d7e5ff}
+[data-unit="2"]{--accent:#0e8ba8;--accent-ink:#0e7490;--accent-wash:#e9fafe;--accent-soft:#cdeef7}
+[data-unit="3"]{--accent:#7c3aed;--accent-ink:#6d28d9;--accent-wash:#f3efff;--accent-soft:#e4d9ff}
+[data-unit="4"]{--accent:#ea580c;--accent-ink:#c2410c;--accent-wash:#fff2ea;--accent-soft:#ffd9c2}
+[data-unit="5"]{--accent:#db2777;--accent-ink:#be185d;--accent-wash:#fdecf5;--accent-soft:#fbcfe4}
+[data-unit="6"]{--accent:#15803d;--accent-ink:#166534;--accent-wash:#edfaf0;--accent-soft:#c9efd4}
+
+/* ---------- เวที 16:9 ---------- */
+#stage-wrap{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1280px;height:720px;position:relative;transform:scale(var(--k));transform-origin:center center;
+  border-radius:18px;overflow:hidden;background:var(--paper);
+  box-shadow:0 30px 80px -20px rgba(20,18,15,.45),0 8px 24px rgba(20,18,15,.18)}
+
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:58px 74px 62px;background:var(--paper)}
+.slide.active{display:flex;animation:fade .3s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* แถบ accent บาง ๆ ซ้ายบนของทุกสไลด์ (ยกเว้นปก/divider) */
+.slide::before{content:"";position:absolute;top:0;left:0;width:8px;height:100%;background:var(--accent);opacity:.9}
+.slide.cover::before,.slide.plain::before{display:none}
+
+/* ---------- หัวสไลด์ ---------- */
+.head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:26px}
+.kicker{font-family:var(--en);font-weight:700;font-size:16px;letter-spacing:2px;color:var(--accent-ink);text-transform:uppercase;display:flex;align-items:center;gap:14px}
+.kicker .dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.step-tag{font-family:var(--en);font-size:15px;font-weight:600;color:var(--faint)}
+h2{font-size:40px;line-height:1.2;letter-spacing:-.02em;font-weight:700;margin-top:8px}
+.sub{font-size:22px;line-height:1.55;color:var(--muted);margin-top:12px;max-width:60ch}
+.eng{font-family:var(--en)}
+
+/* ---------- ปก ---------- */
+.cover{justify-content:center;background:
+  radial-gradient(1000px 520px at 108% -18%,var(--accent-wash),transparent 62%),var(--paper)}
+.cover .eyebrow{font-family:var(--en);font-weight:700;font-size:19px;letter-spacing:3px;color:var(--accent-ink);text-transform:uppercase}
+.cover h1{font-size:62px;line-height:1.14;letter-spacing:-.03em;font-weight:700;margin:20px 0 22px;max-width:20ch}
+.cover .goal{font-size:24px;line-height:1.6;color:var(--muted);max-width:52ch}
+.cover .chips{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line-2);
+  border-radius:999px;padding:11px 20px;font-size:18px;color:var(--muted)}
+.chip b{color:var(--ink);font-weight:600}
+.cover .teacher{position:absolute;left:74px;right:74px;bottom:44px;padding-top:20px;border-top:1px solid var(--line);
+  display:flex;gap:28px;flex-wrap:wrap;font-size:16px;color:var(--faint)}
+.cover .bignum{position:absolute;right:60px;bottom:40px;font-family:var(--en);font-weight:800;
+  font-size:150px;line-height:1;color:var(--accent);opacity:.10;letter-spacing:-.04em}
+
+/* ---------- Content wrap (เต็มพื้นที่ที่เหลือ) ---------- */
+.fill{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:22px}
+.fill.top{justify-content:flex-start}
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+
+/* การ์ดใหญ่แบบนำเสนอ */
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px 26px;display:flex;flex-direction:column;gap:10px}
+.tile .tag{font-family:var(--en);font-size:14px;font-weight:700;letter-spacing:.6px;color:var(--accent-ink);text-transform:uppercase}
+.tile h3{font-size:24px;font-weight:700;line-height:1.25}
+.tile p{font-size:19px;line-height:1.5;color:var(--muted)}
+.tile .ex{font-size:17px;color:var(--faint);border-top:1px dashed var(--line-2);padding-top:10px;margin-top:2px}
+
+/* ---------- Concept (หนึ่งแนวคิด/สไลด์) ---------- */
+.concept{display:grid;grid-template-columns:96px 1fr;gap:30px;align-items:start}
+.concept .cnum{font-family:var(--en);font-weight:800;font-size:66px;line-height:1;color:var(--accent);opacity:.28}
+.concept .term{font-size:50px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.concept .term small{display:block;font-family:var(--en);font-size:20px;color:var(--faint);font-weight:600;letter-spacing:.5px;margin-top:6px;text-transform:uppercase}
+.concept .exp{font-size:24px;line-height:1.6;color:var(--muted);margin-top:18px;max-width:44ch}
+.concept .exbox{margin-top:22px;background:var(--accent-wash);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;
+  padding:16px 20px;font-size:20px;line-height:1.5}
+.concept .exbox b{color:var(--accent-ink)}
+
+/* ---------- Callout ---------- */
+.callout{border-left:5px solid var(--accent);background:var(--accent-wash);border-radius:0 14px 14px 0;
+  padding:20px 24px;font-size:21px;line-height:1.55}
+.callout.ok{border-color:var(--ok);background:var(--ok-wash)}
+.callout.warn{border-color:var(--warn);background:var(--warn-wash)}
+.callout b{font-weight:700}
+.callout ul{margin:6px 0 0 24px;line-height:1.7}
+
+/* ---------- Hook (คำถามใหญ่) ---------- */
+.hook-q{font-size:46px;font-weight:700;line-height:1.25;letter-spacing:-.02em;max-width:24ch}
+.hook-q .mark{color:var(--accent)}
+
+/* ---------- Timeline (run sheet) ---------- */
+.timeline{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tl-row{display:grid;grid-template-columns:120px 210px 1fr;align-items:center;gap:20px;padding:14px 22px;border-top:1px solid var(--line)}
+.tl-row:first-child{border-top:none}
+.tl-row:nth-child(odd){background:var(--panel)}
+.tl-min{font-family:var(--en);font-weight:700;color:var(--accent-ink);font-size:19px}
+.tl-phase{font-weight:600;font-size:19px}
+.tl-do{font-size:18px;color:var(--muted);line-height:1.4}
+
+/* ---------- Steps ---------- */
+.steps{counter-reset:st;display:flex;flex-direction:column;gap:14px}
+.step{display:grid;grid-template-columns:44px 1fr;gap:18px;align-items:start}
+.step::before{counter-increment:st;content:counter(st);width:44px;height:44px;border-radius:50%;
+  background:var(--accent);color:#fff;font-family:var(--en);font-weight:700;font-size:20px;display:grid;place-items:center}
+.step .sb{font-size:20px;line-height:1.45;padding-top:6px}
+.step .sb b{font-weight:700}
+
+/* ---------- fixrow (เข้าใจผิด→แก้ / ใบงาน) ---------- */
+.fixrow{display:grid;grid-template-columns:1fr 40px 1fr;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.fixrow>div{padding:16px 22px;font-size:19px;line-height:1.4}
+.fixrow .wrong{background:var(--bad-wash);color:#7f1d1d}
+.fixrow .mid{display:grid;place-items:center;background:var(--panel);color:var(--faint);font-family:var(--en);font-size:22px}
+.fixrow .right{background:var(--ok-wash);color:#14532d}
+.fixrow .lbl{display:block;font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;opacity:.7;margin-bottom:5px}
+.wsrow .a{background:var(--panel);color:var(--ink)}
+.wsrow .b{background:var(--accent-wash);color:var(--ink)}
+
+/* ---------- Roles ---------- */
+.role{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:6px}
+.role .rn{font-weight:700;font-size:21px}
+.role .rn span{font-family:var(--en);font-size:14px;color:var(--accent-ink);font-weight:700;margin-left:8px}
+.role p{font-size:17px;color:var(--muted);line-height:1.4}
+
+/* ---------- Checklist ---------- */
+.checklist{display:flex;flex-direction:column;gap:12px}
+.check{display:flex;gap:16px;align-items:center;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:15px 20px;cursor:pointer;transition:.15s;user-select:none}
+.check:hover{border-color:var(--accent)}
+.check .box{flex:none;width:28px;height:28px;border-radius:8px;border:2px solid var(--line-2);
+  display:grid;place-items:center;color:#fff;font-size:16px;transition:.15s}
+.check.on{background:var(--ok-wash);border-color:var(--ok)}
+.check.on .box{background:var(--ok);border-color:var(--ok)}
+.check .txt{font-size:20px;line-height:1.35}
+.check-meter{font-size:18px;color:var(--muted);margin-top:4px}
+.check-meter b{color:var(--ok);font-family:var(--en)}
+
+/* ---------- Sources ---------- */
+.refs{display:flex;flex-direction:column;gap:16px}
+.ref{display:grid;grid-template-columns:38px 1fr;gap:18px;font-size:19px;line-height:1.5;color:var(--muted)}
+.ref .n{font-family:var(--en);font-weight:800;color:var(--accent);font-size:22px}
+.ref a{color:var(--accent-ink);text-decoration:none;word-break:break-all;font-size:16px;font-family:var(--en)}
+
+/* ---------- Interactive labs ---------- */
+.lab{border:1px solid var(--line-2);border-radius:16px;background:var(--panel);padding:22px 26px;display:flex;flex-direction:column;gap:16px}
+.lab-title{font-size:20px;font-weight:700}
+.lab-hint{font-size:16px;color:var(--faint);line-height:1.4}
+
+/* sorter (คาบ1) */
+.pool{display:flex;flex-wrap:wrap;gap:10px}
+.tokn{border:1px solid var(--line-2);background:var(--paper);border-radius:999px;padding:11px 20px;font-size:18px;cursor:pointer;transition:.15s}
+.tokn:hover{border-color:var(--accent)}
+.tokn.used{opacity:.35;pointer-events:none}
+.bins{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.bin{border:2px dashed var(--line-2);border-radius:14px;padding:14px;min-height:132px;display:flex;flex-direction:column;gap:8px;transition:.15s}
+.bin.hot{border-color:var(--accent);background:var(--accent-wash)}
+.bin h4{font-size:17px;font-weight:700;text-align:center}
+.bin .drop{flex:1;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.bin .drop .tokn{cursor:default;font-size:15px;padding:7px 13px}
+.bin .drop .tokn.right{border-color:var(--ok);background:var(--ok-wash)}
+.bin .drop .tokn.wrong{border-color:var(--bad);background:var(--bad-wash)}
+.sorter-res{font-size:17px;color:var(--muted)}
+
+/* sequencer (คาบ1) */
+.seq-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:12px}
+.cell{aspect-ratio:1;border:1.5px solid var(--line-2);border-radius:12px;background:var(--paper);cursor:pointer;
+  transition:.1s;display:grid;place-items:center;font-family:var(--en);font-size:18px;color:var(--faint)}
+.cell.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.cell.play{outline:4px solid var(--warn);outline-offset:2px}
+.seq-ctrl{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+
+/* rec-sim (คาบ2) */
+.rec-sim{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:center}
+.dial{display:flex;flex-direction:column;gap:14px}
+.dial label{font-size:18px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+.dial label span{font-size:14px;color:var(--faint);font-weight:500}
+.dial input[type=range]{width:100%;height:8px;accent-color:var(--accent)}
+.meter{height:22px;border-radius:11px;position:relative;border:1px solid var(--line-2);
+  background:linear-gradient(90deg,#22c55e 0 58%,#eab308 58% 82%,#ef4444 82% 100%)}
+.meter .needle{position:absolute;top:-6px;width:4px;height:34px;background:var(--ink);border-radius:3px;transition:left .1s}
+.verdict{border-radius:14px;padding:18px 20px;font-size:20px;line-height:1.45;background:var(--paper);border:1px solid var(--line)}
+
+/* mood map (คาบ3) */
+.moodmap{position:relative;border:1px solid var(--line-2);border-radius:16px;height:252px;overflow:hidden;cursor:crosshair;
+  background:linear-gradient(90deg,#eef4ff,#fff6ea)}
+.moodmap .ax{position:absolute;font-size:16px;color:var(--faint);font-weight:700}
+.moodmap .axis-x{left:0;right:0;top:50%;border-top:1px dashed var(--line-2)}
+.moodmap .axis-y{top:0;bottom:0;left:50%;border-left:1px dashed var(--line-2)}
+.moodmap .dot{position:absolute;transform:translate(-50%,-50%);background:var(--accent);color:#fff;font-size:15px;
+  padding:6px 13px;border-radius:999px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.2);width:auto;height:auto}
+
+/* ---------- Quiz (ทีละข้อ) ---------- */
+.quiz{flex:1;min-height:0;display:flex;flex-direction:column;gap:22px}
+.q{display:none;flex-direction:column;gap:22px}
+.q.active{display:flex}
+.q .qh{font-size:30px;font-weight:700;line-height:1.3}
+.q .qh .qn{font-family:var(--en);color:var(--accent);margin-right:10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.opt{display:flex;gap:14px;align-items:center;border:2px solid var(--line);border-radius:14px;padding:18px 22px;
+  background:var(--panel);cursor:pointer;font-size:20px;line-height:1.35;transition:.12s}
+.opt:hover{border-color:var(--accent)}
+.opt .k{font-family:var(--en);font-weight:800;color:var(--faint);flex:none}
+.opt.correct{background:var(--ok-wash);border-color:var(--ok)}
+.opt.correct .k{color:var(--ok)}
+.opt.wrong{background:var(--bad-wash);border-color:var(--bad)}
+.quiz-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.quiz-nav{display:flex;gap:12px;align-items:center}
+.quiz-score{font-size:20px;font-weight:600}
+.quiz-score b{font-family:var(--en);color:var(--accent-ink)}
+
+/* ---------- ปุ่ม ---------- */
+.btn{display:inline-flex;align-items:center;gap:9px;border:2px solid var(--accent);background:var(--accent);color:#fff;
+  border-radius:999px;padding:12px 26px;font-family:inherit;font-size:19px;font-weight:600;cursor:pointer;transition:.15s}
+.btn:hover{filter:brightness(1.06)}
+.btn.ghost{background:var(--paper);color:var(--accent-ink)}
+.btn:disabled{opacity:.4;cursor:default}
+
+/* timer */
+.tm-disp{font-family:var(--en);font-weight:800;font-size:72px;letter-spacing:1px;line-height:1}
+
+/* ---------- Chrome นอกเวที (ไม่สเกล) ---------- */
+.progress{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(0,0,0,.12);z-index:50}
+.progress>span{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.topbar{position:fixed;top:14px;left:0;right:0;z-index:45;display:flex;justify-content:space-between;padding:0 22px;pointer-events:none}
+.badge{pointer-events:auto;display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.9);
+  backdrop-filter:blur(6px);border:1px solid var(--line-2);border-radius:999px;padding:7px 16px 7px 7px;font-size:14px;color:var(--muted);box-shadow:0 3px 12px rgba(0,0,0,.1)}
+.badge b{background:var(--accent);color:#fff;font-family:var(--en);font-weight:700;font-size:13px;border-radius:999px;padding:5px 12px}
+.tools{pointer-events:auto;display:flex;gap:8px}
+.tools button,.tools a{width:38px;height:38px;border-radius:50%;border:1px solid var(--line-2);background:rgba(255,255,255,.9);
+  backdrop-filter:blur(6px);color:var(--muted);cursor:pointer;font-size:15px;display:grid;place-items:center;text-decoration:none;box-shadow:0 3px 12px rgba(0,0,0,.1);transition:.15s}
+.tools button:hover,.tools a:hover{color:var(--accent);border-color:var(--accent)}
+
+.navbar{position:fixed;bottom:16px;left:0;right:0;z-index:45;display:flex;justify-content:center;gap:12px;pointer-events:none}
+.navbar>*{pointer-events:auto}
+.nav-btn{width:46px;height:46px;border-radius:50%;border:1px solid var(--line-2);background:rgba(255,255,255,.92);
+  backdrop-filter:blur(6px);color:var(--ink);cursor:pointer;font-size:20px;display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.14);transition:.15s}
+.nav-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.nav-count{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);
+  border:1px solid var(--line-2);border-radius:999px;padding:0 20px;font-size:14px;color:var(--muted);box-shadow:0 4px 14px rgba(0,0,0,.14)}
+.nav-count b{font-family:var(--en);color:var(--ink)}
+.nav-sec{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---------- สื่อประกอบ: ภาพ SVG / ไดอะแกรม / วิดีโอ ---------- */
+.concept-media{display:grid;grid-template-columns:1.12fr .88fr;gap:34px;align-items:center}
+.cmedia{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;place-items:center}
+.cmedia svg{width:100%;height:auto;max-height:300px;display:block}
+.concept-media .concept{grid-template-columns:70px 1fr;gap:20px}
+.concept-media .term{font-size:40px}
+.concept-media .exp{font-size:20px;margin-top:12px}
+.concept-media .exbox{font-size:18px;margin-top:16px}
+
+.visual-box{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px 28px;display:grid;place-items:center}
+.visual-box svg{width:100%;height:auto;max-height:340px;display:block}
+.legend{display:flex;gap:26px;justify-content:center;margin-top:18px;flex-wrap:wrap;font-size:17px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:9px}
+.legend i{width:16px;height:16px;border-radius:5px;display:inline-block}
+
+.videowrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+.videoframe{position:relative;width:632px;max-width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;
+  border:1px solid var(--line-2);box-shadow:0 12px 40px -12px rgba(0,0,0,.4)}
+.videoframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid-cap{text-align:center;font-size:17px;color:var(--muted);line-height:1.5}
+.vid-cap a{color:var(--accent-ink);text-decoration:none;font-family:var(--en);font-size:15px}
+
+/* step sequencer หลายแถว (drum-grid กะทัดรัด — คาบ4) */
+.seq2{display:flex;flex-direction:column;gap:9px}
+.seq2-row{display:grid;grid-template-columns:132px 1fr;gap:16px;align-items:center}
+.seq2-lbl{font-weight:600;font-size:17px;display:flex;align-items:center;gap:9px}
+.seq2-lbl i{flex:none;width:13px;height:13px;border-radius:50%;background:var(--accent)}
+.seq-row{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
+.seq-row .cell{aspect-ratio:auto;height:46px;border:1.5px solid var(--line-2);border-radius:10px;
+  background:var(--paper);cursor:pointer;transition:transform .08s,background .12s}
+/* เน้นจังหวะหลัก (ช่องคี่ = จังหวะตก) ให้เห็นกลุ่ม */
+.seq-row .cell:nth-child(odd){background:var(--panel-2)}
+.seq-row .cell.on{background:var(--accent);border-color:var(--accent);transform:scale(1.04)}
+.seq-row .cell.play{outline:3px solid var(--warn);outline-offset:2px}
+.count-row{display:grid;grid-template-columns:132px 1fr;gap:16px;align-items:center;margin-bottom:2px}
+.count-cells{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;text-align:center;
+  font-family:var(--en);font-size:15px;font-weight:600;color:var(--faint)}
+.count-cells .beat{color:var(--accent-ink)}
+
+@media print{.progress,.topbar,.navbar{display:none}}

@@ -27,11 +27,14 @@
   - Green: `#16a34a` (เขียว)
   - Red: `#dc2626` (แดง)
 
-### Layout
-- Single HTML file per week (self-contained)
-- Responsive — ใช้ได้ทั้งจอใหญ่และมือถือ
-- Navigation: ปุ่มซ้าย-ขวา + dots + keyboard (←→, F=fullscreen)
-- แสดงเลข slide ที่มุมขวาล่าง
+### Layout (v2 — ใช้กับทุกสัปดาห์)
+- เวที 16:9 (ออกแบบที่ 1280×720 สเกลด้วย `--k`) ไม่มี scroll ในสไลด์
+- ใช้ shared assets: `assets/deck.css` + `assets/deck.js` (HTML ต่อสัปดาห์เก็บเฉพาะเนื้อหา)
+- ธีมสีเปลี่ยนตามหน่วยผ่าน `data-unit="1..6"` บนแท็ก `<html>`
+- Responsive — ใช้ได้ทั้งจอใหญ่และมือถือ (รองรับ swipe)
+- Navigation: ปุ่มซ้าย-ขวา + ตัวนับสไลด์ + keyboard (←→, Space, Home/End) + ปุ่มเต็มจอ ⛶
+- โครงสไลด์มาตรฐาน ~29 หน้า/คาบ: ปก → เป้าหมาย → run sheet → hook → แนวคิด 1–4 (มี SVG ประกอบทุกแนวคิด) → ภาพรวม (SVG ใหญ่) → **เจาะลึก 1–2 + คำศัพท์เสริม** → แก้ความเข้าใจผิด → teacher demo → **เทคนิค/กรณีศึกษาจากคอร์สจริง** → interactive → ฝึกนำร่อง → ใบงาน → workshop → บทบาทกลุ่ม → quality check → **troubleshooting** → studio timer + feedback → จริยธรรม → **โลกจริง/อาชีพ + FAQ** → สรุป → อ้างอิง APA → quiz 10 ข้อ
+- เนื้อหาเชิงลึกอิงคอร์ส/คู่มือจริง: BandLab Studio guides, Berklee Music Production 101, OpenAI prompt best practices, Suno Help, UNESCO — อ้างอิงในสไลด์และท้ายชุดตาม APA
 
 ---
 
@@ -120,4 +123,4 @@
 
 ---
 
-*อัปเดตล่าสุด: 2026-06-09*
+*อัปเดตล่าสุด: 2026-07-11 — ปรับ week 5–18 เป็นดีไซน์ v2 (เวที 16:9 + shared assets) ครบทุกสัปดาห์ ไฟล์เดิมสำรองไว้ที่ `_backup_original/`*
